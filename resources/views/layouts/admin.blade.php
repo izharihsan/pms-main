@@ -68,6 +68,7 @@
 		@yield('rightbar')
 	</div>
 	<!-- /page content -->
+	@stack('script')
 
     @include('include.rightbar_admin')
 </body>

@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/room', function () {
+    return view('admin.roomManagement.list');
+});
+
 
 Route::get('/admin', function () {
     return view('layouts.admin');
