@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,7 +13,7 @@ Route::get('/admin', function () {
 });
 
 Route::get('/login', function () {
-    return view('auth.login');
+    return view('auth.test_login');
 });
 
 Route::get('/register', function () {
@@ -23,6 +24,13 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot_password');
 });
 
+// UI ADMIN
 Route::get('/admin/{path}', function ($path) {
     return view("admin/{$path}");
 });
+
+Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');
+// Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

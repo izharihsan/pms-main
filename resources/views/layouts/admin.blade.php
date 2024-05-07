@@ -10,6 +10,7 @@
 	<link href="{{ asset('assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="{{ asset('assets/js/components_modals.js') }}">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -54,7 +55,9 @@
 
 			<!-- Inner content -->
 			<div class="content-inner">
-                <div class="content pt-0">
+				@yield('breadcrumb')
+
+                <div class="content pt-3">
                     @yield('content')
                 </div>
 			</div>
@@ -62,7 +65,7 @@
 
 		</div>
 		<!-- /main content -->
-
+		@yield('rightbar')
 	</div>
 	<!-- /page content -->
 
