@@ -34,3 +34,7 @@ Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+//     Route::get('room-management', [App\Http\Controllers\RoomManagementController::class, 'index'])->name('room_management.index');
+// });
