@@ -36,6 +36,12 @@
 	<script src="{{ asset('assets/demo/charts/pages/dashboard/bullets.js') }}"></script>
 	<!-- /theme JS files -->
 
+
+	<script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
+	<script src="{{ asset('assets/js/vendor/forms/wizards/steps.min.js') }}"></script>
+	<script src="{{ asset('assets/js/vendor/forms/validation/validate.min.js') }}"></script>
+
+	<script src="{{ asset('assets/demo/pages/form_wizard.js') }}"></script>
     @stack('css')
 </head>
 
