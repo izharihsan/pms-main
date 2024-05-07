@@ -201,8 +201,8 @@
                 </div>
                 @endfor
             </div>
-        </fieldset>
-</div>
+        </div>
+    </fieldset>
 
 <h6>Facitilies</h6>
 <fieldset>
