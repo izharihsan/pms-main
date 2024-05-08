@@ -24,6 +24,8 @@ class AuthController extends Controller
             'email' => $email,
             'password' => $password,
         ]);
+        // dd($this->ssoUrl . '/auth/login');
+        // dd($response);
 
         Log::info($response->json()['data']);
         if ($response->successful()) {
@@ -54,7 +56,7 @@ class AuthController extends Controller
         if ($user) {
             $user->token = $response['token'];
             $user->save();
-        }else{
+        } else {
             $create = User::create([
                 'name' => $request->email,
                 'email' => $request->email,
@@ -73,9 +75,9 @@ class AuthController extends Controller
     public function logout()
     {
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
-                        ->post($this->ssoUrl . '/auth/logout', [
-                            'email' => Auth::user()->email
-                        ]);
+            ->post($this->ssoUrl . '/auth/logout', [
+                'email' => Auth::user()->email
+            ]);
         Auth::logout();
         return redirect('/login');
     }
