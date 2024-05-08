@@ -32,6 +32,16 @@
                         <label for="" class="fw-bold">Cancelation Policy<strong class="text-danger">*</strong></label>
                         <select name="" id="" class="form-control" required>
                             <option value="" disabled selected>Pilih Cancelation Policy</option>
+                            <option value="" disabled selected>Cancel 7D prior arrival 100% charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 21D prior arrival 50% charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 31D prior arrival 2D charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 21D prior arrival 1N charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 31D prior arrival 100% charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 45D prior arrival 2D charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 4D prior arrival 1N charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 4D prior arrival 1D charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 10D prior arrival 50% charge. No Show 100% charge.</option>
+                            <option value="" disabled selected>Cancel 1D prior arrival 1N charge. No Show 100% charge.</option>
                         </select>
                     </div>
                     <div class="form-group">
