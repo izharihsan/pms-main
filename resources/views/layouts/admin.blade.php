@@ -42,6 +42,9 @@
 	<script src="{{ asset('assets/js/vendor/forms/validation/validate.min.js') }}"></script>
 
 	<script src="{{ asset('assets/demo/pages/form_wizard.js') }}"></script>
+
+	<script src="{{ asset('/assets/js/vendor/tables/datatables/datatables.min.js') }}"></script>
+	<script src="{{ asset('/assets/demo/pages/datatables_api.js') }}"></script>
     @stack('css')
 </head>
 
@@ -74,7 +77,7 @@
 		@yield('rightbar')
 	</div>
 	<!-- /page content -->
-	@stack('script')
+	@stack('js')
 
     @include('include.rightbar_admin')
 </body>

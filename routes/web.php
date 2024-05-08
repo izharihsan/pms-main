@@ -8,9 +8,12 @@ Route::get('/', function () {
 });
 
 Route::get('/room', function () {
-    return view('admin.roomManagement.list');
+    return view('admin.roomDetail.list');
 });
 
+Route::get('/room/create', function () {
+    return view('admin.roomDetail.create');
+});
 
 Route::get('/admin', function () {
     return view('layouts.admin');
