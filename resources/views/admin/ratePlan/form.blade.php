@@ -15,63 +15,66 @@
     </div>
     <div class="card-body">
         <h6>Add New Rate Plan</h6>
-        <form action="" method="post">
-
+        <form action="{{ route('admin.rate_plan.store') }}" method="POST">
+            @csrf
             <div class="row">
                 <div class="col">
                     <div class="form-group">
                         <label for="" class="fw-bold">Rate Plan Name<strong class="text-danger">*</strong></label>
-                        <input type="text" class="form-control" required placeholder="E.g Room Only">
+                        <input type="text" class="form-control" required placeholder="Input Rate Plan" name="name" @isset($data) value="{{ $data->name }}" @endisset>
                     </div>
                     <div class="form-group">
                         <label for="" class="fw-bold">Description<strong class="text-danger">*</strong></label>
-                        <input type="text" class="form-control" required placeholder="Rate plan description">
+                        <input type="text" class="form-control" required placeholder="Input Description" name="description" @isset($data) value="{{ $data->description }}" @endisset>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="" class="fw-bold">Cancelation Policy<strong class="text-danger">*</strong></label>
-                        <select name="" id="" class="form-control" required>
-                            <option value="" disabled selected>Pilih Cancelation Policy</option>
-                            <option value="" disabled selected>Cancel 7D prior arrival 100% charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 21D prior arrival 50% charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 31D prior arrival 2D charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 21D prior arrival 1N charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 31D prior arrival 100% charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 45D prior arrival 2D charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 4D prior arrival 1N charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 4D prior arrival 1D charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 10D prior arrival 50% charge. No Show 100% charge.</option>
-                            <option value="" disabled selected>Cancel 1D prior arrival 1N charge. No Show 100% charge.</option>
+                        <select name="cancelation_policy" id="" class="form-control" required>
+                            <option value="">Pilih Cancelation Policy</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 7D prior arrival 100% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 7D prior arrival 100% charge. No Show 100% charge.">Cancel 7D prior arrival 100% charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 21D prior arrival 50% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 21D prior arrival 50% charge. No Show 100% charge.">Cancel 21D prior arrival 50% charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 31D prior arrival 2D charge. No Show 100% charge.") selected @endif @endisset value="Cancel 31D prior arrival 2D charge. No Show 100% charge.">Cancel 31D prior arrival 2D charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 21D prior arrival 1N charge. No Show 100% charge.") selected @endif @endisset value="Cancel 21D prior arrival 1N charge. No Show 100% charge.">Cancel 21D prior arrival 1N charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 31D prior arrival 100% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 31D prior arrival 100% charge. No Show 100% charge.">Cancel 31D prior arrival 100% charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 45D prior arrival 2D charge. No Show 100% charge.") selected @endif @endisset value="Cancel 45D prior arrival 2D charge. No Show 100% charge.">Cancel 45D prior arrival 2D charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 4D prior arrival 1N charge. No Show 100% charge.") selected @endif @endisset value="Cancel 4D prior arrival 1N charge. No Show 100% charge.">Cancel 4D prior arrival 1N charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 4D prior arrival 1D charge. No Show 100% charge.") selected @endif @endisset value="Cancel 4D prior arrival 1D charge. No Show 100% charge.">Cancel 4D prior arrival 1D charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 10D prior arrival 50% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 10D prior arrival 50% charge. No Show 100% charge.">Cancel 10D prior arrival 50% charge. No Show 100% charge.</option>
+                            <option @isset($data) @if($data->cancelation_policy == "Cancel 1D prior arrival 1N charge. No Show 100% charge.") selected @endif @endisset value="Cancel 1D prior arrival 1N charge. No Show 100% charge.">Cancel 1D prior arrival 1N charge. No Show 100% charge.</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="" class="fw-bold">Meals<strong class="text-danger">*</strong></label> <br>
-                        <input type="radio" name="meals" id="nomeals">
+                        <input type="radio" id="meals_radio1" name="meals_radio" id="nomeals">
                         <label for="nomeals">No Meals</label>
-                        <input type="radio" name="meals" id="meals-available">
+                        <input type="radio" id="meals_radio2" name="meals_radio" id="meals-available">
                         <label for="meals-available">Meals Available</label>
                         <br>
                         {{-- launch,break --}}
-                        <input type="checkbox" id="breakfast" name="ml_avai">
-                        <label for="breakfast">Breakfats</label>
-                        <input type="checkbox" id="launch" name="ml_avai">
-                        <label for="launch">Launch</label>
-                        <input type="checkbox" id="dinner" name="ml_avai">
-                        <label for="dinner">Dinner</label>
+                        <div id="meals_form">
+                            <input type="checkbox" id="breakfast" name="meals[breakfast]">
+                            <label for="breakfast">Breakfats</label>
+                            <input type="checkbox" id="launch" name="meals[launch]">
+                            <label for="launch">Launch</label>
+                            <input type="checkbox" id="dinner" name="meals[dinner]">
+                            <label for="dinner">Dinner</label>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
             <div>
                 <hr>
                 <label for="" class="fw-bold">Connected Room</label><br>
-                <input type="checkbox" id="breakfast" name="connected_room">
+                <input type="checkbox" id="breakfast" name="connected_rooms[deluxe_sweet]">
                 <label for="breakfast">Deluxe Sweet</label>
-                <input type="checkbox" id="breakfast" name="connected_room">
+                <input type="checkbox" id="breakfast" name="connected_rooms[executive_sweet]">
                 <label for="breakfast">Executive Sweet</label>
-                <input type="checkbox" id="breakfast" name="connected_room">
-                <label for="breakfast">Double Bad</label>
-                <input type="checkbox" id="breakfast" name="connected_room">
+                <input type="checkbox" id="breakfast" name="connected_rooms[double_bed]">
+                <label for="breakfast">Double Bed</label>
+                <input type="checkbox" id="breakfast" name="connected_rooms[standard]">
                 <label for="breakfast">Standard</label>
 
             </div>
@@ -83,3 +86,21 @@
     </div> 
 </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get references to the radio buttons
+        var noMealsRadio = document.getElementById('meals_radio1');
+        var mealsAvailableRadio = document.getElementById('meals_radio2');
+
+        // Add event listeners to detect clicks
+        noMealsRadio.addEventListener('click', function() {
+            $('#meals_form').hide();
+        });
+
+        mealsAvailableRadio.addEventListener('click', function() {
+           $('#meals_form').show();
+        });
+    });
+
+</script>

@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'rate-plan'], function () {
         Route::get('/', [App\Http\Controllers\RatePlanController::class, 'index'])->name('rate_plan.index');
         Route::get('/create', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.create');
+        Route::post('/store', [App\Http\Controllers\RatePlanController::class, 'store'])->name('rate_plan.store');
+        Route::get('/edit/{id}', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.edit');
     });
 });
 

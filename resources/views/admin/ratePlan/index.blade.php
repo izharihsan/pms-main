@@ -34,81 +34,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Room Only</td>
-                        <td>
-                            Deluxe Sweet, Executive Suite,
-                            Double Bed and Standart
-                        </td>
-                        <td>No Meals</td>
-                        <td>Non Refundable</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm p-1">
-                                <i class="ph-eye m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-sm p-1">
-                                <i class="ph-pencil m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm p-1">
-                                <i class="ph-trash m1"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Room And Dinner</td>
-                        <td>Standard</td>
-                        <td>No Meals</td>
-                        <td>Cancel 10D prior arrival 50% charge. No Show 100% Charge.</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm p-1">
-                                <i class="ph-eye m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-sm p-1">
-                                <i class="ph-pencil m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm p-1">
-                                <i class="ph-trash m1"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Test Rates Plans</td>
-                        <td>Standard</td>
-                        <td>No Meals</td>
-                        <td>Cancel 10D prior arrival 50% charge. No Show 100% Charge.</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm p-1">
-                                <i class="ph-eye m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-sm p-1">
-                                <i class="ph-pencil m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm p-1">
-                                <i class="ph-trash m1"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>bagus</td>
-                        <td>Standard</td>
-                        <td>No Meals</td>
-                        <td>Cancel 10D prior arrival 50% charge. No Show 100% Charge.</td>
-                        <td>
-                            <button type="button" class="btn btn-primary p-1 btn-sm">
-                                <i class="ph-eye m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning p-1 btn-sm">
-                                <i class="ph-pencil m1"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger p-1 btn-sm">
-                                <i class="ph-trash m1"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    @foreach ($data as $key => $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>
+                                {{ $item->description }}
+                            </td>
+                            <td>@if($item->meels !== null) Meeals @else No Meals @endif</td>
+                            <td>{{ $item->cancelation_policy }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm p-1">
+                                    <i class="ph-eye m1"></i>
+                                </button>
+                                <a href="{{ route('admin.rate_plan.edit', $item->id) }}" type="button" class="btn btn-warning btn-sm p-1">
+                                    <i class="ph-pencil m1"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-sm p-1">
+                                    <i class="ph-trash m1"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
