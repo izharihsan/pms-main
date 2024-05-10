@@ -89,7 +89,7 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link active">
+                    <a href="index.html" class="nav-link @yield('dashboard')">
                         <i class="ph-house"></i>
                         <span>
                             Dashboard
@@ -97,6 +97,23 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.room_management.index') }}" class="nav-link @yield('room_management')">
+                        <i class="ph-bed"></i>
+                        <span>
+                            Room Management
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.rate_plan.index') }}" class="nav-link @yield('rate_plan')">
+                        <i class="ph-article"></i>
+                        <span>
+                            Rate Plan
+                        </span>
+                    </a>
+                </li>
+
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link">
                         <i class="ph-layout"></i>

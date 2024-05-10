@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Room Management')
 @section('content')
+@section('rate_plan', 'active')
 
 <div class="card">
     <div class="card-header">

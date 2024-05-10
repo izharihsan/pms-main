@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Room Management')
 @section('content')
+@section('rate_plan', 'active')
 
 <div class="card">
     <div class="card-header">
@@ -13,7 +14,7 @@
             <div class="col">
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
-                    <a href="add_rate_plan" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a>
+                    <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a>
                 </div>
             </div>
         </div>
