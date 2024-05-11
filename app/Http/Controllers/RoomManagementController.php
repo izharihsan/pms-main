@@ -8,6 +8,6 @@ class RoomManagementController extends Controller
 {
     public function index()
     {
-        dd('maosk');
+        return view('admin.roomManagement.index');
     }
 }

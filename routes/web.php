@@ -31,6 +31,19 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot_password');
 });
 
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['prefix' => 'room-management'], function () {
+        Route::get('/', [App\Http\Controllers\RoomManagementController::class, 'index'])->name('room_management.index');
+    });
+
+    Route::group(['prefix' => 'rate-plan'], function () {
+        Route::get('/', [App\Http\Controllers\RatePlanController::class, 'index'])->name('rate_plan.index');
+        Route::get('/create', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.create');
+        Route::post('/store', [App\Http\Controllers\RatePlanController::class, 'store'])->name('rate_plan.store');
+        Route::get('/edit/{id}', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.edit');
+    });
+});
+
 // UI ADMIN
 Route::get('/admin/{path}', function ($path) {
     return view("admin/{$path}");
@@ -42,6 +55,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-//     Route::get('room-management', [App\Http\Controllers\RoomManagementController::class, 'index'])->name('room_management.index');
-// });
+
