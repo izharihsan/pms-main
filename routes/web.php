@@ -42,6 +42,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('/store', [App\Http\Controllers\RatePlanController::class, 'store'])->name('rate_plan.store');
         Route::get('/edit/{id}', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.edit');
     });
+
+    Route::group(['prefix' => 'room-availability'], function () {
+        Route::get('/', [App\Http\Controllers\RoomAvailabilityController::class, 'index'])->name('room_availability.index');
+    });
 });
 
 // UI ADMIN

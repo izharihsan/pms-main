@@ -113,6 +113,14 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.room_availability.index') }}" class="nav-link @yield('room_availability')">
+                        <i class="ph-book"></i>
+                        <span>
+                            Room Availability
+                        </span>
+                    </a>
+                </li>
 
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link">
