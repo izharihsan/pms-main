@@ -121,6 +121,14 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.report.index') }}" class="nav-link @yield('report')">
+                        <i class="ph-calendar-check"></i>
+                        <span>
+                            Report
+                        </span>
+                    </a>
+                </li>
 
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link">
