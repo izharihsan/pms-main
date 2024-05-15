@@ -46,6 +46,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'room-availability'], function () {
         Route::get('/', [App\Http\Controllers\RoomAvailabilityController::class, 'index'])->name('room_availability.index');
     });
+
+    Route::group(['prefix' => 'report'], function () {
+        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+    });
 });
 
 // UI ADMIN
