@@ -1,0 +1,32 @@
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Build images development
+          image: node:16.18.0
+          services:
+            - docker
+          caches:
+            - node
+          script:
+            - cp .env.example .env
+            - npm install
+            - npm run build
+            - export BUILD_ID=$BITBUCKET_BRANCH_$BITBUCKET_COMMIT_$BITBUCKET_BUILD_NUMBER
+            - export IMAGE_NAME=${KBS_REGISTRY_URL}/kbs-dashboard/pms:latest-dev
+            - export USER=$DOCKER_USERNAME
+            - export PASS=$DOCKER_PASSWORD
+            - docker login ${KBS_REGISTRY_URL} -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+            - docker build -f ./Dockerfile -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          
+
+            
+definitions:
+  services:
+    docker:
+      memory: 2048 # reduce memory for docker-in-docker from 1GB to 512MB
+
+
+options:
+  docker: true

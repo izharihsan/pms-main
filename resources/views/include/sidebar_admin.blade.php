@@ -89,7 +89,7 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link @yield('dashboard')">
+                    <a href="index.html" class="nav-link active">
                         <i class="ph-house"></i>
                         <span>
                             Dashboard
