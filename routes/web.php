@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\RoomRateController;
+use App\Http\Controllers\ApiResourcesController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +53,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'report'], function () {
         Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
     });
+
+    Route::resource('property', PropertyController::class);
+    Route::resource('room-rates', RoomRateController::class);
 });
 
 // UI ADMIN
@@ -63,4 +69,13 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('healthCheck', [ApiResourcesController::class, 'healthCheck'])->name('apiResources.healthCheck');
+Route::get('categoryFacilities', [ApiResourcesController::class, 'categoryFacilities'])->name('apiResources.categoryFacilities');
+Route::get('bedType', [ApiResourcesController::class, 'bedType'])->name('apiResources.bedType');
+Route::get('facilities', [ApiResourcesController::class, 'facilities'])->name('apiResources.facilities');
+Route::get('roomType', [ApiResourcesController::class, 'roomType'])->name('apiResources.roomType');
+Route::get('product/{code}', [ApiResourcesController::class, 'product'])->name('apiResources.product');
 
+// Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+//     Route::get('room-management', [App\Http\Controllers\RoomManagementController::class, 'index'])->name('room_management.index');
+// });
