@@ -22,6 +22,8 @@ class ApiResourcesController extends Controller
                 'email' => Auth::user()->email
             ]);
 
+        $this->log('View Api Health Check', null);
+
         return $response->json();
     }
 
@@ -29,6 +31,8 @@ class ApiResourcesController extends Controller
     {
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->get($this->ssoUrl . '/master/category-facilities');
+
+        $this->log('View Api Category Facilities', null);
 
         return $response->json();
     }
@@ -38,13 +42,27 @@ class ApiResourcesController extends Controller
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->get($this->ssoUrl . '/master/bedType');
 
+        $this->log('View Api Bed Type', null);
+
         return $response->json();
     }
 
-    public function facilities()
+    public function propertyFacilities()
     {
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
-            ->get($this->ssoUrl . '/master/facilities');
+            ->get($this->ssoUrl . '/master/property/facilities');
+
+        $this->log('View Api Property Facilities', null);
+
+        return $response->json();
+    }
+
+    public function roomFacilities()
+    {
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
+            ->get($this->ssoUrl . '/master/room/facilities');
+
+        $this->log('View Api Room Facilities', null);
 
         return $response->json();
     }
@@ -54,6 +72,8 @@ class ApiResourcesController extends Controller
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->get($this->ssoUrl . '/master/roomType');
 
+        $this->log('View Api Room Type', null);
+
         return $response->json();
     }
 
@@ -61,6 +81,8 @@ class ApiResourcesController extends Controller
     {
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->get($this->ssoUrl . '/product/'.$product_code);
+
+        $this->log('View Api Product', null);
 
         return $response->json();
     }

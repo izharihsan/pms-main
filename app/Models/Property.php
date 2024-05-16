@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Property extends Model
 {
     use HasFactory;
-    protected $table = 'propertie';
+    protected $table = 'properties';
     protected $guarded =[];
 
 
@@ -49,6 +49,11 @@ class Property extends Model
     public function facilities()
     {
         return $this->hasMany(PropertyFacilities::class, 'properties_id', 'id');
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class, 'property_id', 'id');
     }
 
 }

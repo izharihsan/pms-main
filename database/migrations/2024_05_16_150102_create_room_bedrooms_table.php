@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('room_bedrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('legal_name');
-            $table->string('phone');
-            $table->enum('category',['hotel','house']);
-            $table->integer('total_room');
-            $table->string('nib');
-            $table->integer('rate');
-            $table->text('description')->nullable();
+            $table->integer('qty');
+            $table->unsignedBigInteger('bedroom_type_id')->index()->comment('integrated api swager /roomType');
+            $table->unsignedBigInteger('property_id')->index();
+            $table->unsignedBigInteger('room_id')->index();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('room_bedrooms');
     }
 };
