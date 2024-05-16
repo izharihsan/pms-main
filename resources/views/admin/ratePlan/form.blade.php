@@ -84,14 +84,17 @@
             <div>
                 <hr>
                 <label for="" class="fw-bold">Connected Room</label><br>
-                <input type="checkbox" id="deluxe_sweet" name="connected_rooms[deluxe_sweet]">
-                <label for="breakfast">Deluxe Sweet</label>
-                <input type="checkbox" id="executive_sweet" name="connected_rooms[executive_sweet]">
+                @foreach ($room as $item)
+                    <input type="checkbox" id="{{ $item->room_name }}" name="connected_rooms[{{ $item->room_name }}]">
+                    <label for="breakfast">{{ $item->room_name }}</label>
+                @endforeach
+              
+                {{-- <input type="checkbox" id="executive_sweet" name="connected_rooms[executive_sweet]">
                 <label for="breakfast">Executive Sweet</label>
                 <input type="checkbox" id="double_bed" name="connected_rooms[double_bed]">
                 <label for="breakfast">Double Bed</label>
                 <input type="checkbox" id="standard" name="connected_rooms[standard]">
-                <label for="breakfast">Standard</label>
+                <label for="breakfast">Standard</label> --}}
 
             </div>
             <div class="float-end mt-4">
@@ -120,7 +123,6 @@
         var selected_room = "<?php echo $selected_room; ?>";
         if (selected_room !== null) {
             var selected_room_array = selected_room.split(', ');
-            // console.log(selected_room_array);
             
             selected_room_array.forEach(function(room) {
                 var checkbox = document.getElementById(room.trim());

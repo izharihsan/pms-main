@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Room Management')
+@section('title', 'Rate Plan')
 @section('content')
 @section('rate_plan', 'active')
 

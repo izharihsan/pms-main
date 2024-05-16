@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RatePlan;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Room; 
 
 class RatePlanController extends Controller
 {
@@ -17,12 +18,13 @@ class RatePlanController extends Controller
 
     public function form($id = null)
     {
+        $room = Room::all();
         $data = null;
         if ($id) {
             $data = RatePlan::find($id);
         }
 
-        return view('admin.ratePlan.form', compact('data'));
+        return view('admin.ratePlan.form', compact('data', 'room'));
     }
 
     public function store(Request $request)

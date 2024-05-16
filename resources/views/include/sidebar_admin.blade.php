@@ -89,7 +89,7 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.dashboard.index') }}" class="nav-link active">
+                    <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                         <i class="ph-house"></i>
                         <span>
                             Dashboard
