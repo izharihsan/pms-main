@@ -45,11 +45,32 @@ class RatePlanController extends Controller
             'connected_rooms'   => $connected_room,
         ]);
 
-        // dd($requestData);
+        if ($request->rate_plan_id) {
+            $data = RatePlan::find($request->rate_plan_id);
 
-        $data = RatePlan::create($requestData);
+            $data->update($requestData);
+        }else{
+            $data = RatePlan::create($requestData);
+        }
 
+    
         Alert::success('Success Title', 'Berhasil Menyimpan Data');
         return redirect()->route('admin.rate_plan.index');
+    }
+
+    public function destroy($id)
+    {
+        $data = RatePlan::find($id);
+        $data->delete();
+
+        Alert::success('Success Title', 'Berhasil Menghapus Data');
+        return redirect()->route('admin.rate_plan.index');
+    }
+
+    public function show($id = null)
+    {
+        $data = RatePlan::find($id);
+
+        return view('admin.ratePlan.detail', compact('data'));
     }
 }
