@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PropertyTerms extends Model
 {
     use HasFactory;
-    protected $table = 'property_termes';
+    protected $table = 'property_terms';
     protected $guarded =[];
 
 

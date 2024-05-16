@@ -66,38 +66,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Septa</td>
-                    <td>Wednesday, 3-1-2024</td>
-                    <td>Update Rate Plan Room and Dinner</td>
-                    <td>Standard</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Septa</td>
-                    <td>Wednesday, 3-1-2024</td>
-                    <td>Add new Rate Plan Room</td>
-                    <td>Deluxe Sweet, Executive Suite, Doubled Bed and Standard</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Dwi</td>
-                    <td>Wednesday, 3-1-2024</td>
-                    <td>Update Rate Plan Room only stop sell</td>
-                    <td>Deluxe Sweet</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Harris</td>
-                    <td>Wednesday, 3-1-2024</td>
-                    <td>Update Room Availability</td>
-                    <td>Executive Suite</td>
-                    <td></td>
-                </tr>
+                @foreach ($data as $key => $item)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $item->user->name ?? null }}</td>
+                        <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
+                        <td>{{ $item->action }}</td>
+                        <td>{{ $item->connected_room }}</td>
+                        <td>{{ $item->ip_address }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

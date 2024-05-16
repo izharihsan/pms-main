@@ -22,7 +22,10 @@ class PropertyController extends Controller
      */
     public function index()
     {
+        $data = Property::orderBy('id', 'desc')->paginate(10);
+        $this->log('View Property', null);
         
+        return view('admin.property.index', compact('data'));
     }
 
     /**
@@ -30,15 +33,12 @@ class PropertyController extends Controller
      */
     public function create(Request $request)
     {
-        // $apiResource = new ApiResourcesController();
+        $apiResource = new ApiResourcesController();
         // $category_facilities = $apiResource->categoryFacilities();
-        // $facilities = $apiResource->facilities();
+        $facilities = $apiResource->propertyFacilities()['data']['categories'];
         // $room_type = $apiResource->roomType();
         // $bed_type = $apiResource->bedType();
 
-        // dd($category_facilities, $facilities);
-
-        
         $category_facilities['data'] = [
             ['id' => 1, 'name' => 'Lodging', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
             ['id' => 2, 'name' => 'Riad', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
@@ -100,7 +100,7 @@ class PropertyController extends Controller
         ];
 
         if ($request->has('step')) {
-            return view('admin.property.step' . $request->step, compact('category_facilities', 'city', 'district', 'village', 'property_style'));
+            return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'city', 'district', 'village', 'property_style'));
         }else{
             return view('admin.property.step1');
         }
@@ -111,6 +111,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
@@ -119,73 +120,73 @@ class PropertyController extends Controller
                     'phone' => $request->phone,
                     'total_room' => $request->total_room,
                     'nib' => $request->nib,
+                    'category' => \Str::lower($request->category),
                     'description' => $request->description,
                     'rate' => $request->rate,
                 ]);
-                PropertyCategory::create([
-                    'name' => $request->category,
+
+                $property_category = PropertyCategory::create([
+                    'name' => \Str::lower($request->category),
                     'properties_id' => $property->id,
                 ]);
-                PropertyAddress::create([
+
+
+                $property_address = PropertyAddress::create([
                     'city' => $request->city,
-                    'distric' => $request->distric,
-                    'vilage' => $request->vilage,
+                    'district' => $request->district,
+                    'village' => $request->village,
                     'postal_code' => $request->postal_code,
                     'address' => $request->address,
                     'long' => $request->long,
                     'lat' => $request->lat,
                     'properties_id' => $property->id,
                 ]);
-                PropertyContact::create([
-                    'name' => $request->main_contact_name,
-                    'email' => $request->main_contact_email,
-                    'phone' => (int)$request->main_contact_phone,
-                    'position' => $request->main_contact_position,
-                    'type' => 1,
-                    'properties_id' => $property->id,
-                ]);
-                PropertyContact::create([
-                    'name' => $request->reservation_contact_name,
-                    'email' => $request->reservation_contact_email,
-                    'phone' => (int)$request->reservation_contact_phone,
-                    'position' => $request->reservation_contact_position,
-                    'type' => 2,
-                    'properties_id' => $property->id,
-                ]);
-                PropertyContact::create([
-                    'name' => $request->acounting_contact_name,
-                    'email' => $request->acounting_contact_email,
-                    'phone' => (int)$request->acounting_contact_phone,
-                    'position' => $request->acounting_contact_position,
-                    'type' => 3,
-                    'properties_id' => $property->id,
-                ]);
-        
-                foreach ($request->file_document as $key => $value) {
-                    $file = $value->store('property/document', 'public');
-                    PropertyDocument::create([
-                        'file' => $file,
+
+                foreach ($request->main_contact_name as $key => $value) {
+                    $property_contact_main = PropertyContact::create([
+                        'name' => $value,
+                        'email' => $request->main_contact_email[$key],
+                        'phone' => (int)$request->main_contact_phone[$key],
+                        'position' => $request->main_contact_position[$key],
+                        'type' => 1,
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->reservation_contact_name as $key => $value) {
+                    $property_contact_res = PropertyContact::create([
+                        'name' => $value,
+                        'email' => $request->reservation_contact_email[$key],
+                        'phone' => (int)$request->reservation_contact_phone[$key],
+                        'position' => $request->reservation_contact_position[$key],
+                        'type' => 2,
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->acounting_contact_name as $key => $value) {
+                    $property_contact_acc = PropertyContact::create([
+                        'name' => $value,
+                        'email' => $request->acounting_contact_email[$key],
+                        'phone' => $request->acounting_contact_phone[$key],
+                        'position' => $request->acounting_contact_position[$key],
+                        'type' => 3,
                         'properties_id' => $property->id,
                     ]);
                 }
         
                 foreach ($request->facility_id as $key => $value) {
-                    PropertyFacilities::create([
+                    $property_facility = PropertyFacilities::create([
                         'facilities_category_id' => $value['facilities_category_id'][$key] ?? null,
                         'facilities_id' => $value,
                         'properties_id' => $property->id,
                     ]);
                 }
-                foreach ($request->file_photo as $key => $value) {
-                    $file = $value->store('property/photo', 'public');
-                    PropertyPhotos::create([
-                        'image' => $file,
-                        'properties_id' => $property->id,
-                    ]);
-                }
-                PropertyTerms::create([
+                
+
+                $property_terms = PropertyTerms::create([
                     'reception_area' => $request->reception_area,
-                    'cehck_in_from' => $request->cehck_in_from,
+                    'check_in_from' => $request->check_in_from,
                     'check_in_until' => $request->check_in_until,
                     'check_out_from' => $request->check_out_from,
                     'check_out_until' => $request->check_out_until,
@@ -205,12 +206,24 @@ class PropertyController extends Controller
                     ]);
                 }
 
+                foreach ($request->property_doc as $key => $value) {
+                    PropertyDocument::find($value)->update([
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->property_photo as $key => $value) {
+                    PropertyPhotos::find($value)->update([
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
                 return back()->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {
+            dd($th);
             return back()->with('error', $th->getMessage());
         }
-
     }
 
     /**
@@ -226,7 +239,9 @@ class PropertyController extends Controller
      */
     public function edit(string $id)    
     {
-        //
+        $data = Property::find($id);
+
+        return view('admin.property.edit', compact('data'));
     }
 
     /**
@@ -234,107 +249,121 @@ class PropertyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if ($request->file('file')) {
-            $file = $request->file('file');
-            $path = $file->store('property', 'public');
-            $data['file'] = $path;
-        }
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $path = $file->store('property', 'public');
-            $data['image'] = $path;
-        }
-        $property=property::where('id', $id)
-        ->update([
-            'name' => $request->name,
-            'legal_name' => $request->legal_name,
-            'phone' => $request->phone,
-            'total_room' => $request->total_room,
-            'nib' => $request->nib,
-            'description' => $request->description,
-            'rate' => $request->rate,
-        ]);
-        PropertyCategory::where('properties_id', $id)
-        ->update([
-            'name' => $request->category,
-            'properties_id' => $property->id,
-        ]);
-        PropertyAddress::where('properties_id', $id)
-        ->update([
-            'city' => $request->city,
-            'distric' => $request->distric,
-            'vilage' => $request->vilage,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'long' => $request->long,
-            'lat' => $request->lat,
-            'properties_id' => $property->id,
-        ]);
-        PropertyContact::where('properties_id', $id)
-        ->update([
-            'name' => $request->main_contact_name,
-            'email' => $request->main_contact_email,
-            'phone' => (int)$request->main_contact_phone,
-            'position' => $request->main_contact_position,
-            'type' => 1,
-            'properties_id' => $property->id,
-        ]);
-        PropertyContact::where('properties_id', $id)
-        ->update([
-            'name' => $request->reservation_contact_name,
-            'email' => $request->reservation_contact_email,
-            'phone' => (int)$request->reservation_contact_phone,
-            'position' => $request->reservation_contact_position,
-            'type' => 2,
-            'properties_id' => $property->id,
-        ]);
-        PropertyContact::where('properties_id', $id)
-        ->update([
-            'name' => $request->acounting_contact_name,
-            'email' => $request->acounting_contact_email,
-            'phone' => (int)$request->acounting_contact_phone,
-            'position' => $request->acounting_contact_position,
-            'type' => 3,
-            'properties_id' => $property->id,
-        ]);
-        PropertyDocument::where('properties_id', $id)
-        ->update([
-            'file' => $request->file_document,
-            'properties_id' => $property->id,
-        ]);
-        PropertyFacilities::where('properties_id', $id)
-        ->update([
-            'facilities_category_id' => $request->facilities_category_id,
-            'facilities_id' => $request->facilities_id,
-            'properties_id' => $property->id,
-        ]);
-        PropertyPhotos::where('properties_id', $id)
-        ->update([
-            'image' => $request->image,
-            'properties_id' => $property->id,
-        ]);
-        PropertyTerms::where('properties_id', $id)
-        ->update([
-            'reception_area' => $request->reception_area,
-            'cehck_in_from' => $request->cehck_in_from,
-            'check_in_until' => $request->check_in_until,
-            'check_out_from' => $request->check_out_from,
-            'check_out_until' => $request->check_out_until,
-            'range' => $request->range,
-            'floors' => $request->floors,
-            'cancelation_policy' => $request->cancelation_policy,
-            'release_time_type' => $request->release_time_type,
-            'release_after_booking' => $request->release_after_booking,
-            'properties_id' => $property->id,
-        ]);
-        PropertyType::where('properties_id', $id)
-        ->update([
-            'name' => $request->name_type,
-            'properties_id' => $property->id,
-        ]);
+        try {
+            return $this->atomic(function () use ($request) {
+                $property=Property::find($request->property_id)->update([
+                    'name' => $request->name,
+                    'legal_name' => $request->legal_name,
+                    'phone' => $request->phone,
+                    'total_room' => $request->total_room,
+                    'nib' => $request->nib,
+                    'category' => \Str::lower($request->category),
+                    'description' => $request->description,
+                    'rate' => $request->rate,
+                ]);
+
+                $property_category = PropertyCategory::find($request->property_category_id)->update([
+                    'name' => \Str::lower($request->category),
+                    'properties_id' => $property->id,
+                ]);
 
 
-        return back()->with('success', 'Data berhasil ditambahkan');
+                $property_address = PropertyAddress::find($request->property_address_id)->update([
+                    'city' => $request->city,
+                    'district' => $request->district,
+                    'village' => $request->village,
+                    'postal_code' => $request->postal_code,
+                    'address' => $request->address,
+                    'long' => $request->long,
+                    'lat' => $request->lat,
+                    'properties_id' => $property->id,
+                ]);
+
+                foreach ($request->main_contact_id as $key => $value) {
+                    $property_contact_main = PropertyContact::find($value)->update([
+                        'name' => $request->main_contact_name[$key],
+                        'email' => $request->main_contact_email[$key],
+                        'phone' => (int)$request->main_contact_phone[$key],
+                        'position' => $request->main_contact_position[$key],
+                        'type' => 1,
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->reservation_contact_id as $key => $value) {
+                    $property_contact_res = PropertyContact::find($value)->update([
+                        'name' => $request->reservation_contact_name[$key],
+                        'email' => $request->reservation_contact_email[$key],
+                        'phone' => (int)$request->reservation_contact_phone[$key],
+                        'position' => $request->reservation_contact_position[$key],
+                        'type' => 2,
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->acounting_contact_id as $key => $value) {
+                    $property_contact_acc = PropertyContact::find($value)->update([
+                        'name' => $request->acounting_contact_name,
+                        'email' => $request->acounting_contact_email[$key],
+                        'phone' => $request->acounting_contact_phone[$key],
+                        'position' => $request->acounting_contact_position[$key],
+                        'type' => 3,
+                        'properties_id' => $property->id,
+                    ]);
+                }
+        
+                foreach ($request->property_facility_id as $key => $value) {
+                    $property_facility = PropertyFacilities::find($value)->update([
+                        'facilities_category_id' => $value['facilities_category_id'][$key] ?? null,
+                        'facilities_id' => $request->facility_id[$key],
+                        'properties_id' => $property->id,
+                    ]);
+                }
+                
+
+                $property_terms = PropertyTerms::find($request->property_terms_id)->update([
+                    'reception_area' => $request->reception_area,
+                    'check_in_from' => $request->check_in_from,
+                    'check_in_until' => $request->check_in_until,
+                    'check_out_from' => $request->check_out_from,
+                    'check_out_until' => $request->check_out_until,
+                    'range' => $request->range,
+                    'floors' => $request->floors,
+                    'cancelation_policy' => $request->cancelation_policy,
+                    'release_time_type' => $request->release_time_type,
+                    'release_after_booking' => $request->release_after_booking,
+                    'properties_id' => $property->id,
+                ]);
+        
+                foreach ($request->property_type_id as $key => $value) {
+                    PropertyType::find($value)->update([
+                        'properties_id' => $property->id,
+                        'type_id' => $request->type_id,
+                        'style_id' => $request->style_id,
+                    ]);
+                }
+
+                PropertyDocument::where('properties_id', $property->id)->delete();
+                PropertyPhotos::where('properties_id', $property->id)->delete();
+
+                foreach ($request->property_doc as $key => $value) {
+                    PropertyDocument::find($value)->update([
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                foreach ($request->property_photo as $key => $value) {
+                    PropertyPhotos::find($value)->update([
+                        'properties_id' => $property->id,
+                    ]);
+                }
+
+                return back()->with('success', 'Data berhasil diupdate');
+            });
+        } catch (\Throwable $th) {
+            dd($th);
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -342,6 +371,65 @@ class PropertyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            return $this->atomic(function () use ($id) {
+                $property = Property::find($id);
+                $property_terms = PropertyTerms::where('properties_id', $id)->delete();
+                $property_facility = PropertyFacilities::where('properties_id', $id)->delete();
+                $property_type = PropertyType::where('properties_id', $id)->delete();
+                $property_contact = PropertyContact::where('properties_id', $id)->delete();
+                $property_document = PropertyDocument::where('properties_id', $id)->delete();
+                $property_photo = PropertyPhotos::where('properties_id', $id)->delete();
+
+                $property->delete();
+                return back()->with('success', 'Data berhasil dihapus');
+            });
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function uploadPropertyDocument(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = $file->store('property/document', 'public');
+
+            $create = PropertyDocument::create([
+                'file' => $path,
+                'file_name' => $request->name,
+                'properties_id' => null,
+            ]);
+
+            return $create;
+        }
+    }
+
+    public function uploadPropertyPhoto(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = $file->store('property/photo', 'public');
+
+            $create = PropertyPhotos::create([
+                'image' => $path,
+                'image_name' => $request->name,
+                'properties_id' => null,
+            ]);
+
+            return $create;
+        }
+    }
+
+    public function manageProperty($id)
+    {
+        $property = Property::find($id);
+
+        $apiResource = new ApiResourcesController();
+        $room_type = $apiResource->roomType()['data'];
+        $bed_type = $apiResource->bedType()['data'];
+        $room_facilities = $apiResource->roomFacilities()['data']['categories'];
+
+        return view('admin.roomManagement.create', compact('property', 'room_type', 'bed_type', 'room_facilities'));
     }
 }

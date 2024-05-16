@@ -37,6 +37,7 @@ const FormWizard = function() {
             },
             onFinished: function (event, currentIndex) {
                 alert('Form submitted.');
+                $('#formSubmit').submit();
             }
         });
 
@@ -57,6 +58,7 @@ const FormWizard = function() {
             },
             onFinished: function (event, currentIndex) {
                 alert('Form submitted.');
+                $('#formSubmit').submit();
             }
         });
 
@@ -75,6 +77,7 @@ const FormWizard = function() {
             autoFocus: true,
             onFinished: function (event, currentIndex) {
                 alert('Form submitted.');
+                $('#formSubmit').submit();
             }
         });
 
@@ -92,6 +95,7 @@ const FormWizard = function() {
             },
             onFinished: function (event, currentIndex) {
                 alert('Form submitted.');
+                $('#formSubmit').submit();
             }
         });
 
@@ -147,6 +151,7 @@ const FormWizard = function() {
             },
             onFinished: function (event, currentIndex) {
                 alert('Submitted!');
+                $('#formSubmit').submit();
             }
         });
 

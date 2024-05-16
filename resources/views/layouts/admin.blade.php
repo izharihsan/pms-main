@@ -55,6 +55,7 @@
 	<!-- Page content -->
 	<div class="page-content">
 		@include('sweetalert::alert')
+
 		@include('include.sidebar_admin')  
 
 

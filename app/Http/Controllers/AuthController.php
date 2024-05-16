@@ -20,6 +20,7 @@ class AuthController extends Controller
 
     public function getToken($email, $password)
     {
+        // dd($this->ssoUrl . '/auth/login');
         $response = Http::post($this->ssoUrl . '/auth/login', [
             'email' => $email,
             'password' => $password,
@@ -66,6 +67,8 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $this->log('Login', null);
+
             return response()->json(['message' => $response['message']], 200);
         } else {
             return response()->json(['message' => $response['message']], 401);
@@ -78,6 +81,9 @@ class AuthController extends Controller
             ->post($this->ssoUrl . '/auth/logout', [
                 'email' => Auth::user()->email
             ]);
+
+        $this->log('Logout', null);
+        
         Auth::logout();
         return redirect('/login');
     }

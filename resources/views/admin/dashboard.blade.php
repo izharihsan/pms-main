@@ -190,18 +190,19 @@
 @section('content')
 <!-- Quick stats boxes -->
 {{-- BUTTON ADD PEROPERTY --}}
-<div class="row">
-    <div class="col-12">
-        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal_remote">Create New Property <i class="ph-play-circle ms-2"></i></button>
+<div class="row mb-3">
+    {{-- BUTTON RIGHT --}}
+    <div class="col-md-12 text-end">
+        <a href="{{ route('admin.property.create') }}" class="btn btn-light">Create New Property <i class="ph-plus ms-2"></i></a>
     </div>
 </div>
 <div class="row">
-    @for ($i = 0; $i < 3; $i++)
+    @foreach ($property as $item)
         <div class="col-lg-4">
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0">Bali Spa</h3>
+                        <h3 class="mb-0">{{ $item->name }}</h3>
                         {{-- <div class="ms-auto">
                             <a class="text-white" data-card-action="reload">
                                 <i class="ph-arrows-clockwise"></i>
@@ -211,34 +212,33 @@
 
                     {{-- ICON RATING --}}
                     <div class="d-flex align-items-center mb-3">
-                        <i class="fa-solid fa-star text-warning me-1"></i>
-                        <i class="fa-solid fa-star text-warning me-1"></i>
-                        <i class="fa-solid fa-star text-warning me-1"></i>
-                        <i class="fa-solid fa-star text-secondary me-1"></i>
-                        <i class="fa-solid fa-star text-warning me-1"></i>
+                        <i class="fa-solid fa-star {{ ($item->rate < 1) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i class="fa-solid fa-star {{ ($item->rate < 2) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i class="fa-solid fa-star {{ ($item->rate < 3) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i class="fa-solid fa-star {{ ($item->rate < 4) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i class="fa-solid fa-star {{ ($item->rate < 5) ? 'text-secondary' : 'text-warning' }} me-1"></i>
                     </div>
 
                     {{-- Homestay --}}
                     <div class="d-flex align-items-center">
                         <i class="fa-solid fa-building text-white me-1"></i>
-                        <span class="text-white">Homestay</span>
+                        <span class="text-white">{{ ucfirst($item->category) }}</span>
                     </div>
                     {{-- LOCATION --}}
                     <div class="d-flex align-items-center">
                         <i class="fa-solid fa-location-dot text-white me-1"></i>
-                        <span class="text-white">Jl. Gatot Subroto Barat No. 282</span>
+                        <span class="text-white">{{ ucfirst($item->address->address ?? '') }}</span>
                     </div>
                     {{-- BUTTON Manage Property --}}
                     <div class="d-flex align-items-center">
-                        <a href="" class="btn btn-primary btn-block mt-3">
+                        <a href="{{ route('admin.property.manageProperty', [$item->id]) }}" class="btn btn-primary btn-block mt-3">
                             Manage Property
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
-    @endfor
+    @endforeach
 </div>
 <!-- /quick stats boxes -->
 
@@ -252,22 +252,28 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table text-nowrap text-center">
+                <table class="table datatable-fixed-left">
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Property</th>
-                            <th>Event</th>
+                            <th>User</th>
+                            <th>Date & Time</th>
+                            <th>Action</th>
+                            <th>Connected Room</th>
+                            <th>PC (IP)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 1; $i < 10; $i++)
+                        @foreach ($log as $key => $item)
                             <tr>
-                                <td><span class="text-muted">{{ $i }}</span></td>
-                                <td>Property {{ $i }}</td>
-                                <td>Add New Room,Type Deluxe</td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $item->user->name ?? null }}</td>
+                                <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
+                                <td>{{ $item->action }}</td>
+                                <td>{{ $item->connected_room }}</td>
+                                <td>{{ $item->ip_address }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
