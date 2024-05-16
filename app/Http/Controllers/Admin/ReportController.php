@@ -12,6 +12,6 @@ class ReportController extends Controller
     {
         $data = Log::orderBy('id', 'desc')->paginate(10);
         
-        return view('admin.report.index');
+        return view('admin.report.index', compact('data'));
     }
 }

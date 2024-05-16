@@ -252,22 +252,28 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table text-nowrap text-center">
+                <table class="table datatable-fixed-left">
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Property</th>
-                            <th>Event</th>
+                            <th>User</th>
+                            <th>Date & Time</th>
+                            <th>Action</th>
+                            <th>Connected Room</th>
+                            <th>PC (IP)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 1; $i < 10; $i++)
+                        @foreach ($log as $key => $item)
                             <tr>
-                                <td><span class="text-muted">{{ $i }}</span></td>
-                                <td>Property {{ $i }}</td>
-                                <td>Add New Room,Type Deluxe</td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $item->user->name ?? null }}</td>
+                                <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
+                                <td>{{ $item->action }}</td>
+                                <td>{{ $item->connected_room }}</td>
+                                <td>{{ $item->ip_address }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
