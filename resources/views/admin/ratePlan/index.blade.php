@@ -44,15 +44,20 @@
                             <td>@if($item->meels !== null) Meeals @else No Meals @endif</td>
                             <td>{{ $item->cancelation_policy }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm p-1">
+                                <a href="{{ route('admin.rate_plan.show', $item->id) }}" type="button" class="btn btn-primary btn-sm p-1">
                                     <i class="ph-eye m1"></i>
-                                </button>
+                                </a>
                                 <a href="{{ route('admin.rate_plan.edit', $item->id) }}" type="button" class="btn btn-warning btn-sm p-1">
                                     <i class="ph-pencil m1"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger btn-sm p-1">
+                                <a href="" onclick="event.preventDefault(); if(confirm('Apakah Anda yakin?', 'Konfirmasi Penghapusan')){ $('form#hapus{{ $loop->iteration }}').submit(); }" type="button" class="btn btn-danger btn-sm p-1">
                                     <i class="ph-trash m1"></i>
-                                </button>
+                                </a>
+
+                                <form id="hapus{{ $loop->iteration }}" action="{{ route('admin.rate_plan.destroy', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @endforeach

@@ -33,21 +33,20 @@
         <form action="{{ route('admin.rate_plan.store') }}" method="POST">
             @csrf
             <div class="row">
-                <input type="hidden" name="rate_plan_id" @isset($data) value="{{ $data->id }}" @endisset>
                 <div class="col">
                     <div class="form-group">
                         <label for="" class="fw-bold">Rate Plan Name<strong class="text-danger">*</strong></label>
-                        <input type="text" class="form-control" required placeholder="Input Rate Plan" name="name" @isset($data) value="{{ $data->name }}" @endisset>
+                        <input type="text" class="form-control" required placeholder="Input Rate Plan" name="name" value="{{ $data->name }}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="" class="fw-bold">Description<strong class="text-danger">*</strong></label>
-                        <input type="text" class="form-control" required placeholder="Input Description" name="description" @isset($data) value="{{ $data->description }}" @endisset>
+                        <input type="text" class="form-control" required placeholder="Input Description" name="description" value="{{ $data->description }}" readonly>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="" class="fw-bold">Cancelation Policy<strong class="text-danger">*</strong></label>
-                        <select name="cancelation_policy" id="" class="form-control" required>
+                        <select name="cancelation_policy" id="" class="form-control" readonly>
                             <option value="">Pilih Cancelation Policy</option>
                             <option @isset($data) @if($data->cancelation_policy == "Cancel 7D prior arrival 100% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 7D prior arrival 100% charge. No Show 100% charge.">Cancel 7D prior arrival 100% charge. No Show 100% charge.</option>
                             <option @isset($data) @if($data->cancelation_policy == "Cancel 21D prior arrival 50% charge. No Show 100% charge.") selected @endif @endisset value="Cancel 21D prior arrival 50% charge. No Show 100% charge.">Cancel 21D prior arrival 50% charge. No Show 100% charge.</option>
@@ -95,8 +94,7 @@
 
             </div>
             <div class="float-end mt-4">
-                <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">Cancel</a>
-                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">kembali</a>
             </div>
         </form>
     </div> 
