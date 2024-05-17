@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::group(['prefix' => 'room-availability'], function () {
         Route::get('/', [App\Http\Controllers\RoomAvailabilityController::class, 'index'])->name('room_availability.index');
+        Route::post('/store', [App\Http\Controllers\RoomAvailabilityController::class, 'store'])->name('room_availability.store');
     });
     
     Route::get('property/manage/{id}', [PropertyController::class, 'manageProperty'])->name('property.manageProperty');
