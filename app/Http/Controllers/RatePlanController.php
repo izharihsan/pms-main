@@ -12,6 +12,7 @@ class RatePlanController extends Controller
     public function index()
     {
         $data = RatePlan::all();
+        $this->log('View Rate Plan', null);
 
         return view('admin.ratePlan.index', compact('data'));
     }
@@ -49,9 +50,11 @@ class RatePlanController extends Controller
 
         if ($request->rate_plan_id) {
             $data = RatePlan::find($request->rate_plan_id);
+            $this->log('Update Rate Plan', null);
 
             $data->update($requestData);
         }else{
+            $this->log('Create Rate Plan', null);
             $data = RatePlan::create($requestData);
         }
 
@@ -64,6 +67,8 @@ class RatePlanController extends Controller
     {
         $data = RatePlan::find($id);
         $data->delete();
+
+        $this->log('Delete Rate Plan', null);
 
         Alert::success('Success Title', 'Berhasil Menghapus Data');
         return redirect()->route('admin.rate_plan.index');

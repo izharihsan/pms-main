@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('title', 'Dashboard')
+@section('room_rates', 'active')
 
 @section('breadcrumb')
 <div class="page-header page-header-light shadow">
@@ -160,19 +161,77 @@
                 <a href="{{ route('admin.room-rates.create') }}" type="button" class="btn btn-primary ms-auto mb-4">Bulk Add/Update</a>
             </div>
             <div class="card">
-                <table class="table table-striped table-bordered">
+                <table class="table datatable-fixed-left">
+                    <thead>
+                        <tr>
+                            <th>Room</th>
+                            @foreach ($datesInCurrentMonth as $date)
+                                <th style="align-items: center;">{{ $date->format('d D') }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    @foreach ($rooms as $item)
+                        @php 
+                            $rate_plan = App\Models\RatePlan::where('connected_rooms', 'LIKE', '%'. $item->room_name .'%')->get();
+                        @endphp
+                        <tbody>
+                            <tr>
+                                <td class="toggle-details">
+                                    <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left1">
+                                        <i class="ph-caret-down collapsible-indicator me-2"></i>
+                                        {{ $item->room_name }}
+                                    </a>
+                                </td>
+                                @foreach ($datesInCurrentMonth as $date)
+                                    <td></td>
+                                @endforeach
+                            </tr>
+                            <!-- Hidden row -->
+                            <div class="hidden-row" style="display: none;">
+                                @foreach ($rate_plan as $item_rate)
+                                    <tr id="collapsible-card-indicator-left1">
+                                        <td>{{ $item_rate->name }}</td>
+
+                                        @foreach ($datesInCurrentMonth as $date)
+                                            @php 
+                                            // dd($date->toDateString());
+                                                $room_rates = App\Models\RoomRates::where('start_date', '<=', $date->toDateString())
+                                                            ->where('end_date', '>=', $date->toDateString())
+                                                            ->first();
+                                                            
+                                                if ($room_rates) {
+                                                    $room_r_d = App\Models\RoomRatesDetails::where([
+                                                        'room_rates_id' => $room_rates->id,
+                                                        'rate_plan_id'  => $item_rate->id,
+                                                        'room_id'       => $item->id
+                                                    ])->first();
+                                                }
+                                            @endphp
+
+                                            <td>
+                                                @if (isset($room_r_d) && isset($room_rates))
+                                                    {{ number_format($room_r_d->minimum_rate, 2) }}
+                                                @else 
+                                                    -
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            
+                            </div>
+                        </tbody>
+                    @endforeach
+              
+                </table>
+                {{-- <table class="table datatable-fixed-left">
                     <thead class="table-light">
                         <tr>
                             <th scope="col-3">Room</th>
-                            <th scope="col">1 Mon</th>
-                            <th scope="col">2 Tue</th>
-                            <th scope="col">3 Wed</th>
-                            <th scope="col">4 Thu</th>
-                            <th scope="col">5 Fri</th>
-                            <th scope="col">6 Sat</th>
-                            <th scope="col">7 Mon</th>
-                            <th scope="col">8 Tue</th>
-                            <th scope="col">9 Wed</th>
+
+                            @foreach ($datesInCurrentMonth as $date)
+                                <th scope="col">{{ $date->format('d D') }}</th>
+                            @endforeach
                         </tr>
                     </thead>
                     <tbody>
@@ -225,7 +284,7 @@
                             <td>300.000</td>
                         </tr>
                     </tbody>
-                </table>
+                </table> --}}
             </div>
         </div>
         <!-- /content area -->

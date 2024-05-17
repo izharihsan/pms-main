@@ -54,6 +54,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('property/upload-doc', [PropertyController::class, 'uploadPropertyDocument'])->name('property.uploadDoc');
     Route::resource('property', PropertyController::class);
     Route::resource('room-rates', RoomRateController::class);
+    Route::get('room-rates/details-room/{id}', [RoomRateController::class, 'details'])->name('room-rates.details');
+    Route::post('room-rates/store/details-room/{id}', [RoomRateController::class, 'store_details'])->name('room-rates.store_details');
+   
     Route::resource('room-management', RoomManagementController::class);
     Route::resource('report', ReportController::class)->only(['index']);
 });
