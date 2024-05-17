@@ -30,47 +30,44 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 
-				<div class="modal-body">
-                    <form action="" method="post">
+                <form action="{{ route('admin.room_availability.store') }}" method="post">
+                    @csrf
+				    <div class="modal-body">
                         <div class="row">
                             <div class="form-group">
                                 <label for="" class="fw-bold">Start Date<strong class="text-danger">*</strong></label>
-                                <input type="date" class="form-control" required placeholder="E.g Room Only">
+                                <input type="date" name="start_date" class="form-control" required placeholder="E.g Room Only">
                             </div>
                             <div class="form-group">
                                 <label for="" class="fw-bold">End Date<strong class="text-danger">*</strong></label>
-                                <input type="date" class="form-control" required placeholder="Rate plan description">
+                                <input type="date" name="end_date" class="form-control" required placeholder="Rate plan description">
                             </div>
                             <div class="form-group">
                                 <hr>
                                 <label for="" class="fw-bold">Connected Room</label><br>
-                                <input type="checkbox" id="breakfast" name="connected_room">
-                                <label for="breakfast">Deluxe Sweet</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
-                                <label for="breakfast">Executive Sweet</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
-                                <label for="breakfast">Double Bad</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
-                                <label for="breakfast">Standard</label>
+                                @foreach ($room as $item)
+                                    <input type="checkbox" id="{{ $item->room_name }}" name="connected_rooms[{{ $item->room_name }}]">
+                                    <label for="breakfast">{{ $item->room_name }}</label>
+                                @endforeach
                 
                             </div>
                             <div class="form-group">
                                 <hr>
                                 <label for="" class="fw-bold">Choose To Update</label><br>
-                                <input type="checkbox" id="breakfast" name="connected_room">
+                                <input type="checkbox" id="availability" name="update_data[availability]">
                                 <label for="breakfast">Availability</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
+                                <input type="checkbox" id="cta" name="update_data[cta]">
                                 <label for="breakfast">CTA</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
+                                <input type="checkbox" id="ctd" name="update_data[ctd]">
                                 <label for="breakfast">CTD</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
+                                <input type="checkbox" id="stop_sell" name="update_data[stop_sell]">
                                 <label for="breakfast">Stop Sell</label>
-                                <input type="checkbox" id="breakfast" name="connected_room">
+                                <input type="checkbox" id="stop_sell_limit" name="update_data[stop_sell_limit]">
                                 <label for="breakfast">Stop Sell Limit</label>
                             </div>
                             <div class="form-group" style="margin-top: 5%;">
                                 <label for="" class="fw-bold">Availability<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40">
+                                <input type="text" class="form-control" required placeholder="E.g 40" name="availability">
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4" style="margin-top: 5%;">
@@ -100,16 +97,16 @@
                             </div>
                             <div class="form-group" style="margin-top: 5%;">
                                 <label for="" class="fw-bold">Stop Sell Limit<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40">
+                                <input type="text" class="form-control" required placeholder="E.g 40" name="stop_sell_limit">
                             </div>
                         </div>
-                    </form>
-				</div>
+				    </div>
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save</button>
-				</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
 			</div>
 		</div>
 	</div>
@@ -119,368 +116,132 @@
         <table class="table datatable-fixed-left">
             <thead>
                 <tr>
-                    <th>Room</th>
-                    <th>24 Wed</th>
-                    <th>25 Thu</th>
-                    <th>26 Fri</th>
-                    <th>27 Sat</th>
-                    <th>28 Mon</th>
-                    <th>29 Tue</th>
-                    <th>30 Wed</th>
-                    <th>31 Thu</th>
-                    <th>1 Fri</th>
+                    <th style="align-items: center;">Room</th>
+                    @foreach ($datesInCurrentMonth as $date)
+                        <th style="align-items: center;">{{ $date->format('d D') }}</th>
+                    @endforeach
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td class="toggle-details">
-                        <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left1">
-                            <i class="ph-caret-down collapsible-indicator me-2"></i>
-                            Deluxe Sweet
-                        </a>
-                    </td> <!-- Toggle button column -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <!-- Hidden row -->
-                <div class="hidden-row" style="display: none;">
-                    <tr id="collapsible-card-indicator-left1">
-                        <td>Availability</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
+            @foreach ($room as $item)
+                <tbody>
+                    <tr>
+                        <td class="toggle-details">
+                            <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left1">
+                                <i class="ph-caret-down collapsible-indicator me-2"></i>
+                                {{ $item->room_name }}
+                            </a>
+                        </td> <!-- Toggle button column -->
+                        @foreach ($datesInCurrentMonth as $date)
+                            <td></td>
+                        @endforeach
                     </tr>
+                    <!-- Hidden row -->
+                    <div class="hidden-row" style="display: none;">
+                        <tr id="collapsible-card-indicator-left1">
+                            <td>Availability</td>
+                            @foreach ($datesInCurrentMonth as $date)
+                                @php 
+                                    $room_avail = App\Models\RoomAvailability::where('start_date', '<=', $date->toDateString())
+                                                ->where('end_date', '>=', $date->toDateString())
+                                                ->where('connected_room', 'LIKE', '%' .$item->room_name. '%')
+                                                ->first();                    
+                                @endphp
 
-                    <tr id="collapsible-card-indicator-left1">
-                        <td>CTA</td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                    </tr>
-                    
-                    <tr id="collapsible-card-indicator-left1">
-                        <td>CTD</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
+                                <td>
+                                    @if (isset($room_avail) )
+                                        {{ $room_avail->availability }}
+                                    @else 
+                                        -
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
 
-                    <tr id="collapsible-card-indicator-left1">
-                        <td>Stop Sell</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
+                        <tr id="collapsible-card-indicator-left1">
+                            <td>CTA</td>
+                            @foreach ($datesInCurrentMonth as $date)
+                                @php 
+                                    $cta = App\Models\RoomAvailability::where('start_date', '<=', $date->toDateString())
+                                                ->where('end_date', '>=', $date->toDateString())
+                                                ->where('connected_room', 'LIKE', '%' .$item->room_name. '%')
+                                                ->where('update_data', 'LIKE', '%cta%')
+                                                ->first();                    
+                                @endphp
+                                <td>
+                                    @if (isset($cta) )
+                                        <i class="ph-check collapsible-indicator me-2"></i>
+                                    @else 
+                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                        
+                        <tr id="collapsible-card-indicator-left1">
+                            <td>CTD</td>
+                            @foreach ($datesInCurrentMonth as $date)
+                                @php 
+                                    $ctd = App\Models\RoomAvailability::where('start_date', '<=', $date->toDateString())
+                                                ->where('end_date', '>=', $date->toDateString())
+                                                ->where('connected_room', 'LIKE', '%' .$item->room_name. '%')
+                                                ->where('update_data', 'LIKE', '%ctd%')
+                                                ->first();                    
+                                @endphp
 
-                    <tr id="collapsible-card-indicator-left1">
-                        <td>Stop Sell Limit</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                </div>
-            </tbody>
+                                <td>
+                                    @if (isset($ctd) )
+                                        <i class="ph-check collapsible-indicator me-2"></i>
+                                    @else 
+                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
 
-            <tbody>
-                <tr>
-                    <td class="toggle-details">
-                        <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left2">
-                            <i class="ph-caret-down collapsible-indicator me-2"></i>
-                            Executive Sweet
-                        </a>
-                    </td> <!-- Toggle button column -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                        <tr id="collapsible-card-indicator-left1">
+                            <td>Stop Sell</td>
+                            @foreach ($datesInCurrentMonth as $date)
+                                @php 
+                                    $stop_sell = App\Models\RoomAvailability::where('start_date', '<=', $date->toDateString())
+                                                ->where('end_date', '>=', $date->toDateString())
+                                                ->where('connected_room', 'LIKE', '%' .$item->room_name. '%')
+                                                ->where('update_data', 'LIKE', '%stop_sell%')
+                                                ->first();                    
+                                @endphp
 
-                <!-- Hidden row -->
-                <div class="hidden-row" style="display: none;">
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Availability</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                    </tr>
+                                <td>
+                                    @if (isset($stop_sell))
+                                        <i class="ph-check collapsible-indicator me-2"></i>
+                                    @else 
+                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
 
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTA</td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                    </tr>
-                    
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTD</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
+                        <tr id="collapsible-card-indicator-left1">
+                            <td>Stop Sell Limit</td>
+                            @foreach ($datesInCurrentMonth as $date)
+                                @php 
+                                    $stop_sell_lim = App\Models\RoomAvailability::where('start_date', '<=', $date->toDateString())
+                                                ->where('end_date', '>=', $date->toDateString())
+                                                ->where('connected_room', 'LIKE', '%' .$item->room_name. '%')
+                                                ->first();                    
+                                @endphp
 
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell Limit</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                </div>
-            </tbody>
-
-            <tbody>
-                <tr>
-                    <td class="toggle-details">
-                        <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left2">
-                            <i class="ph-caret-down collapsible-indicator me-2"></i>
-                            Double Bed
-                        </a>
-                    </td> <!-- Toggle button column -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <!-- Hidden row -->
-                <div class="hidden-row" style="display: none;">
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Availability</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTA</td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                    </tr>
-                    
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTD</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell Limit</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                </div>
-            </tbody>
-
-            <tbody>
-                <tr>
-                    <td class="toggle-details">
-                        <a data-bs-toggle="collapse" class="d-flex align-items-center text-body" href="#collapsible-card-indicator-left2">
-                            <i class="ph-caret-down collapsible-indicator me-2"></i>
-                            Standard
-                        </a>
-                    </td> <!-- Toggle button column -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <!-- Hidden row -->
-                <div class="hidden-row" style="display: none;">
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Availability</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>15</td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTA</td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-check collapsible-indicator me-2"></i></td>
-                    </tr>
-                    
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>CTD</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell</td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                        <td><i class="ph-x collapsible-indicator me-2"></i></td>
-                    </tr>
-
-                    <tr id="collapsible-card-indicator-left2">
-                        <td>Stop Sell Limit</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                </div>
-            </tbody>
+                                <td>
+                                    @if (isset($stop_sell_lim) )
+                                       {{ $stop_sell_lim->stop_sell_limit }}
+                                    @else 
+                                        -
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    </div>
+                </tbody>
+            @endforeach
+           
         </table>
     </div>
 

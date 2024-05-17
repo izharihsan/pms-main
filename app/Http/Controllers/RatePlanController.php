@@ -5,24 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RatePlan;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Room;
 
 class RatePlanController extends Controller
 {
+    // Asumsi metode log sudah ada di controller
+    protected function log($message, $data)
+    {
+        // Implementasi logging di sini
+    }
+
     public function index()
     {
         $data = RatePlan::all();
+        $this->log('View Rate Plan', null);
 
         return view('admin.ratePlan.index', compact('data'));
     }
 
     public function form($id = null)
     {
+        $room = Room::all();
         $data = null;
         if ($id) {
             $data = RatePlan::find($id);
         }
 
-        return view('admin.ratePlan.form', compact('data'));
+        return view('admin.ratePlan.form', compact('data', 'room'));
     }
 
     public function store(Request $request)
@@ -39,7 +48,7 @@ class RatePlanController extends Controller
             $connected_types = array_keys($request->connected_rooms);
             $connected_room = implode(', ', $connected_types);
         }
-       
+
         $requestData = array_merge($request->all(), [
             'meals'             => $meals,
             'connected_rooms'   => $connected_room,
@@ -47,13 +56,13 @@ class RatePlanController extends Controller
 
         if ($request->rate_plan_id) {
             $data = RatePlan::find($request->rate_plan_id);
-
+            $this->log('Update Rate Plan', null);
             $data->update($requestData);
-        }else{
+        } else {
+            $this->log('Create Rate Plan', null);
             $data = RatePlan::create($requestData);
         }
 
-    
         Alert::success('Success Title', 'Berhasil Menyimpan Data');
         return redirect()->route('admin.rate_plan.index');
     }
@@ -61,9 +70,14 @@ class RatePlanController extends Controller
     public function destroy($id)
     {
         $data = RatePlan::find($id);
-        $data->delete();
+        if ($data) {
+            $data->delete();
+            $this->log('Delete Rate Plan', null);
+            Alert::success('Success Title', 'Berhasil Menghapus Data');
+        } else {
+            Alert::error('Error Title', 'Data Tidak Ditemukan');
+        }
 
-        Alert::success('Success Title', 'Berhasil Menghapus Data');
         return redirect()->route('admin.rate_plan.index');
     }
 

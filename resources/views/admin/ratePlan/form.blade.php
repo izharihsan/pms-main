@@ -63,36 +63,29 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="fw-bold">Meals<strong class="text-danger">*</strong></label> <br>
-                        <input type="radio" id="meals_radio1" name="meals_radio" id="nomeals" @isset($data) @if($data->meals == null) value="true" checked @endif @endisset>
+                        <input type="radio" id="meals_radio1" name="meals_radio" value="false" @isset($data) @if($data->meals == null) checked @endif @endisset>
                         <label for="nomeals">No Meals</label>
-                        <input type="radio" id="meals_radio2" name="meals_radio" id="meals-available" @isset($data) @if($data->meals !== null) value="true" checked @endif @endisset>
+                        <input type="radio" id="meals_radio2" name="meals_radio" value="true" @isset($data) @if($data->meals !== null) checked @endif @endisset>
                         <label for="meals-available">Meals Available</label>
                         <br>
-                        {{-- launch,break --}}
                         <div id="meals_form">
                             <input type="checkbox" id="breakfast" name="meals[breakfast]">
-                            <label for="breakfast">Breakfats</label>
+                            <label for="breakfast">Breakfast</label>
                             <input type="checkbox" id="launch" name="meals[launch]">
-                            <label for="launch">Launch</label>
+                            <label for="launch">Lunch</label>
                             <input type="checkbox" id="dinner" name="meals[dinner]">
                             <label for="dinner">Dinner</label>
                         </div>
-                       
                     </div>
                 </div>
             </div>
             <div>
                 <hr>
                 <label for="" class="fw-bold">Connected Room</label><br>
-                <input type="checkbox" id="deluxe_sweet" name="connected_rooms[deluxe_sweet]">
-                <label for="breakfast">Deluxe Sweet</label>
-                <input type="checkbox" id="executive_sweet" name="connected_rooms[executive_sweet]">
-                <label for="breakfast">Executive Sweet</label>
-                <input type="checkbox" id="double_bed" name="connected_rooms[double_bed]">
-                <label for="breakfast">Double Bed</label>
-                <input type="checkbox" id="standard" name="connected_rooms[standard]">
-                <label for="breakfast">Standard</label>
-
+                @foreach ($room as $item)
+                    <input type="checkbox" id="{{ $item->room_name }}" name="connected_rooms[{{ $item->room_name }}]">
+                    <label for="{{ $item->room_name }}">{{ $item->room_name }}</label>
+                @endforeach
             </div>
             <div class="float-end mt-4">
                 <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">Cancel</a>
@@ -116,12 +109,11 @@
                 }
             });
         }
-   
+
         var selected_room = "<?php echo $selected_room; ?>";
         if (selected_room !== null) {
             var selected_room_array = selected_room.split(', ');
-            // console.log(selected_room_array);
-            
+
             selected_room_array.forEach(function(room) {
                 var checkbox = document.getElementById(room.trim());
                 if (checkbox) {
@@ -135,19 +127,16 @@
         var noMealsRadio = document.getElementById('meals_radio1');
         var mealsAvailableRadio = document.getElementById('meals_radio2');
 
-        if (mealsAvailableRadio.value == 'true') {
+        if (mealsAvailableRadio.checked) {
             $('#meals_form').show();
         }
-        // console.log(mealsAvailableRadio.value);
 
-       
         noMealsRadio.addEventListener('click', function() {
             $('#meals_form').hide();
         });
 
         mealsAvailableRadio.addEventListener('click', function() {
-           $('#meals_form').show();
+            $('#meals_form').show();
         });
     });
-
 </script>

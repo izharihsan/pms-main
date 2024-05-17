@@ -161,97 +161,67 @@
                 <div class="card-body row">
                     <div class="col-lg-12">
                         <div class="mb-3">
-                            <h3>Add Room Rate</h3>
-                        </div>
-                        <form action="{{ route('admin.room-rates.store') }}" method="POST" id="submitform">
-                            @csrf
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Start Date <span class="text-danger">*</span></label>
-                                        <input type="date" name="start_date" class="form-control required" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">End Date <span class="text-danger">*</span></label>
-                                        <input type="date" name="end_date" class="form-control required" placeholder="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Rooms <span class="text-danger">*</span></label>
-                                    <select class="form-control multiselect" aria-label="Default select example" name="rooms_id[]" multiple="multiple">                       
-                                        <option value="">-- Pilih --</option>
-                                        @foreach ($room as $item)
-                                            <option value="{{ $item->id }}">{{ $item->room_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Select All Room
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-end flex-nowrap">
-                                <button type="submit" class="ms-auto btn btn-primary">Apply</button>
-                            </div>
-                        </form>
-                    </div>
-                 
-
-                </div>
-            </div>
-
-            {{-- <div class="card">
-                <div class="card-body row">
-                    <div class="col-lg-12">
-                        <div class="mb-3">
                             <h3>Room Rate Detail</h3>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
+                        <form action="{{ route('admin.room-rates.store_details', $id) }}" method="POST" id="submitform">
+                            @csrf
+                            @foreach ($rooms as $item)
+                                @php 
+                                    $rate_plan = App\Models\RatePlan::where('connected_rooms', 'LIKE', '%'. $item->room_name .'%')->get();
+                                @endphp
 
-                                <div class="mb-3">
-                                    <h5>Delux Sweet</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-5">
+                                <input type="hidden" name="room_id_{{ $item->id }}" value="{{ $item->id }}">
+                                <div class="card">
+                                    <div class="card-body">
+
                                         <div class="mb-3">
-                                            <label class="form-label">Rate Plan</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Serch Rate Plan</option>
-                                                <option value="1">One</option>
-                                            </select>
+                                            <h5>{{ $item->room_name }}</h5>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <input type="text" name="end_date" value="IDR" class="form-control required" placeholder="">
+                                        <div class="row">
+                                            <div class="col-lg-5">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Rate Plan</label>
+                                                    <select class="form-select" aria-label="Default select example" name="rate_plan[{{ $item->id }}]">
+                                                        <option selected>Serch Rate Plan</option>
+                                                        @foreach ($rate_plan as $item_rate)
+                                                            <option value="{{ $item_rate->id }}">{{ $item_rate->name }}</option>
+                                                        @endforeach
+                    
+                                                    </select>
                                                 </div>
-                                                <div class="col">
-                                                    <input type="text" name="end_date" class="form-control required" placeholder="">
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" name="stop_sell[{{ $item->id }}]" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <input type="text" name="currency_{{ $item->id }}" value="IDR" class="form-control required" placeholder="">
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" name="minimum_rate[{{ $item->id }}]" class="form-control required" placeholder="">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+
+                            <div class="d-flex align-items-end flex-nowrap">
+                                <div class="ms-auto">
+                                    <button type="submit" class="btn btn-outline-primary">Cancle</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
+                        </form>
+                        {{-- <div class="card">
                             <div class="card-body">
 
                                 <div class="mb-3">
@@ -288,19 +258,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="d-flex align-items-end flex-nowrap">
-                        <div class="ms-auto">
-                            <button type="submit" class="btn btn-outline-primary">Cancle</button>
-                            <button type="button" class="btn btn-primary">Save</button>
-                            <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
-                            <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a>
-                        </div>
-                    </div>
+               
 
                 </div>
-            </div> --}}
+            </div>
 
         </div>
         <!-- /content area -->

@@ -47,6 +47,8 @@
 	<script src="{{ asset('/assets/js/vendor/tables/datatables/extensions/fixed_columns.min.js') }}"></script>
 	<script src="{{ asset('/assets/demo/pages/datatables_api.js') }}"></script>
 	<script src="{{ asset('/assets/demo/pages/datatables_extension_fixed_columns.js') }}"></script>
+	<script src="{{ asset('/assets/js/vendor/forms/selects/bootstrap_multiselect.js') }}"></script>
+	<script src="{{ asset('/assets/demo/pages/form_multiselect.js') }}"></script>
     @stack('css')
 </head>
 

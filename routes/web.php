@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::group(['prefix' => 'room-availability'], function () {
         Route::get('/', [App\Http\Controllers\RoomAvailabilityController::class, 'index'])->name('room_availability.index');
+        Route::post('/store', [App\Http\Controllers\RoomAvailabilityController::class, 'store'])->name('room_availability.store');
     });
     
     Route::get('property/manage/{id}', [PropertyController::class, 'manageProperty'])->name('property.manageProperty');
@@ -54,6 +55,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('property/upload-doc', [PropertyController::class, 'uploadPropertyDocument'])->name('property.uploadDoc');
     Route::resource('property', PropertyController::class);
     Route::resource('room-rates', RoomRateController::class);
+    Route::get('room-rates/details-room/{id}', [RoomRateController::class, 'details'])->name('room-rates.details');
+    Route::post('room-rates/store/details-room/{id}', [RoomRateController::class, 'store_details'])->name('room-rates.store_details');
+   
     Route::resource('room-management', RoomManagementController::class);
     Route::resource('report', ReportController::class)->only(['index']);
 });

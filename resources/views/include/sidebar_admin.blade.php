@@ -89,7 +89,7 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.dashboard.index') }}" class="nav-link active">
+                    <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                         <i class="ph-house"></i>
                         <span>
                             Dashboard
@@ -113,6 +113,16 @@
                         </span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.room-rates.index') }}" class="nav-link @yield('room_rates')">
+                        <i class="ph-article"></i>
+                        <span>
+                            Room Rates
+                        </span>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('admin.room_availability.index') }}" class="nav-link @yield('room_availability')">
                         <i class="ph-book"></i>
