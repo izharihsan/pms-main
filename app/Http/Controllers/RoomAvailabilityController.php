@@ -26,7 +26,7 @@ class RoomAvailabilityController extends Controller
             $connected_rooms = implode(', ', $connected_types);
         }
 
-        if (isset($request->connected_rooms)) {
+        if (isset($request->update_data)) {
             $availability_types = array_keys($request->update_data);
             $update_data = implode(', ', $availability_types);
         }
