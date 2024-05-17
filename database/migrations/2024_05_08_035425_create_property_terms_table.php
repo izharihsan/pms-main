@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('property_terms', function (Blueprint $table) {
             $table->id();
             $table->integer('reception_area')->comment('1 = Availabel, 2 = Not Available');
-            $table->time('check-in_from');
-            $table->time('check-in_until');
-            $table->time('check-out_from');
-            $table->time('check-out_until');
+            $table->time('check_in_from');
+            $table->time('check_in_until');
+            $table->time('check_out_from');
+            $table->time('check_out_until');
             $table->integer('range');
             $table->integer('floors');
             $table->integer('cancelation_policy')->comment('1 = Cancel 14D prior arrival 50% charge. No Show 50% charge');

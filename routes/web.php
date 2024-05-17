@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RoomManagementController;
 use App\Http\Controllers\Admin\RoomRateController;
 use App\Http\Controllers\ApiResourcesController;
 use App\Http\Controllers\AuthController;
@@ -8,10 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/room', function () {
-    return view('admin.roomDetail.list');
 });
 
 Route::get('/room/create', function () {
@@ -35,9 +34,7 @@ Route::get('/forgot-password', function () {
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::group(['prefix' => 'room-management'], function () {
-        Route::get('/', [App\Http\Controllers\RoomManagementController::class, 'index'])->name('room_management.index');
-    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::group(['prefix' => 'rate-plan'], function () {
         Route::get('/', [App\Http\Controllers\RatePlanController::class, 'index'])->name('rate_plan.index');
@@ -51,18 +48,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'room-availability'], function () {
         Route::get('/', [App\Http\Controllers\RoomAvailabilityController::class, 'index'])->name('room_availability.index');
     });
-
-    Route::group(['prefix' => 'report'], function () {
-        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
-    });
-
+    
+    Route::get('property/manage/{id}', [PropertyController::class, 'manageProperty'])->name('property.manageProperty');
+    Route::post('property/upload-photo', [PropertyController::class, 'uploadPropertyPhoto'])->name('property.uploadPhoto');
+    Route::post('property/upload-doc', [PropertyController::class, 'uploadPropertyDocument'])->name('property.uploadDoc');
     Route::resource('property', PropertyController::class);
     Route::resource('room-rates', RoomRateController::class);
-});
-
-// UI ADMIN
-Route::get('/admin/{path}', function ($path) {
-    return view("admin/{$path}");
+    Route::resource('room-management', RoomManagementController::class);
+    Route::resource('report', ReportController::class)->only(['index']);
 });
 
 Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');

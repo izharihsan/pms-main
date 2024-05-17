@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('property_addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('city')->index()->nullable();
-            $table->unsignedBigInteger('distric')->index()->nullable();
-            $table->unsignedBigInteger('vilage')->index()->nullable();
+            $table->unsignedBigInteger('district')->index()->nullable();
+            $table->unsignedBigInteger('village')->index()->nullable();
             $table->text('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('long')->nullable();
