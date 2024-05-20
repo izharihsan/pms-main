@@ -34,4 +34,13 @@ class Controller extends BaseController
             'ip_address' => request()->ip() ?? 'localhost',
         ]);
     }
+
+    public function responseJson($data = [], $status = true, $message = 'Data retrieved successfully')
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ]);
+    }
 }
