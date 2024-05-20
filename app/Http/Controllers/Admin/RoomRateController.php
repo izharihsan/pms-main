@@ -102,14 +102,14 @@ class RoomRateController extends Controller
 
     private function getAllDatesInCurrentMonth()
     {
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $startDate = Carbon::now()->subDays(2); // 2 days before today
+        $endDate = Carbon::now()->addDays(6);   // 7 days from today
         $dates = collect();
-
-        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
+    
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
             $dates->push($date->copy());
         }
-
+    
         return $dates;
     }
 }

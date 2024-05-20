@@ -1,6 +1,14 @@
 @extends('layouts.admin')
-@section('title', 'Dashboard')
+@section('title', 'Room Rates')
 @section('room_rates', 'active')
+
+@push('css')
+    <style>
+        .highlight-current-date {
+            border-left: 2px solid red;
+        }
+    </style>
+@endpush
 
 @section('breadcrumb')
 <div class="page-header page-header-light shadow">
@@ -183,7 +191,7 @@
                                     </a>
                                 </td>
                                 @foreach ($datesInCurrentMonth as $date)
-                                    <td></td>
+                                    <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}"></td>
                                 @endforeach
                             </tr>
                             <!-- Hidden row -->
@@ -208,7 +216,7 @@
                                                 }
                                             @endphp
 
-                                            <td>
+                                            <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                                 @if (isset($room_r_d) && isset($room_rates))
                                                     {{ number_format($room_r_d->minimum_rate, 2) }}
                                                 @else 
