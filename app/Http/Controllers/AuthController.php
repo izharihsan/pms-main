@@ -48,27 +48,27 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // $response = $this->getToken($request->email, $request->password);
+        $response = $this->getToken($request->email, $request->password);
         $user = User::where('email', $request->email)->first();
 
-        // if ($user) {
-        //     $user->token = $response['token'];
-        //     $user->save();
-        // } else {
-        //     $create = User::create([
-        //         'name' => $request->email,
-        //         'email' => $request->email,
-        //         'token' => $response['token'],
-        //         'password' => Hash::make($request->password)
-        //     ]);
-        // }
+        if ($user) {
+            $user->token = $response['token'];
+            $user->save();
+        } else {
+            $create = User::create([
+                'name' => $request->email,
+                'email' => $request->email,
+                'token' => $response['token'],
+                'password' => Hash::make($request->password)
+            ]);
+        }
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $this->log('Login', null);
 
             return redirect()->route('admin.dashboard.index');
         } else {
-            // return response()->json(['message' => $response['message']], 401);
+            return response()->json(['message' => $response['message']], 401);
         }
     }
 
