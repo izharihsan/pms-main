@@ -218,6 +218,7 @@ class PropertyController extends Controller
                         'properties_id' => $property->id,
                     ]);
                 }
+                $this->log('Update Property', null);
 
                 return back()->with('success', 'Data berhasil ditambahkan');
             });
