@@ -35,7 +35,7 @@ class PropertyController extends Controller
     {
         $apiResource = new ApiResourcesController();
         // $category_facilities = $apiResource->categoryFacilities();
-        $facilities = $apiResource->propertyFacilities()['data']['categories'];
+        // $facilities = $apiResource->propertyFacilities()['data']['categories'];
         // $room_type = $apiResource->roomType();
         // $bed_type = $apiResource->bedType();
 
@@ -99,6 +99,8 @@ class PropertyController extends Controller
             ['id' => 15, 'name' => 'Style 15'],
         ];
 
+        $facilities = [];
+
         if ($request->has('step')) {
             return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'city', 'district', 'village', 'property_style'));
         }else{
@@ -111,7 +113,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
