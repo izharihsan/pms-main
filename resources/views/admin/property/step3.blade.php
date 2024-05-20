@@ -15,7 +15,8 @@
         flex: auto;
         flex-basis: 0;
         flex-grow: 4;
-        height: 500px;
+        height: 300px;
+        margin-bottom: 20px;
     }
 </style>
 @endpush
@@ -27,7 +28,7 @@
         <h6 class="mb-0">Create Property</h6>
     </div>
 
-    <form class="wizard-form steps-basic" id="formSubmit" action="{{ route('admin.property.store')}}" method="POST"
+    <form class="wizard-form steps-validation" id="formSubmit" action="{{ route('admin.property.store')}}" method="POST"
         enctype="multipart/form-data">
         @csrf
 
@@ -37,14 +38,14 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Property Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control "
+                        <input type="text" name="name" id="name" class="form-control required"
                             placeholder="Enter Property Name">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Legal Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="legal_name" id="legal_name" class="form-control"
+                        <input type="text" name="legal_name" id="legal_name" class="form-control required"
                             placeholder="Enter Legal Name">
                     </div>
                 </div>
@@ -54,7 +55,7 @@
                         <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">+62</span>
-                            <input type="text" name="phone" class="form-control " placeholder="628xxxxxxxx">
+                            <input type="text" name="phone" class="form-control required " placeholder="628xxxxxxxx">
                         </div>
                     </div>
                 </div>
@@ -62,7 +63,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Total Room Number: <span class="text-danger">*</span></label>
-                        <input type="number" name="total_room" class="form-control " placeholder="Enter Total Room">
+                        <input type="number" name="total_room" class="form-control required " placeholder="Enter Total Room">
                     </div>
                 </div>
 
@@ -70,7 +71,7 @@
                     <div class="mb-3">
                         <label class="form-label">Business Identification Number (NIB): <span
                                 class="text-danger">*</span></label>
-                        <input type="text" name="nib" class="form-control " placeholder="Enter NIB">
+                        <input type="text" name="nib" class="form-control required " placeholder="Enter NIB">
                     </div>
                 </div>
 
@@ -175,7 +176,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">City: <span class="text-danger">*</span></label>
-                        <select name="city" id="" class="form-control">
+                        <select name="city" id="" class="form-control required">
                             <option value="" selected disabled>-- Select City --</option>
                             @foreach ($city as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -186,7 +187,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">District: <span class="text-danger">*</span></label>
-                        <select name="district" id="" class="form-control">
+                        <select name="district" id="" class="form-control required">
                             <option value="" selected disabled>-- Select District --</option>
                             @foreach ($district as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -197,7 +198,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Village: <span class="text-danger">*</span></label>
-                        <select name="village" id="" class="form-control">
+                        <select name="village" id="" class="form-control required">
                             <option value="" selected disabled>-- Select Village --</option>
                             @foreach ($village as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -208,28 +209,27 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Postal Code: <span class="text-danger">*</span></label>
-                        <input type="number" name="postal_code" class="form-control " placeholder="Enter postal code">
+                        <input type="number" name="postal_code" class="form-control required " placeholder="Enter postal code">
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Street Address: <span class="text-danger">*</span></label>
-                        <textarea name="address" id="address" cols="30" rows="5" class="form-control"></textarea>
+                        <textarea name="address" id="address" cols="30" rows="5" class="form-control required"></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-12">
+            {{-- <div class="col-lg-12">
                 <div class="mb-3">
                     <label class="form-label">Location: <span class="text-danger">*</span></label>
-                    {{-- <input type="text" name="location" class="form-control " placeholder="Enter location"> --}}
                     
                     <select id="location-select" class="form-select"></select>
                     <input type="hidden" id="place-id" name="place_id">
                 </div>
-            </div>
-            <input type="hidden" name="long" value="263182635123">
-            <input type="hidden" name="lat" value="12312.12314.56">
+            </div> --}}
+            <input type="hidden" name="long" id="long" value="263182635123">
+            <input type="hidden" name="lat" id="lat" value="12312.12314.56">
             <div class="col-lg-12">
                 <div id="map"></div>
                 <div id="sidebar"></div>
@@ -243,7 +243,7 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Property Type: <span class="text-danger">*</span></label>
-                    <select name="type_id" id="" class="form-control">
+                    <select name="type_id" id="" class="form-control required">
                         <option value="resort">Resort</option>
                     </select>
                 </div>
@@ -264,7 +264,6 @@
                         </div>
                     </div>
                     @endforeach
-
                 </div>
             </div>
         </fieldset>
@@ -311,6 +310,7 @@
 </div>
 </fieldset>
 
+
 <h6>Contact</h6>
 <fieldset>
     <div class="row">
@@ -319,7 +319,8 @@
                 <h3>Main Contact</h3>
             </div>
         </div>
-
+    </div>
+    <div class="row" id="main-contact">
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Full Name: <span class="text-danger">*</span></label>
@@ -351,13 +352,25 @@
         </div>
 
         <hr>
+    </div>
 
+    <div class="row" id="content-main-contact"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" onclick="addMainContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Main Contact</button>
+        </div>
+    </div>
+
+    {{-- RESERVATION CONTACT --}}
+    <div class="row">
         <div class="col-lg-12">
             <div class="mb-3">
                 <h3>Reservation Contact</h3>
             </div>
         </div>
+    </div>
 
+    <div class="row" id="reservation-contact">
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Full Name: <span class="text-danger">*</span></label>
@@ -390,13 +403,25 @@
         </div>
 
         <hr>
+    </div>
 
+    <div class="row" id="content-reservation-contact"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" onclick="addReservationContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Reservation Contact</button>
+        </div>
+    </div>
+    
+    {{-- ACCOUNTING CONTACT --}}
+    <div class="row">
         <div class="col-lg-12">
             <div class="mb-3">
                 <h3>Accounting Contact</h3>
             </div>
         </div>
+    </div>
 
+    <div class="row" id="accounting-contact">
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Full Name: <span class="text-danger">*</span></label>
@@ -427,6 +452,14 @@
                 <input type="text" name="acounting_contact_position[]" class="form-control " placeholder="">
             </div>
         </div>
+    </div>
+
+    <div class="row" id="content-accounting-contact"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" onclick="addAccountingContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Accounting Contact</button>
+        </div>
+    </div>
 </fieldset>
 
 
@@ -440,6 +473,7 @@
     </div>
 </fieldset>
 
+
 <h6>Terms</h6>
 <fieldset>
     <div class="row">
@@ -452,12 +486,12 @@
             <div class="mb-3">
                 <label class="form-label">Reception Area : <span class="text-danger">*</span></label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="reception_area" id="inlineRadio1" value="1"
+                    <input class="form-check-input required" type="radio" name="reception_area" id="inlineRadio1" value="1"
                         checked>
                     <label class="form-check-label" for="inlineRadio1">Available 24 Hours</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="reception_area" id="inlineRadio2" value="1">
+                    <input class="form-check-input required" type="radio" name="reception_area" id="inlineRadio2" value="1">
                     <label class="form-check-label" for="inlineRadio2">Not Available <span class="text-muted">24
                             Hours</span></label>
                 </div>
@@ -466,48 +500,54 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (from) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_from" class="form-control " placeholder="">
+                <input type="time" name="check_in_from" class="form-control required " placeholder="">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (until) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_until" class="form-control " placeholder="">
+                <input type="time" name="check_in_until" class="form-control required " placeholder="">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (from): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_from" class="form-control " placeholder="999-999-9999">
+                <input type="time" name="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (until): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_until" class="form-control " placeholder="999-999-9999">
+                <input type="time" name="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Distance to City Center: <span class="text-danger">*</span></label>
-                <input type="number" name="range" class="form-control " placeholder="999-999-9999">
+                <div class="input-group">
+                    <input type="number" name="range" class="form-control required " placeholder="Enter Distance to City Center">
+                    <span class="input-group-text">KM</span>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Number of Floors: <span class="text-danger">*</span></label>
-                <input type="number" name="floors" class="form-control " placeholder="999-999-9999">
+                <div class="input-group">
+                    <input type="number" name="floors" class="form-control required " placeholder="Enter Number of Floors">
+                    <span class="input-group-text">Floors</span>
+                </div>
             </div>
         </div>
 
         <div class="col-lg-12">
             <div class="mb-3">
                 <label class="form-label">Cancelation Policy: <span class="text-danger">*</span></label>
-                <select name="cancelation_policy" id="" class="form-control">
+                <select name="cancelation_policy" id="" class="form-control required">
                     <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50% charge</option>
                 </select>
             </div>
@@ -516,7 +556,7 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Room Release Time Type: <span class="text-danger">*</span></label>
-                <select name="release_time_type" id="" class="form-control">
+                <select name="release_time_type" id="" class="form-select required">
                     <option value="1" selected>Hours</option>
                     <option value="2" selected>Minutes</option>
                     <option value="3" selected>Seconds</option>
@@ -527,11 +567,12 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Room Release After Booking: <span class="text-danger">*</span></label>
-                <input type="number" name="release_after_booking" class="form-control " placeholder="Enter Number">
+                <input type="number" name="release_after_booking" class="form-control required " placeholder="Enter Number">
             </div>
         </div>
     </div>
 </fieldset>
+
 
 <h6>Photos</h6>
 <fieldset>
@@ -539,14 +580,24 @@
         <div class="col-lg-12">
             <div class="mb-3">
                 <label class="form-label">Section</label>
-                <select name="section" id="" class="form-select">
-                    <option value="option1">Lobby</option>
-                    <option value="option2">Option 2</option>
+                <select name="" id="section-photo" class="form-select required">
+                    <option value="lobby">Lobby</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
         </div>
-        <div class="col-lg-12">
 
+        <div class="row" id="other-section-photo" hidden>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <label class="form-label">Other Section</label>
+                    <input type="text" class="form-control" name="section" value="lobby" id="input-section-photo"
+                        placeholder="Other Section">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
             <div class="file-photo-property"><span>Your browser doesn't have Flash installed.</span></div>
             <div id="inputPhoto"></div>
         </div>
@@ -628,11 +679,10 @@
 
 
 @push('js')
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4EtvMrbk-iJtGCuaiZ0DIEcOrf7UoTT0&callback=initMap"
-    defer></script> --}}
-    
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4EtvMrbk-iJtGCuaiZ0DIEcOrf7UoTT0&callback=initMap&v=weekly&solution_channel=GMP_CCS_textdirections_v1" async defer></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4EtvMrbk-iJtGCuaiZ0DIEcOrf7UoTT0&libraries=places"></script>
+<script defer
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4EtvMrbk-iJtGCuaiZ0DIEcOrf7UoTT0&loading=async&callback=initMap&libraries=map,marker&libraries=places&v=weekly&solution_channel=GMP_CCS_textdirections_v1">
+</script>
 
 <script>
     $(document).ready(function() {
@@ -670,12 +720,6 @@
                 }
             }
         });
-
-        // Event listener for when a location is selected
-        $('#location-select').on('select2:select', function(e) {
-            var placeId = e.params.data.id;
-            $('#place-id').val(placeId);
-        });
     });
 </script>
 
@@ -685,6 +729,38 @@
         $('#content-address').html(content);
         console.log(content);
     });
+
+    // Event listener for when a location is selected
+    $('#location-select').on('select2:select', function(e) {
+        var placeId = e.params.data.id;
+        $('#place-id').val(placeId);
+    });
+    
+
+    function addMainContact() {
+        var elem = $('#main-contact').html();
+        $('#content-main-contact').append(elem);
+    }
+
+    function addReservationContact(){
+        var elem = $('#reservation-contact').html();
+        $('#content-reservation-contact').append(elem);
+    }
+
+    function addAccountingContact(){
+        var elem = $('#accounting-contact').html();
+        $('#content-accounting-contact').append(elem);
+    }
+
+    $(document).on('change', '#section-photo', function() {
+        if ($(this).val() == 'other') {
+            $('#input-section-photo').val('other');
+            $('#other-section-photo').removeAttr('hidden');
+        } else {
+            $('#other-section-photo').attr('hidden', true);
+            $('#input-section-photo').val($(this).val());
+        }
+    })
 </script>
 
 {{-- MAPS --}}
@@ -694,36 +770,45 @@
        * Copyright 2019 Google LLC. All Rights Reserved.
        * SPDX-License-Identifier: Apache-2.0
        */
-      function initMap() {
-        const directionsRenderer = new google.maps.DirectionsRenderer();
-        const directionsService = new google.maps.DirectionsService();
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 7,
-          center: { lat: 41.85, lng: -87.65 },
-          disableDefaultUI: true,
-        });
+        var map;
+        var marker;
+       function initMap() {
+            // Set the initial map center and zoom level
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -6.200000, lng: 106.816666 },
+                zoom: 8
+            });
+            marker = new google.maps.Marker({
+                position: { lat: -6.200000, lng: 106.816666 },
+                map: map
+            });
 
-        directionsRenderer.setMap(map);
-        directionsRenderer.setPanel(document.getElementById("sidebar"));
+            // Add a click event listener to the map
+            map.addListener('click', function(event) {
+                // Get the latitude and longitude from the clicked location
+                var latitude = event.latLng.lat();
+                var longitude = event.latLng.lng();
 
-        const control = document.getElementById("floating-panel");
+                // Display the coordinates
+                document.getElementById('lat').textContent = latitude;
+                document.getElementById('long').textContent = longitude;
+                addMarker(event.latLng);
+            });
 
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+        }
 
-        const onChangeHandler = function () {
-          calculateAndDisplayRoute(directionsService, directionsRenderer);
-        };
-
-        document
-          .getElementById("start")
-          .addEventListener("change", onChangeHandler);
-        document
-          .getElementById("end")
-          .addEventListener("change", onChangeHandler);
-        document
-          .getElementById("mode")
-          .addEventListener("change", onChangeHandler);
-      }
+        function addMarker(location) {
+            // If a marker already exists, set its position to the new location
+            if (marker) {
+                marker.setPosition(location);
+            } else {
+                // Create a new marker
+                new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+        }
 
       function calculateAndDisplayRoute(directionsService, directionsRenderer) {
         const start = document.getElementById("start").value;

@@ -12,7 +12,7 @@ class RatePlanController extends Controller
     // Asumsi metode log sudah ada di controller
     // protected function log($message, $data)
     // {
-        
+    //     // Implementasi logging di sini
     // }
 
     public function index(Request $request)

@@ -305,10 +305,17 @@
                         <i class="ph-gear me-2"></i>
                         Account settings
                     </a>
-                    <a href="{{ route('logout') }}" class="dropdown-item">
+
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
                         <i class="ph-sign-out me-2"></i>
-                        Logout
+                        {{ __('Logout') }}
                     </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
             </li>
         </ul>
