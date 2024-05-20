@@ -140,7 +140,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item nav-item-submenu">
+                {{-- <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link">
                         <i class="ph-layout"></i>
                         <span>Layouts</span>
@@ -193,10 +193,10 @@
                         <span>Changelog</span>
                         <span class="badge bg-primary align-self-center rounded-pill ms-auto">4.0</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Layout -->
-                <li class="nav-item-header">
+                {{-- <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Layout</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
@@ -376,7 +376,7 @@
                         </li>
                         <li class="nav-item"><a href="#" class="nav-link">Second level</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <!-- /layout -->
 
             </ul>

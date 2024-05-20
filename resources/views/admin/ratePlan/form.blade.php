@@ -71,8 +71,8 @@
                         <div id="meals_form">
                             <input type="checkbox" id="breakfast" name="meals[breakfast]">
                             <label for="breakfast">Breakfast</label>
-                            <input type="checkbox" id="launch" name="meals[launch]">
-                            <label for="launch">Lunch</label>
+                            <input type="checkbox" id="lunch" name="meals[lunch]">
+                            <label for="lunch">Lunch</label>
                             <input type="checkbox" id="dinner" name="meals[dinner]">
                             <label for="dinner">Dinner</label>
                         </div>
