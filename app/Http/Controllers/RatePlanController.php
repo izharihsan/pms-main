@@ -10,15 +10,15 @@ use App\Models\Room;
 class RatePlanController extends Controller
 {
     // Asumsi metode log sudah ada di controller
-    protected function log($message, $data)
-    {
-        // Implementasi logging di sini
-    }
+    // protected function log($message, $data)
+    // {
+        
+    // }
 
     public function index()
     {
         $data = RatePlan::all();
-        $this->log('View Rate Plan', null);
+        $this->log('View Rate Plan', '');
 
         return view('admin.ratePlan.index', compact('data'));
     }
