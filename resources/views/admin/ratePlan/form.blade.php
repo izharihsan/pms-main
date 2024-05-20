@@ -112,7 +112,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Submit'
+                    confirmButtonText: 'Yes, Update It!'
                 }).then((result) => {
                     // If user confirms, submit the form
                     if (result.isConfirmed) {
