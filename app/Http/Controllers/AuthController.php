@@ -48,34 +48,51 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $response = $this->getToken($request->email, $request->password);
-        $user = User::where('email', $request->email)->first();
-        // dd($response);
+        try {
+            $response = $this->getToken($request->email, $request->password);
+            
+            if ($response['status'] == false) {
+                return redirect()->back()->with('danger', $response['message']);
+            }
 
-        if ($user) {
-            $user->token = $response['token'];
-            $user->save();
-        } else {
-            $create = User::create([
-                'name' => $request->email,
-                'email' => $request->email,
-                'token' => $response['token'],
-                'password' => Hash::make($request->password)
-            ]);
-        }
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $this->log('Login', null);
-
-            return redirect()->route('admin.dashboard.index');
-        } else {
-            return response()->json(['message' => $response['message']], 401);
+            $profile = $this->profile($response['token'])['data'];
+            
+            $user = User::where('email', $request->email)->first();
+    
+            if ($user) {
+                $user->token = $response['token'];
+                $user->name = $profile['user_fullname'];
+                $user->avatar = ($profile['avatar'] == '') ? 'https://ui-avatars.com/api/?name='.$profile['user_fullname'] : $profile['avatar'];
+                $user->company_name = $profile['company_name'];
+                $user->status = $profile['status'];
+                $user->save();
+            } else {
+                $create = User::create([
+                    'name' => $request->email,
+                    'email' => $request->email,
+                    'token' => $response['token'],
+                    'name' => $profile['user_fullname'],
+                    'avatar' => ($profile['avatar'] == '') ? 'https://ui-avatars.com/api/?name=' : $profile['avatar'],
+                    'company_name' => $profile['company_name'],
+                    'status' => $profile['status'],
+                    'password' => Hash::make($request->password)
+                ]);
+            }
+    
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $this->log('Login', null);
+    
+                return redirect()->route('admin.dashboard.index');
+            } else {
+                return response()->json(['message' => $response['message']], 401);
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', $th->getMessage());
         }
     }
 
     public function logout()
     {
-        // dd(Auth::user()->token);
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->post($this->ssoUrl . '/auth/logout', [
                 'email' => Auth::user()->email
@@ -84,6 +101,14 @@ class AuthController extends Controller
         $this->log('Logout', null);
         
         Auth::logout();
-        return redirect('/login');
+        return redirect()->route('login')->with('success', 'You don\'t have token');
+    }
+
+    public function profile($token)
+    {   
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
+            ->get($this->ssoUrl . '/user/profile');
+
+        return $response->json();
     }
 }

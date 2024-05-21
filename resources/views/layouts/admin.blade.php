@@ -72,6 +72,19 @@
 				@yield('breadcrumb')
 
                 <div class="content pt-3">
+					{{-- SESSION --}}
+					@if (session('success'))
+						<div class="alert alert-success alert-styled-left alert-arrow-left alert-dismissible">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							{{ session('success') }}
+						</div>
+					@elseif (session('danger'))
+						<div class="alert alert-danger alert-styled-left alert-arrow-left alert-dismissible">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							{{ session('danger') }}
+						</div>
+					@endif
+
                     @yield('content')
                 </div>
 			</div>
