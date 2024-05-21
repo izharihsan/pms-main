@@ -454,6 +454,16 @@
         $('#input-photos').append(elem);
     }
 
+    $(document).on('change', '#section-photo', function() {
+        if ($(this).val() == 'other') {
+            $('#input-section-photo').val('other');
+            $('#other-section-photo').removeAttr('hidden');
+        } else {
+            $('#other-section-photo').attr('hidden', true);
+            $('#input-section-photo').val($(this).val());
+        }
+    })
+
     $(document).on('input', '#room_name', function() {
         var value = $(this).val();
         console.log(value);

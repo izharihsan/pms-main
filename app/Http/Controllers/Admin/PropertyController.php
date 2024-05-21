@@ -99,6 +99,8 @@ class PropertyController extends Controller
             ['id' => 15, 'name' => 'Style 15'],
         ];
 
+        // $facilities = [];
+
         if ($request->has('step')) {
             return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'city', 'district', 'village', 'property_style'));
         }else{
@@ -111,7 +113,6 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
@@ -217,6 +218,7 @@ class PropertyController extends Controller
                         'properties_id' => $property->id,
                     ]);
                 }
+                $this->log('Update Property', null);
 
                 return back()->with('success', 'Data berhasil ditambahkan');
             });

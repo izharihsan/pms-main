@@ -20,13 +20,10 @@ class AuthController extends Controller
 
     public function getToken($email, $password)
     {
-        // dd($this->ssoUrl . '/auth/login');
         $response = Http::post($this->ssoUrl . '/auth/login', [
             'email' => $email,
             'password' => $password,
         ]);
-        // dd($this->ssoUrl . '/auth/login');
-        // dd($response);
 
         Log::info($response->json()['data']);
         if ($response->successful()) {
@@ -69,7 +66,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $this->log('Login', null);
 
-            return response()->json(['message' => $response['message']], 200);
+            return redirect()->route('admin.dashboard.index');
         } else {
             return response()->json(['message' => $response['message']], 401);
         }

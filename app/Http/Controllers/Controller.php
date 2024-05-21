@@ -23,11 +23,24 @@ class Controller extends BaseController
 
     protected function log($action = null, $connected_room = null)
     {
+        if (!auth()->check()) {
+            return abort(401);
+        }
+
         Log::create([
             'user_id' => auth()->user()->id,
             'action' => $action,
             'connected_room' => $connected_room,
             'ip_address' => request()->ip() ?? 'localhost',
+        ]);
+    }
+
+    public function responseJson($data = [], $status = true, $message = 'Data retrieved successfully')
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
         ]);
     }
 }
