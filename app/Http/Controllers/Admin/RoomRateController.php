@@ -9,6 +9,7 @@ use App\Models\RoomRates;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\RoomRatesDetails;
 use Carbon\Carbon;
+use App\Models\RatePlan;
 
 class RoomRateController extends Controller
 {
@@ -31,6 +32,7 @@ class RoomRateController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $rooms = implode(', ', $request->rooms_id);
         // dd($rooms);
 
@@ -40,8 +42,29 @@ class RoomRateController extends Controller
 
         $data = RoomRates::create($requestData);
 
-        Alert::success('Success Title', 'Berhasil Menyimpan Data');
-        return redirect()->route('admin.room-rates.details', $data->id);
+        # get room details
+        $explode = explode(', ', $rooms);
+        $rooms = Room::whereIn('id', $explode)->get();
+
+        $roomsWithRatePlans = [];
+
+        foreach ($rooms as $room) {
+            $ratePlans = RatePlan::where('connected_rooms', 'LIKE', '%' . $room->room_name . '%')->get();
+            $roomsWithRatePlans[] = [
+                'room' => $room,
+                'ratePlans' => $ratePlans
+            ];
+        }
+
+        // dd($roomsWithRatePlans);
+
+        // Alert::success('Success Title', 'Berhasil Menyimpan Data');
+        // return redirect()->route('admin.room-rates.details', $data->id);
+        return json_encode([
+            'room_rate'     => $data,
+            'rooms'         => $rooms,
+            'rate_plans'    => $roomsWithRatePlans
+        ]);
     }
 
     public function details($id)

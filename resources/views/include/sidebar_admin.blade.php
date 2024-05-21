@@ -116,7 +116,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('admin.room-rates.index') }}" class="nav-link @yield('room_rates')">
-                        <i class="ph-article"></i>
+                        <i class="ph-bookmarks-simple"></i>
                         <span>
                             Room Rates
                         </span>
