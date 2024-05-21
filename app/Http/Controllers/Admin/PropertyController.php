@@ -35,7 +35,7 @@ class PropertyController extends Controller
     {
         $apiResource = new ApiResourcesController();
         // $category_facilities = $apiResource->categoryFacilities();
-        $facilities = $apiResource->propertyFacilities()['data']['categories'];
+        $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
         // $room_type = $apiResource->roomType();
         // $bed_type = $apiResource->bedType();
 
