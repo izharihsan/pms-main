@@ -131,13 +131,25 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.report.index') }}" class="nav-link @yield('report')">
                         <i class="ph-calendar-check"></i>
                         <span>
                             Report
                         </span>
                     </a>
+                </li> --}}
+                <li class="nav-item nav-item-submenu">
+                    <a href="#" class="nav-link">
+                        <i class="ph-layout"></i>
+                        <span>Report</span>
+                    </a>
+                    <ul class="nav-group-sub collapse show" style="">
+                        <li class="nav-item"><a href="{{ route('admin.report.activity') }}" class="nav-link @yield('report')">Log Activity</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.roomRate') }}" class="nav-link @yield('report')">Room Rate</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.ratePlan') }}" class="nav-link @yield('report')">Rate Plan</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.roomAvailability') }}" class="nav-link @yield('report')">Room Availability</a></li>
+                    </ul>
                 </li>
 
                 {{-- <li class="nav-item nav-item-submenu">
