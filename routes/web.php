@@ -59,11 +59,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('room-rates/store/details-room/{id}', [RoomRateController::class, 'store_details'])->name('room-rates.store_details');
    
     Route::resource('room-management', RoomManagementController::class);
-    Route::resource('report', ReportController::class)->only(['index']);
+
+    Route::prefix('report')->group(function () {
+        Route::get('activity', [ReportController::class, 'activity'])->name('report.activity');
+        Route::get('room-rate', [ReportController::class, 'roomRate'])->name('report.roomRate');
+        Route::get('rate-plan', [ReportController::class, 'ratePlan'])->name('report.ratePlan');
+        Route::get('room-availability', [ReportController::class, 'roomAvailability'])->name('report.roomAvailability');
+    });
 });
 
 Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

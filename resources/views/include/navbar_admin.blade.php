@@ -8,7 +8,7 @@
         </div>
 
         <div class="navbar-collapse flex-lg-1 order-2 order-lg-1 collapse" id="navbar_search">
-            <div class="navbar-search flex-fill dropdown mt-2 mt-lg-0">
+            {{-- <div class="navbar-search flex-fill dropdown mt-2 mt-lg-0">
                 <div class="form-control-feedback form-control-feedback-start flex-grow-1">
                     <input type="text" class="form-control" placeholder="Search" data-bs-toggle="dropdown">
                     <div class="form-control-feedback-icon">
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <ul class="nav hstack gap-sm-1 flex-row justify-content-end order-1 order-lg-2">
@@ -209,7 +209,7 @@
             </li>
 
             <li class="nav-item nav-item-dropdown-lg dropdown">
-                <a href="#" class="navbar-nav-link navbar-nav-link-icon rounded-pill" data-bs-toggle="dropdown">
+                {{-- <a href="#" class="navbar-nav-link navbar-nav-link-icon rounded-pill" data-bs-toggle="dropdown">
                     <i class="ph-squares-four"></i>
                 </a>
 
@@ -263,7 +263,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </li>
 
             <li class="nav-item">
@@ -276,14 +276,14 @@
             <li class="nav-item nav-item-dropdown-lg dropdown">
                 <a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
                     <div class="status-indicator-container">
-                        <img src="../../../assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
+                        <img src="{{ Auth::user()->avatar }}" class="w-32px h-32px rounded-pill" alt="">
                         <span class="status-indicator bg-success"></span>
                     </div>
-                    <span class="d-none d-lg-inline-block mx-lg-2">Victoria</span>
+                    <span class="d-none d-lg-inline-block mx-lg-2">{{ Auth::user()->name }}</span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a href="#" class="dropdown-item">
+                    {{-- <a href="#" class="dropdown-item">
                         <i class="ph-user-circle me-2"></i>
                         My profile
                     </a>
@@ -304,7 +304,7 @@
                     <a href="#" class="dropdown-item">
                         <i class="ph-gear me-2"></i>
                         Account settings
-                    </a>
+                    </a> --}}
 
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();

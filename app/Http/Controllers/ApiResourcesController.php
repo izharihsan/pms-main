@@ -13,6 +13,12 @@ class ApiResourcesController extends Controller
     public function __construct()
     {
         $this->ssoUrl = env('APP_SSO_URL');
+
+        // IF USER DONT HAVE TOKEN
+        if (Auth::user()->token == null) {
+            $logout = new AuthController();
+            $logout->logout();
+        }
     }
 
     public function healthCheck()
@@ -83,6 +89,16 @@ class ApiResourcesController extends Controller
             ->get($this->ssoUrl . '/product/'.$product_code);
 
         $this->log('View Api Product', null);
+
+        return $response->json();
+    }
+
+    public function profile()
+    {
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
+            ->get($this->ssoUrl . '/user/profile');
+
+        $this->log('View Api Profile', null);
 
         return $response->json();
     }

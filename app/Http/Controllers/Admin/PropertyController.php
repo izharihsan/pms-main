@@ -35,32 +35,32 @@ class PropertyController extends Controller
     {
         $apiResource = new ApiResourcesController();
         // $category_facilities = $apiResource->categoryFacilities();
-        $facilities = $apiResource->propertyFacilities()['data']['categories'];
+        $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
         // $room_type = $apiResource->roomType();
         // $bed_type = $apiResource->bedType();
 
         $category_facilities['data'] = [
-            ['id' => 1, 'name' => 'Lodging', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 2, 'name' => 'Riad', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 3, 'name' => 'Single-Family Home', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 4, 'name' => 'Townhome', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 5, 'name' => 'Country House', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 6, 'name' => 'Apartment', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 7, 'name' => 'Hotel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 8, 'name' => 'House', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 9, 'name' => 'Resort', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 10, 'name' => 'Inn', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 11, 'name' => 'Ryokan', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 12, 'name' => 'Love Hotel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 13, 'name' => 'Villa', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 14, 'name' => 'Motel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 15, 'name' => 'Aparthotel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 16, 'name' => 'Homestay', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 17, 'name' => 'Farm Stay', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 18, 'name' => 'Guest House', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 19, 'name' => 'Hostel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 20, 'name' => 'Capsule Hotel', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 21, 'name' => 'Bed and Breakfast', 'desc' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 1, 'name' => 'Lodging', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 2, 'name' => 'Riad', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 3, 'name' => 'Single-Family Home', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 4, 'name' => 'Townhome', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 5, 'name' => 'Country House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 6, 'name' => 'Apartment', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 7, 'name' => 'Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 8, 'name' => 'House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 9, 'name' => 'Resort', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 10, 'name' => 'Inn', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 11, 'name' => 'Ryokan', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 12, 'name' => 'Love Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 13, 'name' => 'Villa', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 14, 'name' => 'Motel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 15, 'name' => 'Aparthotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 16, 'name' => 'Homestay', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 17, 'name' => 'Farm Stay', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 18, 'name' => 'Guest House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 19, 'name' => 'Hostel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 20, 'name' => 'Capsule Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
+            ['id' => 21, 'name' => 'Bed and Breakfast', 'description' => 'A place where people can stay, especially when they are on a long journey'],
         ];
 
         $city = [
@@ -113,12 +113,14 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
                     'name' => $request->name,
                     'legal_name' => $request->legal_name,
                     'phone' => $request->phone,
+                    'property_type' => $request->property_type,
                     'total_room' => $request->total_room,
                     'nib' => $request->nib,
                     'category' => \Str::lower($request->category),
@@ -143,37 +145,43 @@ class PropertyController extends Controller
                     'properties_id' => $property->id,
                 ]);
 
-                foreach ($request->main_contact_name as $key => $value) {
-                    $property_contact_main = PropertyContact::create([
-                        'name' => $value,
-                        'email' => $request->main_contact_email[$key],
-                        'phone' => (int)$request->main_contact_phone[$key],
-                        'position' => $request->main_contact_position[$key],
-                        'type' => 1,
-                        'properties_id' => $property->id,
-                    ]);
+                if ($request->has('main_contact_name') && $request->main_contact_name[0] != null) {
+                    foreach ($request->main_contact_name as $key => $value) {
+                        $property_contact_main = PropertyContact::create([
+                            'name' => $value,
+                            'email' => $request->main_contact_email[$key],
+                            'phone' => (int)$request->main_contact_phone[$key],
+                            'position' => $request->main_contact_position[$key],
+                            'type' => 1,
+                            'properties_id' => $property->id,
+                        ]);
+                    }
                 }
 
-                foreach ($request->reservation_contact_name as $key => $value) {
-                    $property_contact_res = PropertyContact::create([
-                        'name' => $value,
-                        'email' => $request->reservation_contact_email[$key],
-                        'phone' => (int)$request->reservation_contact_phone[$key],
-                        'position' => $request->reservation_contact_position[$key],
-                        'type' => 2,
-                        'properties_id' => $property->id,
-                    ]);
+                if ($request->has('reservation_contact_name') && $request->reservation_contact_name[0] != null) {
+                    foreach ($request->reservation_contact_name as $key => $value) {
+                        $property_contact_res = PropertyContact::create([
+                            'name' => $value,
+                            'email' => $request->reservation_contact_email[$key],
+                            'phone' => (int)$request->reservation_contact_phone[$key],
+                            'position' => $request->reservation_contact_position[$key],
+                            'type' => 2,
+                            'properties_id' => $property->id,
+                        ]);
+                    }
                 }
 
-                foreach ($request->acounting_contact_name as $key => $value) {
-                    $property_contact_acc = PropertyContact::create([
-                        'name' => $value,
-                        'email' => $request->acounting_contact_email[$key],
-                        'phone' => $request->acounting_contact_phone[$key],
-                        'position' => $request->acounting_contact_position[$key],
-                        'type' => 3,
-                        'properties_id' => $property->id,
-                    ]);
+                if ($request->has('acounting_contact_name') && $request->acounting_contact_name[0] != null) {
+                    foreach ($request->acounting_contact_name as $key => $value) {
+                        $property_contact_acc = PropertyContact::create([
+                            'name' => $value,
+                            'email' => $request->acounting_contact_email[$key],
+                            'phone' => $request->acounting_contact_phone[$key],
+                            'position' => $request->acounting_contact_position[$key],
+                            'type' => 3,
+                            'properties_id' => $property->id,
+                        ]);
+                    }
                 }
         
                 foreach ($request->facility_id as $key => $value) {
@@ -207,20 +215,24 @@ class PropertyController extends Controller
                     ]);
                 }
 
-                foreach ($request->property_doc as $key => $value) {
-                    PropertyDocument::find($value)->update([
-                        'properties_id' => $property->id,
-                    ]);
+                if ($request->has('property_doc')) {
+                    foreach ($request->property_doc as $key => $value) {
+                        PropertyDocument::find($value)->update([
+                            'properties_id' => $property->id,
+                        ]);
+                    }
                 }
 
-                foreach ($request->property_photo as $key => $value) {
-                    PropertyPhotos::find($value)->update([
-                        'properties_id' => $property->id,
-                    ]);
+                if ($request->has('property_photo')) {
+                    foreach ($request->property_photo as $key => $value) {
+                        PropertyPhotos::find($value)->update([
+                            'properties_id' => $property->id,
+                        ]);
+                    }
                 }
-                $this->log('Update Property', null);
+                $this->log('Create Property', null);
 
-                return back()->with('success', 'Data berhasil ditambahkan');
+                return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {
             dd($th);

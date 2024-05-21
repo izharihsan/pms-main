@@ -77,7 +77,7 @@
 
                 {{-- STEP 1 & 2 --}}
                 <input type="hidden" name="category" value="{{ \Request::get('category') }}">
-                <input type="hidden" name="property_id" value="{{ \Request::get('property_id') }}">
+                <input type="hidden" name="property_type" value="{{ \Request::get('property_type') }}">
 
                 <div class="col-lg-12">
                     <div class="row">
@@ -500,27 +500,27 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (from) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_from" class="form-control required " placeholder="">
+                <input type="time" name="check_in_from" id="check_in_from" class="form-control required " placeholder="">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (until) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_until" class="form-control required " placeholder="">
+                <input type="time" name="check_in_until" id="check_in_until" class="form-control required " placeholder="">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (from): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
+                <input type="time" name="check_out_from" id="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (until): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
+                <input type="time" name="check_out_until" id="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
@@ -761,6 +761,26 @@
             $('#input-section-photo').val($(this).val());
         }
     })
+
+    $(document).on('change', '#check_in_until', function() {
+        var dateFrom = $('#check_in_from').val();
+        var dateTo = $(this).val();
+
+        if (dateTo < dateFrom) {
+            $(this).val(dateFrom);
+            alert('Checkin Until tidak boleh kurang dari Checkin From');
+        }
+    });
+
+    $(document).on('change', '#check_out_until', function() {
+        var dateFrom = $('#check_out_from').val();
+        var dateTo = $(this).val();
+
+        if (dateTo < dateFrom) {
+            $(this).val(dateFrom);
+            alert('Checkout Until tidak boleh kurang dari Checkout From');
+        }
+    });
 </script>
 
 {{-- MAPS --}}

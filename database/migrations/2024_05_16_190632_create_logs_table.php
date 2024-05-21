@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('action')->nullable();
             $table->string('connected_room')->nullable();
             $table->string('ip_address')->nullable();
+
+            $table->unsignedBigInteger('property_id')->index()->nullable();
+            
             $table->timestamps();
         });
     }
