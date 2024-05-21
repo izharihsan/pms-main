@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title', 'Add Room Rate')
-
+@section('room_rates', 'active')
 
 @section('breadcrumb')
 <div class="page-header page-header-light shadow">
@@ -163,7 +163,7 @@
                         <div class="mb-3">
                             <h3>Add Room Rate</h3>
                         </div>
-                        <form action="{{ route('admin.room-rates.store') }}" method="POST" id="submitform">
+                        <form action="#" method="POST" id="submitform">
                             @csrf
 
                             <div class="row">
@@ -198,7 +198,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-end flex-nowrap">
-                                <button type="submit" class="ms-auto btn btn-primary">Apply</button>
+                                <button id="submitBtn" type="submit" class="ms-auto btn btn-primary">Apply</button>
                             </div>
                         </form>
                     </div>
@@ -207,43 +207,44 @@
                 </div>
             </div>
 
-            {{-- <div class="card">
+            <div class="card" id="card_rate_d">
                 <div class="card-body row">
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <h3>Room Rate Detail</h3>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-
-                                <div class="mb-3">
-                                    <h5>Delux Sweet</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="mb-3">
-                                            <label class="form-label">Rate Plan</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Serch Rate Plan</option>
-                                                <option value="1">One</option>
-                                            </select>
-                                        </div>
+                        <div id="card_details">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h5>Delux Sweet</h5>
                                     </div>
-                                    <div class="col-lg-1">
-                                        <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Rate Plan</label>
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected>Serch Rate Plan</option>
+                                                    <option value="1">One</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <input type="text" name="end_date" value="IDR" class="form-control required" placeholder="">
-                                                </div>
-                                                <div class="col">
-                                                    <input type="text" name="end_date" class="form-control required" placeholder="">
+                                        <div class="col-lg-1">
+                                            <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <input type="text" name="end_date" value="IDR" class="form-control required" placeholder="">
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" name="end_date" class="form-control required" placeholder="">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -251,56 +252,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-
-                                <div class="mb-3">
-                                    <h5>Executive Suite</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="mb-3">
-                                            <label class="form-label">Rate Plan</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Serch Rate Plan</option>
-                                                <option value="1">One</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <input type="text" name="end_date" value="IDR" class="form-control required" placeholder="">
-                                                </div>
-                                                <div class="col">
-                                                    <input type="text" name="end_date" class="form-control required" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                     <div class="d-flex align-items-end flex-nowrap">
                         <div class="ms-auto">
                             <button type="submit" class="btn btn-outline-primary">Cancle</button>
                             <button type="button" class="btn btn-primary">Save</button>
-                            <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
-                            <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a>
+                            {{-- <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
+                            <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a> --}}
                         </div>
                     </div>
 
                 </div>
-            </div> --}}
+            </div>
 
         </div>
         <!-- /content area -->
@@ -330,69 +294,156 @@
 
 @endsection
 @push('js')
+    <script>
+        $(document).ready(function() {
+            $('#card_rate_d').hide();
+        });
+    </script>
 
-<script>
-    function edit() {
-        $.ajax({
-            url: '/property/edit',
-            type: 'GET',
-            success: function(data) {
-                $('#formEdit').html(data);
-                $('#modal_update_data').modal('show');
-                actionCloseModals();
-            }
-        })
-    }
+    <script>
+        $('#submitBtn').click(function() {
+            event.preventDefault();
 
-    function confirmDelete(event, id) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this record!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $('#dubmitzform').submit()
-                var postForm = {
-                    '_token': '{{ csrf_token() }}',
-                    '_method': 'DELETE',
-                };
-                $.ajax({
-                        url: '/employee/' + id,
-                        type: 'POST',
-                        data: postForm,
-                        dataType: 'json',
-                    })
-                    .done(function(data) {
-                        Swal.fire('Deleted!', data['message'], 'success');
-                        location.reload();
-                    })
-                    .fail(function() {
-                        Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+            $.ajax({
+                url: "{{ route('admin.room-rates.store') }}",
+                type: 'POST',
+                data: $("#submitform").serialize(),
+                success: function(data) {
+                    var response = JSON.parse(data);
+
+                    var ratePlansByRoomId = {};
+                    response.rate_plans.forEach(function(ratePlan) {
+                        var roomId = ratePlan.room.id;
+                        if (!ratePlansByRoomId[roomId]) {
+                            ratePlansByRoomId[roomId] = [];
+                        }
+                        ratePlansByRoomId[roomId].push(ratePlan.ratePlans);
                     });
-            }
-        });
-    }
 
-    function confirmSave(event) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Are you sure you want to save this data? Please make sure all data is correct!',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, Update it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $('#submitform').submit()
-            }
+                    // console.log(ratePlansByRoomId);
+                    $('#card_details').empty();
+                    response.rooms.forEach(function(room) {
+                        var ratePlans = ratePlansByRoomId[room.id] || [];
+                        // console.log(ratePlans);
+                 
+                        var cardHtml = `
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h5>${room.room_name}</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Rate Plan</label>
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected>Search Rate Plan</option>`;
+                                                    ratePlans.forEach(function(ratePlanSub) {
+                                                        ratePlanSub.forEach(element => {
+                                                            cardHtml += `<option value="${element.id}">${element.name}</option>`;
+                                                        });
+                                                    });
+                                                cardHtml += `</select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <label class="form-check-label mb-2" for="flexSwitchCheckChecked${room.id}">Stop Sell</label>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked${room.id}" checked>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Rate <span class="text-danger">(Minimum rate: ${room.min_rate})</span></label>
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <input type="text" name="currency" value="IDR" class="form-control required" placeholder="">
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" name="rate" class="form-control required" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        // Append the new card to the card_details container
+                        $('#card_details').append(cardHtml);
+                    });
+
+                    // console.log(response);
+                    // $('#formEdit').html(data);
+                    // $('#modal_update_data').modal('show');
+                    // actionCloseModals();
+                    $('#card_rate_d').show();
+                }
+            })
         });
-    }
-</script>
+
+        function edit() {
+            $.ajax({
+                url: '/property/edit',
+                type: 'GET',
+                success: function(data) {
+                    $('#formEdit').html(data);
+                    $('#modal_update_data').modal('show');
+                    actionCloseModals();
+                }
+            })
+        }
+
+        function confirmDelete(event, id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this record!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#dubmitzform').submit()
+                    var postForm = {
+                        '_token': '{{ csrf_token() }}',
+                        '_method': 'DELETE',
+                    };
+                    $.ajax({
+                            url: '/employee/' + id,
+                            type: 'POST',
+                            data: postForm,
+                            dataType: 'json',
+                        })
+                        .done(function(data) {
+                            Swal.fire('Deleted!', data['message'], 'success');
+                            location.reload();
+                        })
+                        .fail(function() {
+                            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                        });
+                }
+            });
+        }
+
+        function confirmSave(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to save this data? Please make sure all data is correct!',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Update it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#submitform').submit()
+                }
+            });
+        }
+    </script>
 @endpush

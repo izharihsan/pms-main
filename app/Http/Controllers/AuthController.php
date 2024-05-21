@@ -50,6 +50,7 @@ class AuthController extends Controller
 
         $response = $this->getToken($request->email, $request->password);
         $user = User::where('email', $request->email)->first();
+        // dd($response);
 
         if ($user) {
             $user->token = $response['token'];
@@ -74,6 +75,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        // dd(Auth::user()->token);
         $response = Http::withHeaders(['Authorization' => 'Bearer ' . Auth::user()->token])
             ->post($this->ssoUrl . '/auth/logout', [
                 'email' => Auth::user()->email

@@ -1,6 +1,14 @@
 @extends('layouts.admin')
-@section('title', 'Dashboard')
+@section('title', 'Room Rates')
 @section('room_rates', 'active')
+
+@push('css')
+    <style>
+        .highlight-current-date {
+            border-left: 2px solid red;
+        }
+    </style>
+@endpush
 
 @section('breadcrumb')
 <div class="page-header page-header-light shadow">
@@ -156,11 +164,20 @@
     <div class="content-inner">
 
         <!-- Content area -->
-        <div class="content">
-            <div class="d-flex align-items-end flex-nowrap">
-                <a href="{{ route('admin.room-rates.create') }}" type="button" class="btn btn-primary ms-auto mb-4">Bulk Add/Update</a>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <div class="float-end mt-4">
+                            <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
+                            <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
+                            <a href="{{ route('admin.room-rates.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card">
+
+            <div class="card-body">
                 <table class="table datatable-fixed-left">
                     <thead>
                         <tr>
@@ -183,7 +200,7 @@
                                     </a>
                                 </td>
                                 @foreach ($datesInCurrentMonth as $date)
-                                    <td></td>
+                                    <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}" style="align-items: center;"></td>
                                 @endforeach
                             </tr>
                             <!-- Hidden row -->
@@ -208,7 +225,7 @@
                                                 }
                                             @endphp
 
-                                            <td>
+                                            <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}" style="align-items: center;">
                                                 @if (isset($room_r_d) && isset($room_rates))
                                                     {{ number_format($room_r_d->minimum_rate, 2) }}
                                                 @else 
@@ -222,70 +239,71 @@
                             </div>
                         </tbody>
                     @endforeach
-              
+                
                 </table>
-                {{-- <table class="table datatable-fixed-left">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col-3">Room</th>
-
-                            @foreach ($datesInCurrentMonth as $date)
-                                <th scope="col">{{ $date->format('d D') }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row" class="text-dark fs-5">⊝<span class="px-2 fs-6"> Deluxe Sweet</span></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="px-5">Room Only</th>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-dark fs-5">⊝<span class="px-2 fs-6"> Executive Suite</span></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="px-5">Room Only</th>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                            <td>300.000</td>
-                        </tr>
-                    </tbody>
-                </table> --}}
             </div>
+            
+            {{-- <table class="table datatable-fixed-left">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col-3">Room</th>
+
+                        @foreach ($datesInCurrentMonth as $date)
+                            <th scope="col">{{ $date->format('d D') }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" class="text-dark fs-5">⊝<span class="px-2 fs-6"> Deluxe Sweet</span></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="px-5">Room Only</th>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-dark fs-5">⊝<span class="px-2 fs-6"> Executive Suite</span></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="px-5">Room Only</th>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                        <td>300.000</td>
+                    </tr>
+                </tbody>
+            </table> --}}
         </div>
         <!-- /content area -->
 
@@ -298,52 +316,58 @@
 </div>
 <!-- /page content -->
 @endsection
-@push('script')
-
-<script>
-    function edit(id) {
-        $.ajax({
-            url: '/employee/' + id + '/edit',
-            type: 'GET',
-            success: function(data) {
-                $('#formEdit').html(data);
-                $('#modal_update_data').modal('show');
-                actionCloseModals();
-            }
-        })
-    }
-
-    function confirmDelete(event, id) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this record!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var postForm = {
-                    '_token': '{{ csrf_token() }}',
-                    '_method': 'DELETE',
-                };
-                $.ajax({
-                        url: '/employee/' + id,
-                        type: 'POST',
-                        data: postForm,
-                        dataType: 'json',
-                    })
-                    .done(function(data) {
-                        Swal.fire('Deleted!', data['message'], 'success');
-                        location.reload();
-                    })
-                    .fail(function() {
-                        Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-                    });
-            }
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#DataTables_Table_0_filter').hide();
+            $('#DataTables_Table_0_length').hide();
         });
-    }
-</script>
+    </script>
+
+    <script>
+        function edit(id) {
+            $.ajax({
+                url: '/employee/' + id + '/edit',
+                type: 'GET',
+                success: function(data) {
+                    $('#formEdit').html(data);
+                    $('#modal_update_data').modal('show');
+                    actionCloseModals();
+                }
+            })
+        }
+
+        function confirmDelete(event, id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this record!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var postForm = {
+                        '_token': '{{ csrf_token() }}',
+                        '_method': 'DELETE',
+                    };
+                    $.ajax({
+                            url: '/employee/' + id,
+                            type: 'POST',
+                            data: postForm,
+                            dataType: 'json',
+                        })
+                        .done(function(data) {
+                            Swal.fire('Deleted!', data['message'], 'success');
+                            location.reload();
+                        })
+                        .fail(function() {
+                            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                        });
+                }
+            });
+        }
+    </script>
 @endpush

@@ -13,7 +13,45 @@
             </div>
             <div class="col">
                 <div class="float-end mt-4">
-                    <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
+                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="dropdown"><i class="ph-funnel"></i> Filter</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        {{-- <a href="#" class="dropdown-item">Action</a>
+                        <a href="#" class="dropdown-item">Another action</a>
+                        <a href="#" class="dropdown-item">Something else here</a>
+                        <a href="#" class="dropdown-item">One more line</a> --}}
+                        <form action="{{ route('admin.rate_plan.index') }}" method="GET">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="dropdown-item">Filter Options</label>
+                                    <label for="" class="fw-bold dropdown-item">Meals Plan</label>
+                                    <div class="form-group" style="width: 80%; margin: 0 auto;">
+                                        <select name="meals" id="" class="form-control" required>
+                                            <option value="">-- Select --</option>
+                                            <option value="all">All</option>
+                                            <option value="no_meals">No Meals</option>
+                                            <option value="breakfast">Breakfast</option>
+                                            <option value="lunch">Lunch</option>
+                                            <option value="dinner">Dinner</option>
+                                        </select>
+                                    </div>
+                                    <label for="" class="fw-bold dropdown-item">Rooms</label>
+                                    <div class="form-group" style="width: 80%; margin: 0 auto;">
+                                        <select name="room" id="" class="form-control" required>
+                                            <option value="">-- Select --</option>
+                                            <option value="all">All</option>
+                                            @foreach ($rooms as $item)
+                                                <option value="{{ $item->room_name }}">{{ $item->room_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="float-end mt-4" style="margin-right: 5%;">
+                                        <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">Reset</a>
+                                        <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a>
                 </div>
             </div>
@@ -41,7 +79,7 @@
                             <td>
                                 {{ $item->description }}
                             </td>
-                            <td>@if($item->meels !== null) Meeals @else No Meals @endif</td>
+                            <td>@if($item->meals !== null) Meals @else No Meals @endif</td>
                             <td>{{ $item->cancelation_policy }}</td>
                             <td>
                                 <a href="{{ route('admin.rate_plan.show', $item->id) }}" type="button" class="btn btn-primary btn-sm p-1">

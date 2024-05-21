@@ -15,12 +15,28 @@ class RatePlanController extends Controller
     //     // Implementasi logging di sini
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = RatePlan::all();
-        $this->log('View Rate Plan', null);
+        // dd($request->room);
 
-        return view('admin.ratePlan.index', compact('data'));
+        if (isset($request->meals) || isset($request->room)) {
+            if ($request->meals !== 'all' && $request->room !== 'all') {
+                $data = RatePlan::where('meals', 'LIKE', '%'. $request->meals .'%')
+                ->where('connected_rooms', 'LIKE', '%'. $request->room .'%')
+                ->get();
+            }else{
+                $data = RatePlan::all();
+            }
+        }else{
+            $data = RatePlan::all();
+        }
+ 
+
+        $rooms = Room::all();
+
+        $this->log('View Rate Plan', '');
+
+        return view('admin.ratePlan.index', compact('data', 'rooms'));
     }
 
     public function form($id = null)
