@@ -53,10 +53,13 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                         <i class="ph-house"></i>
-                        <span>
-                            Dashboard
-                            <span class="d-block fw-normal opacity-50">No pending orders</span>
-                        </span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.manage-user.index') }}" class="nav-link" @yield('manage_user')>
+                        <i class="ph-users"></i>
+                        Manage User
                     </a>
                 </li>
                 <li class="nav-item">

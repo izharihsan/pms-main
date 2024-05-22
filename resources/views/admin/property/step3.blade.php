@@ -38,7 +38,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Property Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control required"
+                        <input type="text" name="name" id="property_name" class="form-control required"
                             placeholder="Enter Property Name">
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">+62</span>
-                            <input type="text" name="phone" class="form-control required " placeholder="628xxxxxxxx">
+                            <input type="text" name="phone" id="property_phone" class="form-control required " placeholder="628xxxxxxxx">
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,15 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Total Room Number: <span class="text-danger">*</span></label>
-                        <input type="number" name="total_room" class="form-control required " placeholder="Enter Total Room">
+                        <input type="number" name="total_room" id="property_room" class="form-control required " placeholder="Enter Total Room">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Email: <span
+                                class="text-danger">*</span></label>
+                        <input type="email" name="email" id="property_email" class="form-control required " placeholder="Enter Email">
                     </div>
                 </div>
 
@@ -75,7 +83,6 @@
                     </div>
                 </div>
 
-                {{-- STEP 1 & 2 --}}
                 <input type="hidden" name="category" value="{{ \Request::get('category') }}">
                 <input type="hidden" name="property_type" value="{{ \Request::get('property_type') }}">
 
@@ -167,31 +174,31 @@
                     </div>
                 </div>
 
-                {{-- Property Address --}}
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <h3>Property Address</h3>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="mb-3">
-                        <label class="form-label">City: <span class="text-danger">*</span></label>
-                        <select name="city" id="city" class="form-control required">
-                            <option value="" selected disabled>-- Select City --</option>
-                            @foreach ($city as $item)
-                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                            @endforeach
+                        <label class="form-label">Province: <span class="text-danger">*</span></label>
+                        <select name="province" id="province" class="form-control required">
+                            <option value="" selected disabled>-- Select Province --</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label">City: <span class="text-danger">*</span></label>
+                        <select name="city" id="city" class="form-control required">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
                     <div class="mb-3">
                         <label class="form-label">District: <span class="text-danger">*</span></label>
                         <select name="district" id="district" class="form-control required">
                             <option value="" selected disabled>-- Select District --</option>
-                            @foreach ($district as $item)
-                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -200,9 +207,6 @@
                         <label class="form-label">Village: <span class="text-danger">*</span></label>
                         <select name="village" id="village" class="form-control required">
                             <option value="" selected disabled>-- Select Village --</option>
-                            @foreach ($village as $item)
-                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -215,7 +219,7 @@
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Street Address: <span class="text-danger">*</span></label>
-                        <textarea name="address" id="address" cols="30" rows="5" class="form-control required"></textarea>
+                        <textarea name="address" id="property_address" cols="30" rows="5" class="form-control required"></textarea>
                     </div>
                 </div>
             </div>
@@ -318,44 +322,47 @@
             </div>
         </div>
     </div>
-    <div class="row" id="main-contact">
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                <input type="text" name="main_contact_name[]" class="form-control " placeholder="">
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Email: <span class="text-danger">*</span></label>
-                <input type="email" name="main_contact_email[]" class="form-control " placeholder="">
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <span class="input-group-text">+62</span>
-                    <input type="text" name="main_contact_phone[]" class="form-control " placeholder="999-999-9999">
+    <div id="main-contact">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                    <input type="text" name="main_contact_name[]" class="form-control " placeholder="">
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Position: <span class="text-danger">*</span></label>
-                <input type="text" name="main_contact_position[]" class="form-control " placeholder="">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                    <input type="email" name="main_contact_email[]" class="form-control " placeholder="">
+                </div>
             </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">+62</span>
+                        <input type="text" name="main_contact_phone[]" class="form-control " placeholder="999-999-9999">
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                    <input type="text" name="main_contact_position[]" class="form-control " placeholder="">
+                </div>
+            </div>
+    
+            <hr>
         </div>
-
-        <hr>
     </div>
 
-    <div class="row" id="content-main-contact"></div>
+    <div id="content-main-contact"></div>
     <div class="row">
         <div class="col-md-12">
             <button type="button" onclick="addMainContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Main Contact</button>
+            <button type="button" onclick="removeMainContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Main Contact</button>
         </div>
     </div>
 
@@ -368,45 +375,48 @@
         </div>
     </div>
 
-    <div class="row" id="reservation-contact">
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                <input type="text" name="reservation_contact_name[]" class="form-control " placeholder="">
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Email: <span class="text-danger">*</span></label>
-                <input type="email" name="reservation_contact_email[]" class="form-control " placeholder="">
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <span class="input-group-text">+62</span>
-                    <input type="text" name="reservation_contact_phone[]" class="form-control "
-                        placeholder="999-999-9999">
+    <div id="reservation-contact">
+        <div class="row" >
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                    <input type="text" name="reservation_contact_name[]" class="form-control " placeholder="">
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Position: <span class="text-danger">*</span></label>
-                <input type="text" name="reservation_contact_position[]" class="form-control " placeholder="">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                    <input type="email" name="reservation_contact_email[]" class="form-control " placeholder="">
+                </div>
             </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">+62</span>
+                        <input type="text" name="reservation_contact_phone[]" class="form-control "
+                            placeholder="999-999-9999">
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                    <input type="text" name="reservation_contact_position[]" class="form-control " placeholder="">
+                </div>
+            </div>
+    
+            <hr>
         </div>
-
-        <hr>
     </div>
 
-    <div class="row" id="content-reservation-contact"></div>
+    <div id="content-reservation-contact"></div>
     <div class="row">
         <div class="col-md-12">
             <button type="button" onclick="addReservationContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Reservation Contact</button>
+            <button type="button" onclick="removeReservationContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Reservation Contact</button>
         </div>
     </div>
     
@@ -419,43 +429,48 @@
         </div>
     </div>
 
-    <div class="row" id="accounting-contact">
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                <input type="text" name="acounting_contact_name[]" class="form-control " placeholder="">
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Email: <span class="text-danger">*</span></label>
-                <input type="email" name="acounting_contact_email[]" class="form-control " placeholder="">
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <span class="input-group-text">+62</span>
-                    <input type="text" name="acounting_contact_phone[]" class="form-control "
-                        placeholder="999-999-9999">
+    <div id="accounting-contact">
+        <div class="row" >
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                    <input type="text" name="acounting_contact_name[]" class="form-control " placeholder="">
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Position: <span class="text-danger">*</span></label>
-                <input type="text" name="acounting_contact_position[]" class="form-control " placeholder="">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                    <input type="email" name="acounting_contact_email[]" class="form-control " placeholder="">
+                </div>
             </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">+62</span>
+                        <input type="text" name="acounting_contact_phone[]" class="form-control "
+                            placeholder="999-999-9999">
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                    <input type="text" name="acounting_contact_position[]" class="form-control " placeholder="">
+                </div>
+            </div>
+
+            <hr>
         </div>
     </div>
 
-    <div class="row" id="content-accounting-contact"></div>
-    <div class="row">
+    <div id="content-accounting-contact"></div>
+    <div class="row mb-3">
         <div class="col-md-12">
             <button type="button" onclick="addAccountingContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Accounting Contact</button>
+            <button type="button" onclick="removeAccountingContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Accounting Contact</button>
         </div>
     </div>
 </fieldset>
@@ -589,16 +604,16 @@
             <div class="col-lg-12">
                 <div class="mb-3">
                     <label class="form-label">Other Section</label>
-                    <input type="text" class="form-control" name="section" value="lobby" id="input-section-photo"
+                    <input type="text" class="form-control" id="section" value="lobby" id="input-section-photo"
                         placeholder="Other Section">
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-12">
+        <div class="col-lg-12" id="sectionPhoto">
             <div class="file-photo-property"><span>Your browser doesn't have Flash installed.</span></div>
-            <div id="inputPhoto"></div>
         </div>
+        <div id="inputPhoto"></div>
 
         <hr>
     </div>
@@ -630,7 +645,7 @@
                     <div class="col-lg-8">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <h3 class="mb-0">Bali Spa</h3>
+                                <h3 class="mb-0" id="content_property_name"></h3>
                                 {{-- <div class="ms-auto">
                                     <a class="text-white" data-card-action="reload">
                                         <i class="ph-arrows-clockwise"></i>
@@ -649,19 +664,25 @@
 
                             {{-- Homestay --}}
                             <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-building  me-1"></i>
+                                <i class="fa-solid fa-house me-1"></i>
                                 <span class="">Homestay</span>
                             </div>
                             {{-- LOCATION --}}
                             <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-location-dot  me-1"></i>
-                                <span class="" id="content-address">Jl. Gatot Subroto Barat No. 282</span>
+                                <i class="fa-solid fa-location-dot me-1"></i>
+                                <span class="" id="content_property_address"></span>
                             </div>
-                            {{-- BUTTON Manage Property --}}
                             <div class="d-flex align-items-center">
-                                <a href="" class="btn btn-primary btn-block mt-3">
-                                    Manage Property
-                                </a>
+                                <i class="fa-solid fa-phone me-1"></i>
+                                <span class="" id="content_property_email"></span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-phone me-1"></i>
+                                <span class="" id="content_property_phone"></span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-bed me-1"></i>
+                                <span class="" id="content_property_room"></span>
                             </div>
                         </div>
                     </div>
@@ -780,6 +801,58 @@
             alert('Checkout Until tidak boleh kurang dari Checkout From');
         }
     });
+
+    $(document).on('change', '#province', function() {
+        var provinceId = $(this).val();
+        populateCity(provinceId);
+    })
+
+    $(document).on('change', '#city', function() {
+        var cityId = $(this).val();
+        populateDistrict(cityId);
+    })
+
+    $(document).on('change', '#district', function() {
+        var districtId = $(this).val();
+        populateVillage(districtId);
+    })
+
+    function removeMainContact() {
+        $('#content-main-contact').children().last().remove();
+    }
+
+    function removeReservationContact() {
+        $('#content-reservation-contact').children().last().remove();
+    }
+
+    function removeAccountingContact() {
+        $('#content-accounting-contact').children().last().remove();
+    }
+
+    $(document).on('input', '#property_name', function() {
+        var value = $(this).val();
+        $('#content_property_name').text(value);
+    })
+
+    $(document).on('input', '#property_address', function() {
+        var value = $(this).val();
+        $('#content_property_address').text(value);
+    })
+
+    $(document).on('input', '#property_phone', function() {
+        var value = $(this).val();
+        $('#content_property_phone').text('+62 '+value);
+    })
+
+    $(document).on('input', '#property_room', function() {
+        var value = $(this).val();
+        $('#content_property_room').text(value+' Room');
+    })
+
+    $(document).on('input', '#property_email', function() {
+        var value = $(this).val();
+        $('#content_property_email').text(value);
+    })
 </script>
 
 {{-- MAPS --}}
@@ -791,17 +864,18 @@
        */
         var map;
         var marker;
-        // let service;
-        // let geocoder;
+        let service;
+        let geocoder;
+        var latlng = { lat: -6.200000, lng: 106.816666 };
 
        function initMap() {
             // Set the initial map center and zoom level
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -6.200000, lng: 106.816666 },
+                center: latlng,
                 zoom: 8
             });
             marker = new google.maps.Marker({
-                position: { lat: -6.200000, lng: 106.816666 },
+                position: latlng,
                 map: map
             });
 
@@ -809,143 +883,7 @@
             geocoder = new google.maps.Geocoder();
 
             // Populate cities based on country
-            // populateCities();
-
-//             function populateCities() {
-//   const country = 'Country Name'; // Replace with your country
-//   const request = {
-//     query: country,
-//     fields: ['name', 'geometry']
-//   };
-
-//   service.findPlaceFromQuery(request, (results, status) => {
-//     if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-//       const citySelect = document.getElementById('city');
-//       const cityBounds = results[0].geometry.viewport;
-
-//       const cityRequest = {
-//         bounds: cityBounds,
-//         type: 'locality'
-//       };
-
-//       service.nearbySearch(cityRequest, (cityResults, cityStatus) => {
-//         if (cityStatus === google.maps.places.PlacesServiceStatus.OK && cityResults) {
-//           cityResults.forEach(city => {
-//             const option = document.createElement('option');
-//             option.value = city.place_id;
-//             option.text = city.name;
-//             citySelect.appendChild(option);
-//           });
-
-//           citySelect.addEventListener('change', () => {
-//             const selectedCity = citySelect.value;
-//             if (selectedCity) {
-//               populateDistricts(selectedCity);
-//             }
-//           });
-//         }
-//       });
-//     }
-//   });
-// }
-
-// function populateDistricts(cityPlaceId) {
-//   const districtSelect = document.getElementById('district');
-//   districtSelect.innerHTML = '';
-
-//   const request = {
-//     placeId: cityPlaceId,
-//     fields: ['name', 'geometry', 'address_components']
-//   };
-
-//   service.getDetails(request, (place, status) => {
-//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-//       const districtRequest = {
-//         location: place.geometry.location,
-//         radius: '50000',
-//         type: 'sublocality'
-//       };
-
-//       service.nearbySearch(districtRequest, (results, status) => {
-//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-//           results.forEach(district => {
-//             const option = document.createElement('option');
-//             option.value = district.place_id;
-//             option.text = district.name;
-//             districtSelect.appendChild(option);
-//           });
-
-//           districtSelect.addEventListener('change', () => {
-//             const selectedDistrict = districtSelect.value;
-//             if (selectedDistrict) {
-//               populateVillages(selectedDistrict);
-//             }
-//           });
-//         }
-//       });
-//     }
-//   });
-// }
-
-// function populateVillages(districtPlaceId) {
-//   const villageSelect = document.getElementById('village');
-//   villageSelect.innerHTML = '';
-
-//   const request = {
-//     placeId: districtPlaceId,
-//     fields: ['name', 'geometry', 'address_components']
-//   };
-
-//   service.getDetails(request, (place, status) => {
-//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-//       const villageRequest = {
-//         location: place.geometry.location,
-//         radius: '10000',
-//         type: 'neighborhood'
-//       };
-
-//       service.nearbySearch(villageRequest, (results, status) => {
-//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-//           results.forEach(village => {
-//             const option = document.createElement('option');
-//             option.value = village.place_id;
-//             option.text = village.name;
-//             villageSelect.appendChild(option);
-//           });
-
-//           villageSelect.addEventListener('change', () => {
-//             const selectedVillage = villageSelect.value;
-//             if (selectedVillage) {
-//               fetchPostalCode(selectedVillage);
-//             }
-//           });
-//         }
-//       });
-//     }
-//   });
-// }
-
-// function fetchPostalCode(villagePlaceId) {
-//   const request = {
-//     placeId: villagePlaceId,
-//     fields: ['address_components']
-//   };
-
-//   service.getDetails(request, (place, status) => {
-//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-//       const postalCodeComponent = place.address_components.find(component =>
-//         component.types.includes('postal_code')
-//       );
-
-//       if (postalCodeComponent) {
-//         document.getElementById('postal-code').value = postalCodeComponent.long_name;
-//       } else {
-//         document.getElementById('postal-code').value = 'Postal code not found';
-//       }
-//     }
-//   });
-// }
-
+            populateProvince();
 
             // Add a click event listener to the map
             map.addListener('click', function(event) {
@@ -1008,7 +946,77 @@
                 });
                 map.fitBounds(bounds);
             });
+        }
 
+        function populateProvince() {
+            const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const citiesSelect = document.getElementById('province');
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citiesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        function populateCity(province_id) {
+            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const citiesSelect = document.getElementById('city');
+                    citiesSelect.innerHTML = '';
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citiesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        function populateDistrict(city_id) {
+            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const citiesSelect = document.getElementById('district');
+                    citiesSelect.innerHTML = '';
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citiesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        function populateVillage(district_id) {
+            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const citiesSelect = document.getElementById('village');
+                    citiesSelect.innerHTML = '';
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citiesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error(error));
         }
 
         function addMarker(location) {
@@ -1073,27 +1081,6 @@
             console.warn('Warning - Plupload files are not loaded.');
             return;
         }
-
-        // Setup all runtimes
-        $('.file-photo-property').pluploadQueue({
-            runtimes: 'html5, html4, Flash, Silverlight',
-            url: '../../../assets/demo/data/uploader/plupload.json',
-            chunk_size: '300Kb',
-            unique_names: true,
-            header: true,
-            filters: {
-                max_file_size: '300Kb',
-                mime_types: [{
-                    title: 'Image files',
-                    extensions: 'jpg,gif,png'
-                }]
-            },
-            resize: {
-                width: 320,
-                height: 240,
-                quality: 90
-            }
-        });
 
         $('.file-doc-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
@@ -1166,8 +1153,14 @@
                         console.log('File uploaded successfully:', response);
                         // Assuming the response contains an ID
                         if (response.id) {
-                            var inputValue = `<input type="hidden" name="property_photo[]" value="`+response.id+`">`
+                            var section = $('#section').val();
+                            var inputValue = `<input type="hidden" name="property_photo[]" value="`+response.id+`">
+                                                <input type="hidden" name="section[]" value="`+section+`">`
                             $('#inputPhoto').append(inputValue);
+                            $('#section').val('lobby');
+
+                            _componentPlupload();
+
                         }
                     } catch (e) {
                         console.error('Failed to parse response:', e);

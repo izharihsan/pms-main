@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoomManagementController;
@@ -66,6 +67,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('rate-plan', [ReportController::class, 'ratePlan'])->name('report.ratePlan');
         Route::get('room-availability', [ReportController::class, 'roomAvailability'])->name('report.roomAvailability');
     });
+
+    Route::resource('manage-user', ManageUserController::class);
 });
 
 Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');

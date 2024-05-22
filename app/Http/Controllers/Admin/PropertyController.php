@@ -63,46 +63,30 @@ class PropertyController extends Controller
             ['id' => 21, 'name' => 'Bed and Breakfast', 'description' => 'A place where people can stay, especially when they are on a long journey'],
         ];
 
-        $city = [
-            ['id' => 1, 'name' => 'Kota Denpasar'],
-            ['id' => 2, 'name' => 'Kota Mataram'],
-            ['id' => 3, 'name' => 'Kota Palembang'],
-        ];
-
-        $district = [
-            ['id' => 1, 'name' => 'Denpasar'],
-            ['id' => 2, 'name' => 'Mataram'],
-            ['id' => 3, 'name' => 'Palembang'],
-        ];
-
-        $village = [
-            ['id' => 1, 'name' => 'Denpasar'],
-            ['id' => 2, 'name' => 'Mataram'],
-            ['id' => 3, 'name' => 'Palembang'],
-        ];
-
         $property_style = [
-            ['id' => 1, 'name' => 'Style 1'],
-            ['id' => 2, 'name' => 'Style 2'],
-            ['id' => 3, 'name' => 'Style 3'],
-            ['id' => 4, 'name' => 'Style 4'],
-            ['id' => 5, 'name' => 'Style 5'],
-            ['id' => 6, 'name' => 'Style 6'],
-            ['id' => 7, 'name' => 'Style 7'],
-            ['id' => 8, 'name' => 'Style 8'],
-            ['id' => 9, 'name' => 'Style 9'],
-            ['id' => 10, 'name' => 'Style 10'],
-            ['id' => 11, 'name' => 'Style 11'],
-            ['id' => 12, 'name' => 'Style 12'],
-            ['id' => 13, 'name' => 'Style 13'],
-            ['id' => 14, 'name' => 'Style 14'],
-            ['id' => 15, 'name' => 'Style 15'],
+            ['id' => 1, 'name' => 'Long Stay'],
+            ['id' => 2, 'name' => 'Golf'],
+            ['id' => 3, 'name' => 'Spa'],
+            ['id' => 4, 'name' => 'Adventure'],
+            ['id' => 5, 'name' => 'Boutique'],
+            ['id' => 6, 'name' => 'Airport'],
+            ['id' => 7, 'name' => 'Resort'],
+            ['id' => 8, 'name' => 'Shopping'],
+            ['id' => 9, 'name' => 'Single'],
+            ['id' => 10, 'name' => 'Luxury'],
+            ['id' => 11, 'name' => 'Honeymoon'],
+            ['id' => 12, 'name' => 'Backpacker'],
+            ['id' => 13, 'name' => 'Historic'],
+            ['id' => 14, 'name' => 'Budget'],
+            ['id' => 15, 'name' => 'Pet-friendly'],
+            ['id' => 16, 'name' => 'Family'],
+            ['id' => 17, 'name' => 'Conference'],
+            ['id' => 18, 'name' => 'Hip'],
+            ['id' => 19, 'name' => 'Business'],
         ];
-
-        // $facilities = [];
 
         if ($request->has('step')) {
-            return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'city', 'district', 'village', 'property_style'));
+            return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'property_style'));
         }else{
             return view('admin.property.step1');
         }
@@ -113,13 +97,13 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
                     'name' => $request->name,
                     'legal_name' => $request->legal_name,
                     'phone' => $request->phone,
+                    'email' => $request->email,
                     'property_type' => $request->property_type,
                     'total_room' => $request->total_room,
                     'nib' => $request->nib,
@@ -227,6 +211,7 @@ class PropertyController extends Controller
                     foreach ($request->property_photo as $key => $value) {
                         PropertyPhotos::find($value)->update([
                             'properties_id' => $property->id,
+                            'section' => $request->section[$key],
                         ]);
                     }
                 }
