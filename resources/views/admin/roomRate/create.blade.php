@@ -100,7 +100,7 @@
             <div class="breadcrumb py-2">
                 <a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
                 <a href="#" class="breadcrumb-item">Home</a>
-                <span class="breadcrumb-item active">Room Management</span>
+                <span class="breadcrumb-item active">Room Rates</span>
             </div>
 
             <a href="#breadcrumb_elements" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
@@ -207,65 +207,33 @@
                 </div>
             </div>
 
-            <div class="card" id="card_rate_d">
-                <div class="card-body row">
-                    <div class="col-lg-12">
-                        <div class="mb-3">
-                            <h3>Room Rate Detail</h3>
-                        </div>
-                        <div id="card_details">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <h5>Delux Sweet</h5>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-5">
-                                            <div class="mb-3">
-                                                <label class="form-label">Rate Plan</label>
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>Serch Rate Plan</option>
-                                                    <option value="1">One</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-1">
-                                            <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Rate <span class="text-danger">(Minimum rate: IDR 200.000)</span></label>
-                                                <div class="row">
-                                                    <div class="col-2">
-                                                        <input type="text" name="end_date" value="IDR" class="form-control required" placeholder="">
-                                                    </div>
-                                                    <div class="col">
-                                                        <input type="text" name="end_date" class="form-control required" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <form action="{{ route('admin.room-rates.store_details') }}" method="POST">
+                @csrf
+
+                <input id="room_id" type="hidden" name="room_rates_id">
+                <div class="card" id="card_rate_d">
+                    <div class="card-body row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <h3>Room Rate Detail</h3>
+                            </div>
+
+                            <div id="card_details">
+                              
                             </div>
                         </div>
-                       
-                    </div>
-                    <div class="d-flex align-items-end flex-nowrap">
-                        <div class="ms-auto">
-                            <button type="submit" class="btn btn-outline-primary">Cancle</button>
-                            <button type="button" class="btn btn-primary">Save</button>
-                            {{-- <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
-                            <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a> --}}
+                        <div class="d-flex align-items-end flex-nowrap">
+                            <div class="ms-auto">
+                                <button type="button" class="btn btn-outline-primary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                {{-- <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
+                                <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a> --}}
+                            </div>
                         </div>
+
                     </div>
-
                 </div>
-            </div>
-
+            </form>
         </div>
         <!-- /content area -->
 
@@ -310,6 +278,7 @@
                 data: $("#submitform").serialize(),
                 success: function(data) {
                     var response = JSON.parse(data);
+                    $('#room_id').val(response.room_rate.id);
 
                     var ratePlansByRoomId = {};
                     response.rate_plans.forEach(function(ratePlan) {
@@ -336,7 +305,7 @@
                                         <div class="col-lg-5">
                                             <div class="mb-3">
                                                 <label class="form-label">Rate Plan</label>
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select" aria-label="Default select example" name="rate_plan[`+room.id+`]">
                                                     <option selected>Search Rate Plan</option>`;
                                                     ratePlans.forEach(function(ratePlanSub) {
                                                         ratePlanSub.forEach(element => {
@@ -349,7 +318,7 @@
                                         <div class="col-lg-1">
                                             <label class="form-check-label mb-2" for="flexSwitchCheckChecked${room.id}">Stop Sell</label>
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked${room.id}" checked>
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked${room.id}" checked name="stop_sell[`+room.id+`]">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -357,10 +326,10 @@
                                                 <label class="form-label">Rate <span class="text-danger">(Minimum rate: ${room.min_rate})</span></label>
                                                 <div class="row">
                                                     <div class="col-2">
-                                                        <input type="text" name="currency" value="IDR" class="form-control required" placeholder="">
+                                                        <input type="text" name="currency_`+room.id+`" value="IDR" class="form-control required" placeholder="">
                                                     </div>
                                                     <div class="col">
-                                                        <input type="text" name="rate" class="form-control required" placeholder="">
+                                                        <input type="text" name="minimum_rate[`+room.id+`]" class="form-control required" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
