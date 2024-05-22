@@ -214,6 +214,7 @@
                                             // dd($date->toDateString());
                                                 $room_rates = App\Models\RoomRates::where('start_date', '<=', $date->toDateString())
                                                             ->where('end_date', '>=', $date->toDateString())
+                                                            ->latest()
                                                             ->first();
                                                             
                                                 if ($room_rates) {

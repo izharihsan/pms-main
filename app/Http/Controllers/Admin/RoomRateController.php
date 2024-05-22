@@ -79,10 +79,10 @@ class RoomRateController extends Controller
         return view('admin.roomRate.details', compact('room_rate', 'rooms', 'id'));
     }
 
-    public function store_details(Request $request, $id)
+    public function store_details(Request $request)
     {
         // dd($request);
-        $room_rate = RoomRates::find($id);
+        $room_rate = RoomRates::find($request->room_rates_id);
         $explode = explode(', ', $room_rate->rooms);
 
         $rooms = Room::whereIn('id', $explode)->get();
