@@ -100,7 +100,7 @@
             <div class="breadcrumb py-2">
                 <a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
                 <a href="#" class="breadcrumb-item">Home</a>
-                <span class="breadcrumb-item active">Room Management</span>
+                <span class="breadcrumb-item active">Room Rates</span>
             </div>
 
             <a href="#breadcrumb_elements" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">

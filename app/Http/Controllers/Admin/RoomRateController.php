@@ -110,12 +110,47 @@ class RoomRateController extends Controller
 
     public function edit(string $id)
     {
-        return view('admin.roomRate.edit');
+        $data = RoomRates::find($id);
+        $room = Room::all();
+        $room_explode = explode(', ', $data->rooms);
+        $rooms_details = Room::whereIn('id', $room_explode)->get();
+        // $room_rates_details = RoomRatesDetails::where('')
+        // dd($room_explode);
+
+        return view('admin.roomRate.edit', compact('data', 'room', 'room_explode', 'rooms_details'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $room_rates = RoomRates::find($id);
+        $rooms = implode(', ', $request->rooms_id);
+        // dd($rooms);
+
+        $requestData = array_merge($request->all(), [
+            'rooms'             => $rooms,
+        ]);
+
+        $room_rates->update($requestData);
+       
+        $explode = explode(', ', $rooms);
+        $rooms = Room::whereIn('id', $explode)->get();
+
+        $roomsWithRatePlans = [];
+
+        foreach ($rooms as $room) {
+            $ratePlans = RatePlan::where('connected_rooms', 'LIKE', '%' . $room->room_name . '%')->get();
+            $roomsWithRatePlans[] = [
+                'room' => $room,
+                'ratePlans' => $ratePlans
+            ];
+        }
+
+
+        return json_encode([
+            'room_rate'     => $room_rates,
+            'rooms'         => $rooms,
+            'rate_plans'    => $roomsWithRatePlans
+        ]);
     }
 
     public function destroy(string $id)
