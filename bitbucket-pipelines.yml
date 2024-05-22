@@ -22,6 +22,16 @@ pipelines:
           
 
             
+      - step:
+          name: Deployment Development
+          image: ragilkbs/kbs-digital:latest
+          script:
+            - export IMAGE_NAME=${KBS_REGISTRY_URL}/kbs-dashboard/pms:latest-dev
+            - export SSHPASS=$SSH_PASSWORD
+            - sshpass -p $SSHPASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST_DEV "cd $SCRIPTS; pwd; docker-compose down; docker stop pms-dev_laravel.pms_1; docker rm pms-dev_laravel.pms_1; docker rmi $IMAGE_NAME; docker pull $IMAGE_NAME; docker-compose up -d"
+            - echo "Deployment Development done"
+
+            
 definitions:
   services:
     docker:
@@ -29,4 +39,3 @@ definitions:
 
 
 options:
-  docker: true
