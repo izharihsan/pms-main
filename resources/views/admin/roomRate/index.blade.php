@@ -211,9 +211,9 @@
 
                                         @foreach ($datesInCurrentMonth as $date)
                                             @php 
-                                            // dd($date->toDateString());
                                                 $room_rates = App\Models\RoomRates::where('start_date', '<=', $date->toDateString())
                                                             ->where('end_date', '>=', $date->toDateString())
+                                                            ->latest()
                                                             ->first();
                                                             
                                                 if ($room_rates) {
@@ -227,7 +227,7 @@
 
                                             <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}" style="align-items: center;">
                                                 @if (isset($room_r_d) && isset($room_rates))
-                                                    {{ number_format($room_r_d->minimum_rate, 2) }}
+                                                    <a href="{{ route('admin.room-rates.edit', $room_rates->id) }}">{{ number_format($room_r_d->minimum_rate, 2) }}</a>
                                                 @else 
                                                     -
                                                 @endif

@@ -3,6 +3,14 @@
 @section('content')
 @section('room_availability', 'active')
 
+@push('css')
+    <style>
+        .highlight-current-date {
+            border-left: 2px solid red;
+        }
+    </style>
+@endpush
+
 <div class="card">
     <div class="card-header">
         <div class="row">
@@ -132,7 +140,7 @@
                             </a>
                         </td> <!-- Toggle button column -->
                         @foreach ($datesInCurrentMonth as $date)
-                            <td></td>
+                            <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}"></td>
                         @endforeach
                     </tr>
                     <!-- Hidden row -->
@@ -147,7 +155,7 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($room_avail) )
                                         {{ $room_avail->availability }}
                                     @else 
@@ -167,7 +175,7 @@
                                                 ->where('update_data', 'LIKE', '%cta%')
                                                 ->first();                    
                                 @endphp
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($cta) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
@@ -188,7 +196,7 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($ctd) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
@@ -209,7 +217,7 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($stop_sell))
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
@@ -229,7 +237,7 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($stop_sell_lim) )
                                        {{ $stop_sell_lim->stop_sell_limit }}
                                     @else 
