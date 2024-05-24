@@ -96,7 +96,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.room-rates.store_details') }}" method="POST">
+            <form id="form_details" action="{{ route('admin.room-rates.store_details') }}" method="POST">
                 @csrf
 
                 <input id="room_id" type="hidden" name="room_rates_id">
@@ -114,7 +114,7 @@
                         <div class="d-flex align-items-end flex-nowrap">
                             <div class="ms-auto">
                                 <button type="button" class="btn btn-outline-primary">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button id="confirmation" type="submit" class="btn btn-primary">Save</button>
                                 {{-- <a href="javascript::void(0)" onclick="edit()"><i class="ph ph-eye f-16 mr-15"></i></a>
                                 <a href="javascript::void(0)" onclick="confirmSave(event)"><i class="ph ph-trash f-16 text-danger"></i></a> --}}
                             </div>
@@ -151,6 +151,7 @@
 
 @endsection
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#card_rate_d').hide();
@@ -158,6 +159,25 @@
     </script>
 
     <script>
+        $('#confirmation').click(function() {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are You Sure ?',
+                text: 'Are you sure you want to save data',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Save It!'
+            }).then((result) => {
+                // If user confirms, submit the form
+                if (result.isConfirmed) {
+                    $('#form_details').submit();
+                }
+            });
+        });
+
         $('#submitBtn').click(function() {
             event.preventDefault();
 

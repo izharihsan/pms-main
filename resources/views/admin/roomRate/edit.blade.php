@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.room-rates.store_details') }}" method="POST">
+            <form id="form_details" action="{{ route('admin.room-rates.store_details') }}" method="POST">
                 @csrf
 
                 <input id="room_id" type="hidden" name="room_rates_id" value="{{ $data->id }}">
@@ -175,7 +175,7 @@
                         <div class="d-flex align-items-end flex-nowrap">
                             <div class="ms-auto">
                                 <a href="{{ route('admin.room-rates.index') }}" type="button" class="btn btn-outline-primary">Cancel</a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button id="confirmation" type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>
 
@@ -210,7 +210,27 @@
 
 @endsection
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+         $('#confirmation').click(function() {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are You Sure ?',
+                text: 'Are you sure you want to save data',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Save It!'
+            }).then((result) => {
+                // If user confirms, submit the form
+                if (result.isConfirmed) {
+                    $('#form_details').submit();
+                }
+            });
+        });
+
         $('#submitBtn').click(function() {
             event.preventDefault();
             var room_rate_id = $('#room_rate_id').val();
