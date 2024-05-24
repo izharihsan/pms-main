@@ -51,7 +51,7 @@ class RatePlanController extends Controller
         $data = null;
         if ($id) {
             $data = RatePlan::find($id);
-            if ($data->property !== null) {
+            if ($data->property_id !== null) {
                 $property = Property::find($data->property_id);
                 $room = Room::where('property_id', $data->property_id)->get();
             }else{

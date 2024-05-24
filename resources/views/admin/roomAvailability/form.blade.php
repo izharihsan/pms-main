@@ -1,14 +1,17 @@
 @extends('layouts.admin')
-@section('title', 'Add Room Availability')
+@section('title', 'Room Availability')
 @section('room_availability', 'active')
 @section('breadcrumb')
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="d-flex">
-            <h4 class="page-title mb-0">
-                Home - <span class="fw-normal">Room Availability</span>
-            </h4>
-
+            <div class="row">
+                <h4 class="page-title mb-0">
+                    Home - <span class="fw-normal">Room Availability</span>
+                </h4>
+                <h4 class="mb-0">{{ $property !== null ? $property->name : '-'}}</h4>    
+            </div>
+           
             <a href="#page_header" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
                 <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
             </a>
@@ -35,17 +38,16 @@
 @section('rate_plan', 'active')
 
 <?php
-
-    $selectedMeals = null;
-    
-    if (isset($data) && $data->meals) {
-        $selectedMeals = $data->meals;
-    }
-
     $selected_room = null;
 
-    if (isset($data) && $data->connected_rooms) {
-        $selected_room = $data->connected_rooms;
+    if (isset($data) && $data->connected_room) {
+        $selected_room = $data->connected_room;
+    }
+
+    $selected_update = null;
+
+    if (isset($data) && $data->update_data) {
+        $selected_room = $data->update_data;
     }
 ?>
 
@@ -73,11 +75,11 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="" class="fw-bold">Start Date<strong class="text-danger">*</strong></label>
-                                <input type="date" name="start_date" class="form-control" required placeholder="E.g Room Only">
+                                <input type="date" name="start_date" class="form-control" required placeholder="E.g Room Only" @isset($data) value="{{ $data->start_date }}" @endisset>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="" class="fw-bold">End Date<strong class="text-danger">*</strong></label>
-                                <input type="date" name="end_date" class="form-control" required placeholder="Rate plan description">
+                                <input type="date" name="end_date" class="form-control" required placeholder="Rate plan description" @isset($data) value="{{ $data->end_date }}" @endisset>
                             </div>
                             <div class="form-group">
                                 <hr>
@@ -104,7 +106,7 @@
                             </div>
                             <div class="form-group" style="margin-top: 5%;">
                                 <label for="" class="fw-bold">Availability<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40" name="availability">
+                                <input type="text" class="form-control" required placeholder="E.g 40" name="availability" @isset($data) value="{{ $data->availability }}" @endisset>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4" style="margin-top: 5%;">
@@ -134,7 +136,7 @@
                             </div>
                             <div class="form-group" style="margin-top: 5%;">
                                 <label for="" class="fw-bold">Stop Sell Limit<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40" name="stop_sell_limit">
+                                <input type="text" class="form-control" required placeholder="E.g 40" name="stop_sell_limit" @isset($data) value="{{ $data->stop_sell_limit }}" @endisset>
                             </div>
                         </div>
                         <div class="float-end mt-4">
@@ -174,18 +176,6 @@
            
         });
 
-        var selectedMeals = "<?php echo $selectedMeals; ?>";
-        if (selectedMeals !== null) {
-            var selectedMealsArray = selectedMeals.split(', ');
-
-            selectedMealsArray.forEach(function(meal) {
-                var checkbox = document.getElementById(meal.trim());
-                if (checkbox) {
-                    checkbox.checked = true;
-                }
-            });
-        }
-
         var selected_room = "<?php echo $selected_room; ?>";
         if (selected_room !== null) {
             var selected_room_array = selected_room.split(', ');
@@ -198,22 +188,17 @@
             });
         }
 
-        $('#meals_form').hide();
+        var selected_update = "<?php echo $selected_update; ?>";
+        if (selected_update !== null) {
+            var selected_update_array = selected_update.split(', ');
 
-        var noMealsRadio = document.getElementById('meals_radio1');
-        var mealsAvailableRadio = document.getElementById('meals_radio2');
-
-        if (mealsAvailableRadio.checked) {
-            $('#meals_form').show();
+            selected_update_array.forEach(function(room) {
+                var checkbox = document.getElementById(room.trim());
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
         }
-
-        noMealsRadio.addEventListener('click', function() {
-            $('#meals_form').hide();
-        });
-
-        mealsAvailableRadio.addEventListener('click', function() {
-            $('#meals_form').show();
-        });
     });
 </script>
 @endpush
