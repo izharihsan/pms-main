@@ -63,6 +63,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::prefix('report')->group(function () {
         Route::get('activity', [ReportController::class, 'activity'])->name('report.activity');
+        Route::get('property', [ReportController::class, 'property'])->name('report.property');
+        Route::get('room-management', [ReportController::class, 'roomManagement'])->name('report.roomManagement');
         Route::get('room-rate', [ReportController::class, 'roomRate'])->name('report.roomRate');
         Route::get('rate-plan', [ReportController::class, 'ratePlan'])->name('report.ratePlan');
         Route::get('room-availability', [ReportController::class, 'roomAvailability'])->name('report.roomAvailability');

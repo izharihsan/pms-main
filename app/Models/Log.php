@@ -14,10 +14,22 @@ class Log extends Model
         'action',
         'connected_room',
         'ip_address',
+        'property_id',
+        'room_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id', 'id');
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id', 'id');
     }
 }

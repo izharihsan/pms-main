@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\ApiResourcesController;
 use App\Http\Controllers\Controller;
+use App\Models\CategoryFacility;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\PropertyCategory;
@@ -12,6 +13,7 @@ use App\Models\PropertyContact;
 use App\Models\PropertyDocument;
 use App\Models\PropertyFacilities;
 use App\Models\PropertyPhotos;
+use App\Models\PropertyStyle;
 use App\Models\PropertyTerms;
 use App\Models\PropertyType;
 
@@ -23,7 +25,6 @@ class PropertyController extends Controller
     public function index()
     {
         $data = Property::orderBy('id', 'desc')->paginate(10);
-        $this->log('View Property', null);
         
         return view('admin.property.index', compact('data'));
     }
@@ -35,55 +36,21 @@ class PropertyController extends Controller
     {
         $apiResource = new ApiResourcesController();
         // $category_facilities = $apiResource->categoryFacilities();
-        $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
         // $room_type = $apiResource->roomType();
         // $bed_type = $apiResource->bedType();
+        $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
 
-        $category_facilities['data'] = [
-            ['id' => 1, 'name' => 'Lodging', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 2, 'name' => 'Riad', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 3, 'name' => 'Single-Family Home', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 4, 'name' => 'Townhome', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 5, 'name' => 'Country House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 6, 'name' => 'Apartment', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 7, 'name' => 'Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 8, 'name' => 'House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 9, 'name' => 'Resort', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 10, 'name' => 'Inn', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 11, 'name' => 'Ryokan', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 12, 'name' => 'Love Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 13, 'name' => 'Villa', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 14, 'name' => 'Motel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 15, 'name' => 'Aparthotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 16, 'name' => 'Homestay', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 17, 'name' => 'Farm Stay', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 18, 'name' => 'Guest House', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 19, 'name' => 'Hostel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 20, 'name' => 'Capsule Hotel', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-            ['id' => 21, 'name' => 'Bed and Breakfast', 'description' => 'A place where people can stay, especially when they are on a long journey'],
-        ];
+        $category_facilities = CategoryFacility::orderBy('name', 'asc')->get();
+        $property_style = null;
 
-        $property_style = [
-            ['id' => 1, 'name' => 'Long Stay'],
-            ['id' => 2, 'name' => 'Golf'],
-            ['id' => 3, 'name' => 'Spa'],
-            ['id' => 4, 'name' => 'Adventure'],
-            ['id' => 5, 'name' => 'Boutique'],
-            ['id' => 6, 'name' => 'Airport'],
-            ['id' => 7, 'name' => 'Resort'],
-            ['id' => 8, 'name' => 'Shopping'],
-            ['id' => 9, 'name' => 'Single'],
-            ['id' => 10, 'name' => 'Luxury'],
-            ['id' => 11, 'name' => 'Honeymoon'],
-            ['id' => 12, 'name' => 'Backpacker'],
-            ['id' => 13, 'name' => 'Historic'],
-            ['id' => 14, 'name' => 'Budget'],
-            ['id' => 15, 'name' => 'Pet-friendly'],
-            ['id' => 16, 'name' => 'Family'],
-            ['id' => 17, 'name' => 'Conference'],
-            ['id' => 18, 'name' => 'Hip'],
-            ['id' => 19, 'name' => 'Business'],
-        ];
+        if ($request->step == 3) {
+            if ($request->has('property_type') && $request->property_type != '') {
+                $property_style = PropertyStyle::where('category_facility_id', $request->property_type)->orderBy('name', 'asc')->get();
+            }else{
+                $url = '/admin/property/create?step=2&category='.$request->category;
+                return redirect($url)->with('danger', 'Please select category facility first!');
+            }
+        }
 
         if ($request->has('step')) {
             return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'property_style'));
@@ -215,7 +182,7 @@ class PropertyController extends Controller
                         ]);
                     }
                 }
-                $this->log('Create Property', null);
+                $this->log('Create Property', 'property_id', $property->id, null);
 
                 return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil ditambahkan');
             });
@@ -236,11 +203,31 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)    
+    public function edit(string $id, Request $request)
     {
-        $data = Property::find($id);
+        $data = Property::findOrFail($id);
+        // dd($data);
+        $apiResource = new ApiResourcesController();
 
-        return view('admin.property.edit', compact('data'));
+        $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
+
+        $category_facilities = CategoryFacility::orderBy('name', 'asc')->get();
+        $property_style = null;
+
+        if ($request->step == 3) {
+            if ($request->has('property_type') && $request->property_type != '') {
+                $property_style = PropertyStyle::where('category_facility_id', $request->property_type)->orderBy('name', 'asc')->get();
+            }else{
+                $url = "/admin/property/$id/edit?step=2&category=".$request->category;
+                return redirect($url)->with('danger', 'Please select category facility first!');
+            }
+        }
+
+        if ($request->has('step')) {
+            return view('admin.property.edit.step' . $request->step, compact('data', 'category_facilities', 'facilities', 'property_style'));
+        }else{
+            return view('admin.property.edit.step1', compact('data'));
+        }
     }
 
     /**
@@ -249,8 +236,8 @@ class PropertyController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            return $this->atomic(function () use ($request) {
-                $property=Property::find($request->property_id)->update([
+            return $this->atomic(function () use ($request, $id) {
+                $property=Property::find($id)->update([
                     'name' => $request->name,
                     'legal_name' => $request->legal_name,
                     'phone' => $request->phone,
@@ -357,6 +344,8 @@ class PropertyController extends Controller
                     ]);
                 }
 
+                $this->log('Update Property', 'property_id', $id, null);
+
                 return back()->with('success', 'Data berhasil diupdate');
             });
         } catch (\Throwable $th) {
@@ -372,7 +361,7 @@ class PropertyController extends Controller
     {
         try {
             return $this->atomic(function () use ($id) {
-                $property = Property::find($id);
+                $property = Property::find($id)->delete();
                 $property_terms = PropertyTerms::where('properties_id', $id)->delete();
                 $property_facility = PropertyFacilities::where('properties_id', $id)->delete();
                 $property_type = PropertyType::where('properties_id', $id)->delete();
@@ -380,11 +369,17 @@ class PropertyController extends Controller
                 $property_document = PropertyDocument::where('properties_id', $id)->delete();
                 $property_photo = PropertyPhotos::where('properties_id', $id)->delete();
 
-                $property->delete();
-                return back()->with('success', 'Data berhasil dihapus');
+                
+                return response()->json([
+                    'message' => 'Data berhasil di hapus',
+                    'status' => true
+                ]);
             });
         } catch (\Throwable $th) {
-            return back()->with('error', $th->getMessage());
+            return response()->json([
+                'message' => $th->getMessage(),
+                'status' => false
+            ]);
         }
     }
 

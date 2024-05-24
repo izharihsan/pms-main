@@ -4,9 +4,6 @@
 
 @push('css')
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Popins&display=swap">
-
-{{-- IMPORT CDN FONTAWESOME --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style>
     .bg-theme {
         background-color: #013FA1;
@@ -203,11 +200,11 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <h3 class="mb-0">{{ $item->name }}</h3>
-                        {{-- <div class="ms-auto">
-                            <a class="text-white" data-card-action="reload">
-                                <i class="ph-arrows-clockwise"></i>
+                        <div class="ms-auto">
+                            <a href="javascript:void" onclick="deleteProperty({{$item->id}})" class="text-white" data-card-action="reload">
+                                <i class="ph-trash"></i>
                             </a>
-                        </div> --}}
+                        </div>
                     </div>
 
                     {{-- ICON RATING --}}
@@ -231,9 +228,10 @@
                     </div>
                     {{-- BUTTON Manage Property --}}
                     <div class="d-flex align-items-center">
-                        <a href="{{ route('admin.property.manageProperty', [$item->id]) }}" class="btn btn-primary btn-block mt-3">
+                        <a href="{{ route('admin.room-management.index').'?property_id='.$item->id }}" class="btn btn-primary btn-block mt-3 me-2">
                             Manage Property
                         </a>
+                        <a href="{{ route('admin.property.edit', [$item->id]) }}" class="btn btn-white btn-block mt-3"><i class="ph-pencil"></i></a>
                     </div>
                 </div>
             </div>
@@ -354,3 +352,40 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+    <script>
+        function deleteProperty(id) {
+            console.log(id);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this record!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var postForm = {
+                        '_token': '{{ csrf_token() }}',
+                        '_method': 'DELETE',
+                    };
+                    $.ajax({
+                            url: '/admin/property/' + id,
+                            type: 'POST',
+                            data: postForm,
+                            dataType: 'json',
+                        })
+                        .done(function(data) {
+                            Swal.fire('Deleted!', data['message'], 'success');
+                            location.reload();
+                        })
+                        .fail(function() {
+                            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                        });
+                }
+            });
+        }
+    </script>
+@endpush

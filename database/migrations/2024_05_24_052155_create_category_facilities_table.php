@@ -11,17 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('category_facilities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('legal_name');
-            $table->string('email');
-            $table->string('phone');
-            $table->enum('category',['hotel','house']);
-            $table->unsignedBigInteger('property_type')->index()->comment('category facility -> id');
-            $table->integer('total_room');
-            $table->string('nib');
-            $table->integer('rate');
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -32,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('category_facilities');
     }
 };
