@@ -84,6 +84,6 @@
 	<!-- /page content -->
 	@stack('js')
 
-    @include('include.rightbar_admin')
+    {{-- @include('include.rightbar_admin') --}}
 </body>
 </html>

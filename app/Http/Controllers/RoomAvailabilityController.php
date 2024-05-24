@@ -19,6 +19,13 @@ class RoomAvailabilityController extends Controller
         return view('admin.roomAvailability.index', compact('room', 'datesInCurrentMonth'));
     }
 
+    public function form($id = null)
+    {
+        $room = Room::all();
+
+        return view('admin.roomAvailability.form', compact('room'));
+    }
+
     public function store(Request $request)
     {
         if (isset($request->connected_rooms)) {

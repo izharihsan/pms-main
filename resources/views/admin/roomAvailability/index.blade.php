@@ -21,8 +21,8 @@
             <div class="col">
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
-                    <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
-                    <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</button>
+                    <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
+                    <a href="{{ route('admin.room_availability.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
     
     <!-- Basic modal -->
-	<div id="modal_default" class="modal fade" tabindex="-1">
+	{{-- <div id="modal_default" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -117,7 +117,7 @@
                 </form>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 	<!-- /basic modal -->
 
     <div class="card-body">
@@ -157,7 +157,7 @@
 
                                 <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($room_avail) )
-                                        {{ $room_avail->availability }}
+                                        <a href="{{ route('admin.room_availability.edit', $room_avail->id) }}">{{ $room_avail->availability }}</a>
                                     @else 
                                         -
                                     @endif
@@ -179,7 +179,7 @@
                                     @if (isset($cta) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
@@ -200,7 +200,7 @@
                                     @if (isset($ctd) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
@@ -221,7 +221,7 @@
                                     @if (isset($stop_sell))
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
