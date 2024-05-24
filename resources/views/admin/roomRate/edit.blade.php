@@ -6,92 +6,16 @@
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="d-flex">
-            <h4 class="page-title mb-0">
-                Home - <span class="fw-normal">Room Rates</span>
-            </h4>
+            <div class="row">
+                <h4 class="page-title mb-0" style="margin-left: 5%;">
+                    Home - <span class="fw-normal">Room Rates</span>
+                </h4>
+                <h4 class="mb-0" style="margin-left: 3%;">{{ $property !== null ? $property->name : '-'}}</h4>
+            </div>
 
             <a href="#page_header" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
                 <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
             </a>
-        </div>
-
-        <div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
-            <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-                <div class="dropdown w-100 w-sm-auto">
-                    <a href="#" class="d-flex align-items-center text-body lh-1 dropdown-toggle py-sm-2" data-bs-toggle="dropdown" data-bs-display="static">
-                        <img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
-                        <div class="me-auto me-lg-1">
-                            <div class="fs-sm text-muted mb-1">Customer</div>
-                            <div class="fw-semibold">Tesla Motors Inc</div>
-                        </div>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-lg-end w-100 w-lg-auto wmin-300 wmin-sm-350 pt-0">
-                        <div class="d-flex align-items-center p-3">
-                            <h6 class="fw-semibold mb-0">Customers</h6>
-                            <a href="#" class="ms-auto">
-                                View all
-                                <i class="ph-arrow-circle-right ms-1"></i>
-                            </a>
-                        </div>
-                        <a href="#" class="dropdown-item active py-2">
-                            <img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
-                            <div>
-                                <div class="fw-semibold">Tesla Motors Inc</div>
-                                <div class="fs-sm text-muted">42 users</div>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item py-2">
-                            <img src="../../../assets/images/brands/debijenkorf.svg" class="w-32px h-32px me-2" alt="">
-                            <div>
-                                <div class="fw-semibold">De Bijenkorf</div>
-                                <div class="fs-sm text-muted">49 users</div>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item py-2">
-                            <img src="../../../assets/images/brands/klm.svg" class="w-32px h-32px me-2" alt="">
-                            <div>
-                                <div class="fw-semibold">Royal Dutch Airlines</div>
-                                <div class="fs-sm text-muted">18 users</div>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item py-2">
-                            <img src="../../../assets/images/brands/shell.svg" class="w-32px h-32px me-2" alt="">
-                            <div>
-                                <div class="fw-semibold">Royal Dutch Shell</div>
-                                <div class="fs-sm text-muted">54 users</div>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item py-2">
-                            <img src="../../../assets/images/brands/bp.svg" class="w-32px h-32px me-2" alt="">
-                            <div>
-                                <div class="fw-semibold">BP plc</div>
-                                <div class="fs-sm text-muted">23 users</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="vr d-none d-sm-block flex-shrink-0 my-2 mx-3"></div>
-
-                <div class="d-inline-flex mt-3 mt-sm-0">
-                    <a href="#" class="status-indicator-container ms-1">
-                        <img src="../../../assets/images/demo/users/face24.jpg" class="w-32px h-32px rounded-pill" alt="">
-                        <span class="status-indicator bg-warning"></span>
-                    </a>
-                    <a href="#" class="status-indicator-container ms-1">
-                        <img src="../../../assets/images/demo/users/face1.jpg" class="w-32px h-32px rounded-pill" alt="">
-                        <span class="status-indicator bg-success"></span>
-                    </a>
-                    <a href="#" class="status-indicator-container ms-1">
-                        <img src="../../../assets/images/demo/users/face3.jpg" class="w-32px h-32px rounded-pill" alt="">
-                        <span class="status-indicator bg-danger"></span>
-                    </a>
-                    <a href="#" class="btn btn-outline-primary btn-icon w-32px h-32px rounded-pill ms-3">
-                        <i class="ph-plus"></i>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -106,42 +30,6 @@
             <a href="#breadcrumb_elements" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
                 <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
             </a>
-        </div>
-
-        <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
-            <div class="d-lg-flex mb-2 mb-lg-0">
-                <a href="#" class="d-flex align-items-center text-body py-2">
-                    <i class="ph-lifebuoy me-2"></i>
-                    Support
-                </a>
-
-                <div class="dropdown ms-lg-3">
-                    <a href="#" class="d-flex align-items-center text-body dropdown-toggle py-2" data-bs-toggle="dropdown">
-                        <i class="ph-gear me-2"></i>
-                        <span class="flex-1">Settings</span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-end w-100 w-lg-auto">
-                        <a href="#" class="dropdown-item">
-                            <i class="ph-shield-warning me-2"></i>
-                            Account security
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="ph-chart-bar me-2"></i>
-                            Analytics
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="ph-lock-key me-2"></i>
-                            Privacy
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="ph-gear me-2"></i>
-                            All settings
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -171,20 +59,20 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Start Date <span class="text-danger">*</span></label>
-                                        <input type="date" name="start_date" class="form-control required" placeholder="" value="{{ $data->start_date }}">
+                                        <input type="date" name="start_date" class="form-control required" placeholder="" value="{{ $data->start_date }}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">End Date <span class="text-danger">*</span></label>
-                                        <input type="date" name="end_date" class="form-control required" placeholder="" value="{{ $data->end_date }}">
+                                        <input type="date" name="end_date" class="form-control required" placeholder="" value="{{ $data->end_date }}" disabled>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <label class="form-label">Rooms <span class="text-danger">*</span></label>
-                                    <select class="form-control multiselect" aria-label="Default select example" name="rooms_id[]" multiple="multiple">                       
+                                    <select class="form-control multiselect" aria-label="Default select example" name="rooms_id[]" multiple="multiple" disabled>                       
                                         <option value="">-- Pilih --</option>
                                         @foreach ($room as $item)
                                             <option value="{{ $item->id }}" @if(in_array($item->id, $room_explode)) selected @endif>{{ $item->room_name }}</option>
@@ -199,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-end flex-nowrap">
-                                <button id="submitBtn" type="submit" class="ms-auto btn btn-primary">Apply</button>
+                                <button id="submitBtn" type="submit" class="ms-auto btn btn-primary" disabled>Apply</button>
                             </div>
                         </form>
                     </div>
@@ -207,10 +95,10 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.room-rates.store_details') }}" method="POST">
+            <form id="form_details" action="{{ route('admin.room-rates.store_details') }}" method="POST">
                 @csrf
 
-                <input id="room_id" type="hidden" name="room_rates_id">
+                <input id="room_id" type="hidden" name="room_rates_id" value="{{ $data->id }}">
                 <div class="card" id="card_rate_d">
                     <div class="card-body row">
                         <div class="col-lg-12">
@@ -242,9 +130,12 @@
                                                                     $room_rates_d = App\Models\RoomRatesDetails::where('room_rates_id', $data->id)
                                                                                 ->where('rate_plan_id', $item_rate->id)
                                                                                 ->first();   
+
+                                                                    // dd($room_rates_d);
+                                                                //    die(var_dump($item_rate));
                                                                 @endphp
                                                                 
-                                                                <option value="{{ $item_rate->id }}" @if($item_rate->id == $room_rates_d->rate_plan_id) selected @endif>{{ $item_rate->name }}</option>
+                                                                <option value="{{ $item_rate->id }}" @if($room_rates_d) @if($item_rate->id == $room_rates_d->rate_plan_id) selected @endif @endif>{{ $item_rate->name }}</option>
                                                             @endforeach
                         
                                                         </select>
@@ -253,7 +144,7 @@
                                                 <div class="col-lg-1">
                                                     <label class="form-check-label mb-2" for="flexSwitchCheckChecked">Stop Sell</label>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" name="stop_sell[{{ $item->id }}]" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                                        <input class="form-check-input" name="stop_sell[{{ $item->id }}]" type="checkbox" role="switch" id="flexSwitchCheckChecked" @if($room_rates_d) @if($room_rates_d->stop_sell == true) checked @endif @endif>
                                                     </div>
                                                 </div>
                                                 @php
@@ -284,7 +175,7 @@
                         <div class="d-flex align-items-end flex-nowrap">
                             <div class="ms-auto">
                                 <a href="{{ route('admin.room-rates.index') }}" type="button" class="btn btn-outline-primary">Cancel</a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button id="confirmation" type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>
 
@@ -319,7 +210,27 @@
 
 @endsection
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+         $('#confirmation').click(function() {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are You Sure ?',
+                text: 'Are you sure you want to save data',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Save It!'
+            }).then((result) => {
+                // If user confirms, submit the form
+                if (result.isConfirmed) {
+                    $('#form_details').submit();
+                }
+            });
+        });
+
         $('#submitBtn').click(function() {
             event.preventDefault();
             var room_rate_id = $('#room_rate_id').val();
