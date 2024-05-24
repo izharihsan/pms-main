@@ -11,12 +11,12 @@
         </div>
         
 
-        <form method="GET" action="{{ route('admin.property.create') }}">
+        <form method="GET" action="{{ route('admin.property.edit', [$data->id]) }}">
             <div class="row">
                 @foreach ($category_facilities as $item)
                     <div class="col-sm-6 col-xl-6">
                         <div class="input-group align-items-center">
-                            <input type="radio" id="{{ $item['id'] }}" name="property_type" value="{{ $item['id'] }}" style="margin-right: 20px;transform: scale(1.5);" required>
+                            <input type="radio" id="{{ $item['id'] }}" name="property_type" value="{{ $item['id'] }}" style="margin-right: 20px;transform: scale(1.5);" {{ ($data->property_type == $item['id']) ? 'checked' : ''}} required>
                             {{-- card --}}
                             <div class="card" for="{{ $item['id'] }}" style="border-radius: 10px;width: 95%; background-color: #E6EFFC;">
                                 <div class="card-body">

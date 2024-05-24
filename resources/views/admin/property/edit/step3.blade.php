@@ -28,7 +28,7 @@
         <h6 class="mb-0">Create Property</h6>
     </div>
 
-    <form class="wizard-form steps-validation" id="formSubmit" action="{{ route('admin.property.store')}}" method="POST"
+    <form class="wizard-form steps-validation" id="formSubmit" action="{{ route('admin.property.update', [$data->id])}}" method="POST"
         enctype="multipart/form-data">
         @csrf
 
@@ -38,14 +38,14 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Property Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="property_name" class="form-control required"
+                        <input type="text" name="name" value="{{ $data->name }}" id="property_name" class="form-control required"
                             placeholder="Enter Property Name">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Legal Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="legal_name" id="legal_name" class="form-control required"
+                        <input type="text" name="legal_name" value="{{ $data->legal_name }}" id="legal_name" class="form-control required"
                             placeholder="Enter Legal Name">
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">+62</span>
-                            <input type="text" name="phone" id="property_phone" class="form-control required " placeholder="628xxxxxxxx">
+                            <input type="text" name="phone" value="{{ $data->phone }}" id="property_phone" class="form-control required " placeholder="628xxxxxxxx">
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Total Room Number: <span class="text-danger">*</span></label>
-                        <input type="number" name="total_room" id="property_room" class="form-control required " placeholder="Enter Total Room">
+                        <input type="number" name="total_room" value="{{ $data->total_room }}" id="property_room" class="form-control required " placeholder="Enter Total Room">
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                     <div class="mb-3">
                         <label class="form-label">Email: <span
                                 class="text-danger">*</span></label>
-                        <input type="email" name="email" id="property_email" class="form-control required " placeholder="Enter Email">
+                        <input type="email" name="email" value="{{ $data->email }}" id="property_email" class="form-control required " placeholder="Enter Email">
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                     <div class="mb-3">
                         <label class="form-label">Business Identification Number (NIB): <span
                                 class="text-danger">*</span></label>
-                        <input type="text" name="nib" class="form-control required " placeholder="Enter NIB">
+                        <input type="text" name="nib" value="{{ $data->nib }}" class="form-control required " placeholder="Enter NIB">
                     </div>
                 </div>
 
@@ -96,6 +96,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">One</p>
                                         <input type="radio" name="rate" value="1"
+                                        {{ ($data['rate'] == 1) ? 'checked' : '' }}
                                             class="appearance-none border-none focus:outline-none" id="cc_li_c"
                                             checked="">
                                     </div>
@@ -110,6 +111,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Two</p>
                                         <input type="radio" name="rate" value="2"
+                                        {{ ($data['rate'] == 2) ? 'checked' : '' }}
                                             class="appearance-none border-none focus:outline-none" id="cc_li_c"
                                             checked="">
                                     </div>
@@ -125,6 +127,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Three</p>
                                         <input type="radio" name="rate" value="3"
+                                        {{ ($data['rate'] == 3) ? 'checked' : '' }}
                                             class="appearance-none border-none focus:outline-none" id="cc_li_c"
                                             checked="">
                                     </div>
@@ -141,6 +144,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Four</p>
                                         <input type="radio" name="rate" value="4"
+                                        {{ ($data['rate'] == 4) ? 'checked' : '' }}
                                             class="appearance-none border-none focus:outline-none" id="cc_li_c"
                                             checked="">
                                     </div>
@@ -158,6 +162,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Five</p>
                                         <input type="radio" name="rate" value="5"
+                                        {{ ($data['rate'] == 5) ? 'checked' : '' }}
                                             class="appearance-none border-none focus:outline-none" id="cc_li_c"
                                             checked="">
                                     </div>
@@ -170,7 +175,7 @@
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Description: </label>
-                        <textarea name="description" cols="30" rows="5" class="form-control"></textarea>
+                        <textarea name="description" cols="30" rows="5" class="form-control">{{ $data['description'] }}</textarea>
                     </div>
                 </div>
 
@@ -189,14 +194,14 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="mb-3">
-                        <label class="form-label">City: <span class="text-danger">*</span></label>
+                        <label class="form-label">City: <span class="text-danger">only for change</span></label>
                         <select name="city" id="city" class="form-control required">
                         </select>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="mb-3">
-                        <label class="form-label">District: <span class="text-danger">*</span></label>
+                        <label class="form-label">District: <span class="text-danger">only for change</span></label>
                         <select name="district" id="district" class="form-control required">
                             <option value="" selected disabled>-- Select District --</option>
                         </select>
@@ -204,7 +209,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
-                        <label class="form-label">Village: <span class="text-danger">*</span></label>
+                        <label class="form-label">Village: <span class="text-danger">only for change</span></label>
                         <select name="village" id="village" class="form-control required">
                             <option value="" selected disabled>-- Select Village --</option>
                         </select>
@@ -212,13 +217,13 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
-                        <label class="form-label">Postal Code: <span class="text-danger">*</span></label>
+                        <label class="form-label">Postal Code: <span class="text-danger">only for change</span></label>
                         <input type="number" name="postal_code" class="form-control required " placeholder="Enter postal code">
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="mb-3">
-                        <label class="form-label">Street Address: <span class="text-danger">*</span></label>
+                        <label class="form-label">Street Address: <span class="text-danger">only for change</span></label>
                         <textarea name="address" id="property_address" cols="30" rows="5" class="form-control required"></textarea>
                     </div>
                 </div>
@@ -230,8 +235,8 @@
                     <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
                 </div>
             </div>
-            <input type="hidden" name="long" id="long" value="263182635123">
-            <input type="hidden" name="lat" id="lat" value="12312.12314.56">
+            <input type="hidden" name="long" id="long" value="{{ $data->address->long }}">
+            <input type="hidden" name="lat" id="lat" value="{{ $data->address->lat }}">
             <div class="col-lg-12">
                 <div id="map"></div>
                 <div id="sidebar"></div>

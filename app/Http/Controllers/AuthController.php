@@ -72,7 +72,7 @@ class AuthController extends Controller
                     'email' => $request->email,
                     'token' => $response['token'],
                     'name' => $profile['user_fullname'],
-                    'avatar' => ($profile['avatar'] == '') ? 'https://ui-avatars.com/api/?name=' : $profile['avatar'],
+                    'avatar' => ($profile['avatar'] == '') ? 'https://ui-avatars.com/api/?name='.$profile['user_fullname'] : $profile['avatar'],
                     'company_name' => $profile['company_name'],
                     'status' => $profile['status'],
                     'password' => Hash::make($request->password)

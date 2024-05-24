@@ -21,17 +21,18 @@ class Controller extends BaseController
         return DB::transaction($callback);
     }
 
-    protected function log($action = null, $connected_room = null)
+    protected function log($action = null, $table = null, $table_value = null, $connected_room = null)
     {
         if (!auth()->check()) {
             return abort(401);
         }
-
+        
         Log::create([
             'user_id' => auth()->user()->id,
             'action' => $action,
             'connected_room' => $connected_room,
             'ip_address' => request()->ip() ?? 'localhost',
+            "$table" => $table_value
         ]);
     }
 

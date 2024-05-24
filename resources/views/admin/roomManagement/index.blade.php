@@ -151,8 +151,30 @@
 
 <div class="card">
     <div class="card-header">
-        <h6 class="mb-0">Room Management</h6>
-        <h6 class="mb-0">Bali Bird Resort</h6>
+        <div class="d-flex align-items-center">
+            <div class="">
+                <h5 class="mb-0">Room Management</h5>
+                <p class="text-muted mb-0">{{ $property_select->name ?? null }}</p>
+            </div>
+            <div class="ms-auto">
+                <form id="formFilter" action='{{ route('admin.room-management.index') }}' method='GET' enctype='multipart/form-data'>
+                    <div class="input-group">
+                        <select name="property_id" id="property_id" class="form-select">
+                            <option value="">- Pilih Property-</option>
+                            @foreach ($property as $item)
+                                <option value="{{ $item->id }}" {{ ($item->id == \Request::get('property_id')) ? 'selected' : ''}}>{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+            </div>
+            @if ($property_select != null)
+                <a href="{{ route('admin.property.manageProperty', [$property_select->id]) }}" class="btn btn-primary btn-icon ml-3">
+                    <i class="ph-plus"></i>
+                    Create Room Management
+                </a>
+            @endif
+        </div>
     </div>
 
     <div class="card-body">
@@ -198,8 +220,16 @@
             </table>
         </div>
     </div>
-
- 
 </div>
 
 @endsection
+
+@push('js')
+    <script>
+        $(document).on('change', '#property_id', function() {
+            var propertyId = $(this).val();
+            // SUBMIT FORM
+            $('#formFilter').submit();
+        })
+    </script>
+@endpush
