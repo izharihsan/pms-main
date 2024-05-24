@@ -10,23 +10,27 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\RoomRatesDetails;
 use Carbon\Carbon;
 use App\Models\RatePlan;
+use App\Models\Property;
 
 class RoomRateController extends Controller
 {
     public function index()
     {
+        $property = Property::all();
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
         $rooms = Room::all();
         $this->log('View Room Rate', null);
 
-        return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms'));
+        return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms', 'property'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $property = Property::find($request->property_id);
+        // dd($property);
         $room = Room::all();
         
-        return view('admin.roomRate.create', compact('room'));
+        return view('admin.roomRate.create', compact('room', 'property'));
     }
 
 
@@ -92,7 +96,7 @@ class RoomRateController extends Controller
             $insert = RoomRatesDetails::create([
                 'room_rates_id' => $room_rate->id,
                 'rate_plan_id'  => $request->rate_plan[$value->id],
-                'stop_sell'     => true,
+                'stop_sell'     => isset($request->stop_sell[$value->id]) ? true : false,
                 'room_id'       => $value->id,
                 'minimum_rate'  => $request->minimum_rate[$value->id] 
             ]);
@@ -111,13 +115,15 @@ class RoomRateController extends Controller
     public function edit(string $id)
     {
         $data = RoomRates::find($id);
+        $property = Property::find($data->property_id);
+        // dd($data);
         $room = Room::all();
         $room_explode = explode(', ', $data->rooms);
         $rooms_details = Room::whereIn('id', $room_explode)->get();
         // $room_rates_details = RoomRatesDetails::where('')
         // dd($room_explode);
 
-        return view('admin.roomRate.edit', compact('data', 'room', 'room_explode', 'rooms_details'));
+        return view('admin.roomRate.edit', compact('data', 'room', 'room_explode', 'rooms_details', 'property'));
     }
 
     public function update(Request $request, string $id)

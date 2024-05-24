@@ -11,4 +11,9 @@ class RatePlan extends Model
 
     protected $table = 'rate_plan';
     protected $guarded = ['id'];
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id', 'id');
+    }
 }
