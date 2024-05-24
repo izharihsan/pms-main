@@ -7,7 +7,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col">
-                <h5 class="mb-0 text-primary">Room Availabilities</h5>
+                <h5 class="mb-0 text-primary">Log Activity</h5>
                 <h6 class="mb-0">Bali Bird Resort</h6>
             </div>
             <div class="col">
@@ -61,7 +61,7 @@
                     <th>User</th>
                     <th>Date & Time</th>
                     <th>Action</th>
-                    <th>Description</th>
+                    <th>Connected Room</th>
                     <th>PC (IP)</th>
                 </tr>
             </thead>

@@ -77,7 +77,7 @@
 
                 {{-- STEP 1 & 2 --}}
                 <input type="hidden" name="category" value="{{ \Request::get('category') }}">
-                <input type="hidden" name="property_id" value="{{ \Request::get('property_id') }}">
+                <input type="hidden" name="property_type" value="{{ \Request::get('property_type') }}">
 
                 <div class="col-lg-12">
                     <div class="row">
@@ -176,7 +176,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">City: <span class="text-danger">*</span></label>
-                        <select name="city" id="" class="form-control required">
+                        <select name="city" id="city" class="form-control required">
                             <option value="" selected disabled>-- Select City --</option>
                             @foreach ($city as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -187,7 +187,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">District: <span class="text-danger">*</span></label>
-                        <select name="district" id="" class="form-control required">
+                        <select name="district" id="district" class="form-control required">
                             <option value="" selected disabled>-- Select District --</option>
                             @foreach ($district as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -198,7 +198,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Village: <span class="text-danger">*</span></label>
-                        <select name="village" id="" class="form-control required">
+                        <select name="village" id="village" class="form-control required">
                             <option value="" selected disabled>-- Select Village --</option>
                             @foreach ($village as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -220,14 +220,12 @@
                 </div>
             </div>
 
-            {{-- <div class="col-lg-12">
+            <div class="col-lg-12">
                 <div class="mb-3">
                     <label class="form-label">Location: <span class="text-danger">*</span></label>
-                    
-                    <select id="location-select" class="form-select"></select>
-                    <input type="hidden" id="place-id" name="place_id">
+                    <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
                 </div>
-            </div> --}}
+            </div>
             <input type="hidden" name="long" id="long" value="263182635123">
             <input type="hidden" name="lat" id="lat" value="12312.12314.56">
             <div class="col-lg-12">
@@ -500,27 +498,27 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (from) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_from" class="form-control required " placeholder="">
+                <input type="time" name="check_in_from" id="check_in_from" class="form-control required " placeholder="">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-in Time (until) : <span class="text-danger">*</span></label>
-                <input type="time" name="check_in_until" class="form-control required " placeholder="">
+                <input type="time" name="check_in_until" id="check_in_until" class="form-control required " placeholder="">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (from): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
+                <input type="time" name="check_out_from" id="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="mb-3">
                 <label class="form-label">Check-out Time (until): <span class="text-danger">*</span></label>
-                <input type="time" name="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
+                <input type="time" name="check_out_until" id="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
             </div>
         </div>
 
@@ -723,6 +721,7 @@
     });
 </script>
 
+{{-- SCRIPT EVENT --}}
 <script>
     $(document).on('change', '#address', function() {
         var content = $(this).val();
@@ -761,6 +760,26 @@
             $('#input-section-photo').val($(this).val());
         }
     })
+
+    $(document).on('change', '#check_in_until', function() {
+        var dateFrom = $('#check_in_from').val();
+        var dateTo = $(this).val();
+
+        if (dateTo < dateFrom) {
+            $(this).val(dateFrom);
+            alert('Checkin Until tidak boleh kurang dari Checkin From');
+        }
+    });
+
+    $(document).on('change', '#check_out_until', function() {
+        var dateFrom = $('#check_out_from').val();
+        var dateTo = $(this).val();
+
+        if (dateTo < dateFrom) {
+            $(this).val(dateFrom);
+            alert('Checkout Until tidak boleh kurang dari Checkout From');
+        }
+    });
 </script>
 
 {{-- MAPS --}}
@@ -772,6 +791,9 @@
        */
         var map;
         var marker;
+        // let service;
+        // let geocoder;
+
        function initMap() {
             // Set the initial map center and zoom level
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -783,6 +805,150 @@
                 map: map
             });
 
+            service = new google.maps.places.PlacesService(map);
+            geocoder = new google.maps.Geocoder();
+
+            // Populate cities based on country
+
+            // populateCities();
+
+
+//             function populateCities() {
+//   const country = 'Country Name'; // Replace with your country
+//   const request = {
+//     query: country,
+//     fields: ['name', 'geometry']
+//   };
+
+//   service.findPlaceFromQuery(request, (results, status) => {
+//     if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+//       const citySelect = document.getElementById('city');
+//       const cityBounds = results[0].geometry.viewport;
+
+//       const cityRequest = {
+//         bounds: cityBounds,
+//         type: 'locality'
+//       };
+
+//       service.nearbySearch(cityRequest, (cityResults, cityStatus) => {
+//         if (cityStatus === google.maps.places.PlacesServiceStatus.OK && cityResults) {
+//           cityResults.forEach(city => {
+//             const option = document.createElement('option');
+//             option.value = city.place_id;
+//             option.text = city.name;
+//             citySelect.appendChild(option);
+//           });
+
+//           citySelect.addEventListener('change', () => {
+//             const selectedCity = citySelect.value;
+//             if (selectedCity) {
+//               populateDistricts(selectedCity);
+//             }
+//           });
+//         }
+//       });
+//     }
+//   });
+// }
+
+// function populateDistricts(cityPlaceId) {
+//   const districtSelect = document.getElementById('district');
+//   districtSelect.innerHTML = '';
+
+//   const request = {
+//     placeId: cityPlaceId,
+//     fields: ['name', 'geometry', 'address_components']
+//   };
+
+//   service.getDetails(request, (place, status) => {
+//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+//       const districtRequest = {
+//         location: place.geometry.location,
+//         radius: '50000',
+//         type: 'sublocality'
+//       };
+
+//       service.nearbySearch(districtRequest, (results, status) => {
+//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+//           results.forEach(district => {
+//             const option = document.createElement('option');
+//             option.value = district.place_id;
+//             option.text = district.name;
+//             districtSelect.appendChild(option);
+//           });
+
+//           districtSelect.addEventListener('change', () => {
+//             const selectedDistrict = districtSelect.value;
+//             if (selectedDistrict) {
+//               populateVillages(selectedDistrict);
+//             }
+//           });
+//         }
+//       });
+//     }
+//   });
+// }
+
+// function populateVillages(districtPlaceId) {
+//   const villageSelect = document.getElementById('village');
+//   villageSelect.innerHTML = '';
+
+//   const request = {
+//     placeId: districtPlaceId,
+//     fields: ['name', 'geometry', 'address_components']
+//   };
+
+//   service.getDetails(request, (place, status) => {
+//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+//       const villageRequest = {
+//         location: place.geometry.location,
+//         radius: '10000',
+//         type: 'neighborhood'
+//       };
+
+//       service.nearbySearch(villageRequest, (results, status) => {
+//         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+//           results.forEach(village => {
+//             const option = document.createElement('option');
+//             option.value = village.place_id;
+//             option.text = village.name;
+//             villageSelect.appendChild(option);
+//           });
+
+//           villageSelect.addEventListener('change', () => {
+//             const selectedVillage = villageSelect.value;
+//             if (selectedVillage) {
+//               fetchPostalCode(selectedVillage);
+//             }
+//           });
+//         }
+//       });
+//     }
+//   });
+// }
+
+// function fetchPostalCode(villagePlaceId) {
+//   const request = {
+//     placeId: villagePlaceId,
+//     fields: ['address_components']
+//   };
+
+//   service.getDetails(request, (place, status) => {
+//     if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+//       const postalCodeComponent = place.address_components.find(component =>
+//         component.types.includes('postal_code')
+//       );
+
+//       if (postalCodeComponent) {
+//         document.getElementById('postal-code').value = postalCodeComponent.long_name;
+//       } else {
+//         document.getElementById('postal-code').value = 'Postal code not found';
+//       }
+//     }
+//   });
+// }
+
+
             // Add a click event listener to the map
             map.addListener('click', function(event) {
                 // Get the latitude and longitude from the clicked location
@@ -793,6 +959,56 @@
                 document.getElementById('lat').textContent = latitude;
                 document.getElementById('long').textContent = longitude;
                 addMarker(event.latLng);
+            });
+
+            const input = document.getElementById('pac-input');
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', () => {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener('places_changed', () => {
+                const places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                return;
+                }
+
+                // Clear out the old markers.
+                if (marker) {
+                marker.setMap(null);
+                }
+
+                // For each place, get the icon, name and location.
+                const bounds = new google.maps.LatLngBounds();
+                places.forEach((place) => {
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                // Create a marker for each place.
+                marker = new google.maps.Marker({
+                    map,
+                    title: place.name,
+                    position: place.geometry.location
+                });
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+
+                // Update coordinates display (this could be in another element or console)
+                console.log('Coordinates:', place.geometry.location.lat(), place.geometry.location.lng());
+                });
+                map.fitBounds(bounds);
             });
 
         }

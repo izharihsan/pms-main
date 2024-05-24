@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('legal_name');
             $table->string('phone');
             $table->enum('category',['hotel','house']);
+            $table->string('property_type');
             $table->integer('total_room');
             $table->string('nib');
             $table->integer('rate');

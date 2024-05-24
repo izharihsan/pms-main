@@ -54,15 +54,25 @@
 	<!-- /basic modal -->
 
     <div class="card-body">
-        <table class="table datatable-fixed-left">
-            <thead>
+        <table class="table datatable-fixed-left table-bordered">
+            <thead class="text-center">
                 <tr>
-                    <th>No.</th>
-                    <th>User</th>
-                    <th>Date & Time</th>
-                    <th>Action</th>
-                    <th>Connected Room</th>
-                    <th>PC (IP)</th>
+                    <th rowspan="2">No.</th>
+                    <th rowspan="2">User</th>
+                    <th colspan="2">Date</th>
+                    <th rowspan="2">Property Name</th>
+                    <th rowspan="2">Connected Room</th>
+                    <th colspan="5">Total</th>
+                </tr>
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    {{-- TOTAL --}}
+                    <th>Availability</th>
+                    <th>COA</th>
+                    <th>COD</th>
+                    <th>Stop Sell</th>
+                    <th>Stop Sell Limit</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,8 +82,13 @@
                         <td>{{ $item->user->name ?? null }}</td>
                         <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
                         <td>{{ $item->action }}</td>
-                        <td>{{ $item->connected_room }}</td>
-                        <td>{{ $item->ip_address }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 @endforeach
             </tbody>

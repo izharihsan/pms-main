@@ -18,6 +18,18 @@
                 <span class="d-block text-muted">Enter your credentials below</span>
             </div>
 
+            @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ session('success') }}
+                </div>
+            @elseif(session()->has('danger'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ session('danger') }}
+                </div>
+            @endif
+            
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <div class="form-control-feedback form-control-feedback-start">
