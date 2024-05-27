@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->longText('token')->nullable();
             $table->string('email')->unique();
+            $table->unsignedBigInteger('property_id')->index()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
