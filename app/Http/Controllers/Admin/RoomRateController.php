@@ -11,24 +11,25 @@ use App\Models\RoomRatesDetails;
 use Carbon\Carbon;
 use App\Models\RatePlan;
 use App\Models\Property;
+use Illuminate\Support\Facades\Auth;
 
 class RoomRateController extends Controller
 {
     public function index()
     {
-        $property = Property::all();
+        $property = Property::find(Auth::user()->property_id);
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
-        $rooms = Room::all();
-        $this->log('View Room Rate', null);
+        $rooms = Room::where('property_id', Auth::user()->property_id)->get();
+        // $this->log('View Room Rate', null);
 
         return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms', 'property'));
     }
 
     public function create(Request $request)
     {
-        $property = Property::find($request->property_id);
+        $property = Property::find(Auth::user()->property_id);
         // dd($property);
-        $room = Room::all();
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
         
         return view('admin.roomRate.create', compact('room', 'property'));
     }
@@ -127,7 +128,7 @@ class RoomRateController extends Controller
         $data = RoomRates::find($id);
         $property = Property::find($data->property_id);
         // dd($data);
-        $room = Room::all();
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
         $room_explode = explode(', ', $data->rooms);
         $rooms_details = Room::whereIn('id', $room_explode)->get();
         // $room_rates_details = RoomRatesDetails::where('')

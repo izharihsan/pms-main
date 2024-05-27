@@ -14,9 +14,14 @@
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="d-flex">
-            <h4 class="page-title mb-0">
+            {{-- <h4 class="page-title mb-0">
                 Home - <span class="fw-normal">Room Rate</span>
-            </h4>
+            </h4> --}}
+            <div class="col">
+                <h5 class="mb-0 text-primary">Room Rate</h5>
+                <h6 class="mb-0">{{ $property->name }}</h6>
+                {{-- <span class="mb-0">Room Rate Management</span> --}}
+            </div>
 
             <a href="#page_header" class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto" data-bs-toggle="collapse">
                 <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
@@ -56,15 +61,15 @@
                         <div class="float-end mt-4">
                             <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
                             <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
-                            {{-- <a href="{{ route('admin.room-rates.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a> --}}
-                            <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</a>
+                            <a href="{{ route('admin.room-rates.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a>
+                            {{-- <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</a> --}}
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Basic modal -->
-            <div id="modal_default" class="modal fade" tabindex="-1">
+            {{-- <div id="modal_default" class="modal fade" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -95,7 +100,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- /basic modal -->
 
             <div class="card-body">
