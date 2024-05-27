@@ -83,7 +83,7 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $this->log('Login', null);
     
-                return redirect()->route('admin.dashboard.index');
+                return redirect()->route('switch');
             } else {
                 return response()->json(['message' => $response['message']], 401);
             }
