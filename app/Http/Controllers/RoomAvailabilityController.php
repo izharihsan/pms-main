@@ -14,6 +14,10 @@ class RoomAvailabilityController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->property_id == null) {
+            return redirect()->route('admin.property.create');
+        }
+
         $property = Property::find(Auth::user()->property_id);
         // $this->log('View Rate Plan', null);
         $room = Room::where('property_id', Auth::user()->property_id)->get();
@@ -41,6 +45,7 @@ class RoomAvailabilityController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->room_availability_id);
         if (isset($request->connected_rooms)) {
             $connected_types = array_keys($request->connected_rooms);
             $connected_rooms = implode(', ', $connected_types);
@@ -56,8 +61,17 @@ class RoomAvailabilityController extends Controller
             'update_data'       => $update_data,
         ]);
 
-        $this->log('Create Rate Plan', null);
-        $data = RoomAvailability::create($requestData);
+        if ($request->room_availability_id) {
+            $data = RoomAvailability::find($request->room_availability_id);          
+            $data->update($requestData);
+
+            $action = 'Update Room Availability';
+            $this->log($action, 'room_availability_id', $data->id, $connected_rooms);
+        }else{
+            $data = RoomAvailability::create($requestData);
+            $this->log('Create Room Availability', 'room_availability_id', $data->id, $connected_rooms);
+        }
+
 
         Alert::success('Success Title', 'Berhasil Menyimpan Data');
         return redirect()->route('admin.room_availability.index');

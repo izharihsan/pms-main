@@ -17,6 +17,10 @@ class RoomRateController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->property_id == null) {
+            return redirect()->route('admin.property.create');
+        }
+        
         $property = Property::find(Auth::user()->property_id);
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
         $rooms = Room::where('property_id', Auth::user()->property_id)->get();

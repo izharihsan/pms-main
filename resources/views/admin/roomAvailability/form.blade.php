@@ -2,6 +2,7 @@
 @section('title', 'Room Availability')
 @section('room_availability', 'active')
 @section('breadcrumb')
+
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="d-flex">
@@ -47,7 +48,7 @@
     $selected_update = null;
 
     if (isset($data) && $data->update_data) {
-        $selected_room = $data->update_data;
+        $selected_update = $data->update_data;
     }
 ?>
 
@@ -72,6 +73,8 @@
                     <h6>Add New Rate Plan</h6>
                     <form id="myForm"  action="{{ route('admin.room_availability.store') }}" method="POST">
                         @csrf
+
+                        <input type="hidden" id="room_availability_id" name="room_availability_id" @isset($data) value="{{ $data->id }}" @endisset>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="" class="fw-bold">Start Date<strong class="text-danger">*</strong></label>
