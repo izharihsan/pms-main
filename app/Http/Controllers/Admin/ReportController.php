@@ -11,8 +11,30 @@ class ReportController extends Controller
     public function activity()
     {
         $data = Log::orderBy('id', 'desc')->paginate(10);
+
+        foreach ($data as $key => $value) {
+            if ($value->property_id) {
+                $value['action'] = $value->action.' '. ($value->property->name ?? null);
+            }elseif ($value->room_id) {
+                $value['action'] = $value->action.' '. ($value->room->room_name ?? null);
+            }
+        }
         
         return view('admin.report.activity', compact('data'));
+    }
+
+    public function property()
+    {
+        $data = Log::where('property_id', '!=', '')->orderBy('id', 'desc')->paginate(10);
+        
+        return view('admin.report.property', compact('data'));
+    }
+
+    public function roomManagement()
+    {
+        $data = Log::where('room_id', '!=', '')->orderBy('id', 'desc')->paginate(10);
+        
+        return view('admin.report.room_management', compact('data'));
     }
 
     public function roomRate()

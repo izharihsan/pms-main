@@ -13,12 +13,22 @@ use Illuminate\Http\Request;
 
 class RoomManagementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data = Room::orderBy('id', 'desc')->paginate(10);
+
+        $property_select = null;
+        if ($request->has('property_id') && $request->property_id != '') {
+            $property_id = $request->property_id;
+            $data = Room::where('property_id', $property_id)->orderBy('id', 'desc')->paginate(10);
+            $property_select = Property::find($property_id);
+        }
+
+        $property = Property::orderBy('id', 'desc')->get();
+
         $this->log('View Room Management', null);
 
-        return view('admin.roomManagement.index', compact('data'));
+        return view('admin.roomManagement.index', compact('data', 'property', 'property_select'));
     }
 
     public function create(Request $request, $id)
@@ -90,7 +100,7 @@ class RoomManagementController extends Controller
                     }
                 }
 
-                $this->log('Create Room', null);
+                $this->log('Create Room', 'room_id', $room->id);
                 return back()->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {

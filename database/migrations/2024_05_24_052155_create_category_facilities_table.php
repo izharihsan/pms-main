@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_photos', function (Blueprint $table) {
+        Schema::create('category_facilities', function (Blueprint $table) {
             $table->id();
-            $table->string('image_name')->nullable();
-            $table->string('image');
-            $table->string('section')->nullable();
-            $table->unsignedBigInteger('properties_id')->index()->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_photos');
+        Schema::dropIfExists('category_facilities');
     }
 };

@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('legal_name');
+            $table->string('email');
             $table->string('phone');
             $table->enum('category',['hotel','house']);
-            $table->string('property_type');
+            $table->unsignedBigInteger('property_type')->index()->comment('category facility -> id');
             $table->integer('total_room');
             $table->string('nib');
             $table->integer('rate');
