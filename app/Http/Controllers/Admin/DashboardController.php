@@ -12,8 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $property = Property::orderBy('id', 'desc')->get();
-        $log = Log::orderBy('id', 'desc')->paginate(10);
+        $property = Property::orderBy('id', 'desc')->where('user_id', Auth()->user()->id)->get();
+        $log = Log::orderBy('id', 'desc')->where('user_id', Auth()->user()->id)->paginate(10);
 
         $this->log('View Dashboard', null);
 

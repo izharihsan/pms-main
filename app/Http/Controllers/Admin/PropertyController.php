@@ -16,6 +16,7 @@ use App\Models\PropertyPhotos;
 use App\Models\PropertyStyle;
 use App\Models\PropertyTerms;
 use App\Models\PropertyType;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -77,6 +78,7 @@ class PropertyController extends Controller
                     'category' => \Str::lower($request->category),
                     'description' => $request->description,
                     'rate' => $request->rate,
+                    'user_id' => Auth::user()->id,
                 ]);
 
                 $property_category = PropertyCategory::create([

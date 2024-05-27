@@ -157,7 +157,7 @@
                 <p class="text-muted mb-0">{{ $property_select->name ?? null }}</p>
             </div>
             <div class="ms-auto">
-                <form id="formFilter" action='{{ route('admin.room-management.index') }}' method='GET' enctype='multipart/form-data'>
+                {{-- <form id="formFilter" action='{{ route('admin.room-management.index') }}' method='GET' enctype='multipart/form-data'>
                     <div class="input-group">
                         <select name="property_id" id="property_id" class="form-select">
                             <option value="">- Pilih Property-</option>
@@ -166,7 +166,7 @@
                             @endforeach
                         </select>
                     </div>
-                </form>
+                </form> --}}
             </div>
             @if ($property_select != null)
                 <a href="{{ route('admin.property.manageProperty', [$property_select->id]) }}" class="btn btn-primary btn-icon ml-3">

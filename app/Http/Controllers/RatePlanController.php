@@ -104,6 +104,14 @@ class RatePlanController extends Controller
             ]);
         }
 
+        # Add rate plant details
+        foreach ($room as $key => $value) {
+            $rate_plan_d = RatePlanDetails::create([
+                'rate_plan_id'  => $data->id,
+                'rooms_id'      => $value->id
+            ]);
+        }
+
         Alert::success('Success Title', 'Berhasil Menyimpan Data');
         return redirect()->route('admin.rate_plan.index');
     }

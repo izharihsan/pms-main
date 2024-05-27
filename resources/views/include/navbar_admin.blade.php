@@ -295,17 +295,16 @@
                         <i class="ph-shopping-cart me-2"></i>
                         My orders
                     </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ph-envelope-open me-2"></i>
-                        My inbox
-                        <span class="badge bg-primary rounded-pill ms-auto">26</span>
-                    </a>
+                    
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="ph-gear me-2"></i>
                         Account settings
                     </a> --}}
-
+                    <a href="{{ route('switch') }}" class="dropdown-item">
+                        <i class="ph-arrows-counter-clockwise me-2"></i>
+                        Switch Property
+                    </a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
