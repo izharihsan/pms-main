@@ -13,10 +13,10 @@
 
         <form method="GET" action="{{ route('admin.property.create') }}">
             <div class="row">
-                @foreach ($category_facilities['data'] as $item)
+                @foreach ($category_facilities as $item)
                     <div class="col-sm-6 col-xl-6">
                         <div class="input-group align-items-center">
-                            <input type="radio" id="{{ $item['id'] }}" name="property_id" value="{{ $item['id'] }}" style="margin-right: 20px;transform: scale(1.5);">
+                            <input type="radio" id="{{ $item['id'] }}" name="property_type" value="{{ $item['id'] }}" style="margin-right: 20px;transform: scale(1.5);" required>
                             {{-- card --}}
                             <div class="card" for="{{ $item['id'] }}" style="border-radius: 10px;width: 95%; background-color: #E6EFFC;">
                                 <div class="card-body">
@@ -26,8 +26,8 @@
                                                 style="border-radius: 50%; margin-right: 10px;">
                                         </div>
                                         <div class="col-md-8">
-                                            <label>Data</label>
-                                            <div>loremasdfadsfsdf</div>
+                                            <label>{{ $item['name'] }}</label>
+                                            <div>{{ $item['description'] }}</div>
                                         </div>
                                     </div>
                                 </div>

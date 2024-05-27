@@ -4,9 +4,6 @@
 
 @push('css')
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Popins&display=swap">
-
-{{-- IMPORT CDN FONTAWESOME --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style>
     .bg-theme {
         background-color: #013FA1;
@@ -56,7 +53,7 @@
             </div>
 
             <div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
-                <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+                {{-- <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
                     <div class="dropdown w-100 w-sm-auto">
                         <a href="#" class="d-flex align-items-center text-body lh-1 dropdown-toggle py-sm-2" data-bs-toggle="dropdown" data-bs-display="static">
                             <img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
@@ -131,7 +128,7 @@
                             <i class="ph-plus"></i>
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -148,7 +145,7 @@
                 </a>
             </div>
 
-            <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
+            {{-- <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
                 <div class="d-lg-flex mb-2 mb-lg-0">
                     <a href="#" class="d-flex align-items-center text-body py-2">
                         <i class="ph-lifebuoy me-2"></i>
@@ -182,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
@@ -203,11 +200,11 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <h3 class="mb-0">{{ $item->name }}</h3>
-                        {{-- <div class="ms-auto">
-                            <a class="text-white" data-card-action="reload">
-                                <i class="ph-arrows-clockwise"></i>
+                        <div class="ms-auto">
+                            <a href="javascript:void" onclick="deleteProperty({{$item->id}})" class="text-white" data-card-action="reload">
+                                <i class="ph-trash"></i>
                             </a>
-                        </div> --}}
+                        </div>
                     </div>
 
                     {{-- ICON RATING --}}
@@ -231,9 +228,10 @@
                     </div>
                     {{-- BUTTON Manage Property --}}
                     <div class="d-flex align-items-center">
-                        <a href="{{ route('admin.property.manageProperty', [$item->id]) }}" class="btn btn-primary btn-block mt-3">
+                        <a href="{{ route('admin.room-management.index').'?property_id='.$item->id }}" class="btn btn-primary btn-block mt-3 me-2">
                             Manage Property
                         </a>
+                        <a href="{{ route('admin.property.edit', [$item->id]) }}" class="btn btn-white btn-block mt-3"><i class="ph-pencil"></i></a>
                     </div>
                 </div>
             </div>
@@ -354,3 +352,40 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+    <script>
+        function deleteProperty(id) {
+            console.log(id);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this record!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var postForm = {
+                        '_token': '{{ csrf_token() }}',
+                        '_method': 'DELETE',
+                    };
+                    $.ajax({
+                            url: '/admin/property/' + id,
+                            type: 'POST',
+                            data: postForm,
+                            dataType: 'json',
+                        })
+                        .done(function(data) {
+                            Swal.fire('Deleted!', data['message'], 'success');
+                            location.reload();
+                        })
+                        .fail(function() {
+                            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                        });
+                }
+            });
+        }
+    </script>
+@endpush

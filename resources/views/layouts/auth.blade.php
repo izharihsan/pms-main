@@ -26,7 +26,7 @@
 <body class="">
 
     <!-- Main navbar -->
-    <div class="navbar navbar-dark navbar-static py-2">
+    {{-- <div class="navbar navbar-dark navbar-static py-2">
         <div class="container-fluid">
             <div class="navbar-brand">
                 <a href="index.html" class="d-inline-flex align-items-center">
@@ -57,7 +57,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- /main navbar -->
 
 
@@ -78,7 +78,7 @@
 
 
                 <!-- Footer -->
-                <div class="navbar navbar-sm navbar-footer border-top">
+                {{-- <div class="navbar navbar-sm navbar-footer border-top">
                     <div class="container-fluid">
                         <span>© 2022 <a
                                 href="https://themeforest.net/item/limitless-responsive-web-application-kit/13080328">Limitless
@@ -115,7 +115,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <!-- /footer -->
 
             </div>

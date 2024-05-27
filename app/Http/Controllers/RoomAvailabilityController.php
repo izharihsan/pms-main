@@ -7,16 +7,35 @@ use App\Models\Room;
 use App\Models\RoomAvailability;
 use RealRashid\SweetAlert\Facades\Alert; 
 use Carbon\Carbon;
+use App\Models\Property;
 
 class RoomAvailabilityController extends Controller
 {
     public function index()
     {
+        $property = Property::all();
         $this->log('View Rate Plan', null);
         $room = Room::all();
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
 
-        return view('admin.roomAvailability.index', compact('room', 'datesInCurrentMonth'));
+        return view('admin.roomAvailability.index', compact('room', 'datesInCurrentMonth', 'property'));
+    }
+
+    public function form(Request $request, $id = null)
+    {
+        $room = Room::all();
+        $property = Property::find($request->property_id);
+        $data = null;
+
+        if ($id) {
+            $data = RoomAvailability::find($id);
+
+            if ($data->property_id !== null) {
+                $property = Property::find($data->property_id);
+            }
+        }
+
+        return view('admin.roomAvailability.form', compact('room', 'data', 'property'));
     }
 
     public function store(Request $request)
@@ -45,14 +64,14 @@ class RoomAvailabilityController extends Controller
 
     private function getAllDatesInCurrentMonth()
     {
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $startDate = Carbon::now()->subDays(2); // 2 days before today
+        $endDate = Carbon::now()->addDays(6);   // 7 days from today
         $dates = collect();
-
-        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
+    
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
             $dates->push($date->copy());
         }
-
+    
         return $dates;
     }
 }

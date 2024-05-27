@@ -3,101 +3,55 @@
 @section('content')
 @section('room_availability', 'active')
 
+@push('css')
+    <style>
+        .highlight-current-date {
+            border-left: 2px solid red;
+        }
+    </style>
+@endpush
+
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col">
                 <h5 class="mb-0 text-primary">Room Availabilities</h5>
-                <h6 class="mb-0">Bali Bird Resort</h6>
+                {{-- <h6 class="mb-0">Bali Bird Resort</h6> --}}
             </div>
             <div class="col">
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
-                    <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
-                    <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</button>
+                    <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
+                    {{-- <a href="{{ route('admin.room_availability.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a> --}}
+                    <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</a>
                 </div>
             </div>
         </div>
     </div>
 
     
-    <!-- Basic modal -->
-	<div id="modal_default" class="modal fade" tabindex="-1">
+
+     <!-- Basic modal -->
+     <div id="modal_default" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Bulk Add / Update</h5>
+					<h5 class="modal-title">Select Property</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 
-                <form action="{{ route('admin.room_availability.store') }}" method="post">
-                    @csrf
+                <form action="{{ route('admin.room_availability.create') }}" method="GET">
+                   
 				    <div class="modal-body">
                         <div class="row">
                             <div class="form-group">
-                                <label for="" class="fw-bold">Start Date<strong class="text-danger">*</strong></label>
-                                <input type="date" name="start_date" class="form-control" required placeholder="E.g Room Only">
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="fw-bold">End Date<strong class="text-danger">*</strong></label>
-                                <input type="date" name="end_date" class="form-control" required placeholder="Rate plan description">
-                            </div>
-                            <div class="form-group">
-                                <hr>
-                                <label for="" class="fw-bold">Connected Room</label><br>
-                                @foreach ($room as $item)
-                                    <input type="checkbox" id="{{ $item->room_name }}" name="connected_rooms[{{ $item->room_name }}]">
-                                    <label for="breakfast">{{ $item->room_name }}</label>
-                                @endforeach
-                
-                            </div>
-                            <div class="form-group">
-                                <hr>
-                                <label for="" class="fw-bold">Choose To Update</label><br>
-                                <input type="checkbox" id="availability" name="update_data[availability]">
-                                <label for="breakfast">Availability</label>
-                                <input type="checkbox" id="cta" name="update_data[cta]">
-                                <label for="breakfast">CTA</label>
-                                <input type="checkbox" id="ctd" name="update_data[ctd]">
-                                <label for="breakfast">CTD</label>
-                                <input type="checkbox" id="stop_sell" name="update_data[stop_sell]">
-                                <label for="breakfast">Stop Sell</label>
-                                <input type="checkbox" id="stop_sell_limit" name="update_data[stop_sell_limit]">
-                                <label for="breakfast">Stop Sell Limit</label>
-                            </div>
-                            <div class="form-group" style="margin-top: 5%;">
-                                <label for="" class="fw-bold">Availability<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40" name="availability">
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4" style="margin-top: 5%;">
-                                    <label for="" class="fw-bold">CTA</label>
-                                    <div class="form-check form-switch mb-2">
-                                        <input type="checkbox" class="form-check-input" id="sc_ls_c" checked>
-                                        <label class="form-check-label" for="sc_ls_c"></label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4" style="margin-top: 5%;">
-                                    <label for="" class="fw-bold">CTD</label>
-                                    <div class="form-check form-switch mb-2">
-                                        <input type="checkbox" class="form-check-input" id="sc_ls_c" checked>
-                                        <label class="form-check-label" for="sc_ls_c"></label>
-                                    </div>
-                                </div>
-
-                                
-                                <div class="form-group col-md-4" style="margin-top: 5%;">
-                                    <label for="" class="fw-bold">Stop Sell</label>
-                                    <div class="form-check form-switch mb-2">
-                                        <input type="checkbox" class="form-check-input" id="sc_ls_c" checked>
-                                        <label class="form-check-label" for="sc_ls_c"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-top: 5%;">
-                                <label for="" class="fw-bold">Stop Sell Limit<strong class="text-danger">*</strong></label>
-                                <input type="text" class="form-control" required placeholder="E.g 40" name="stop_sell_limit">
+                                <label for="" class="fw-bold">Property Name<strong class="text-danger">*</strong></label>
+                                <select name="property_id" id="" class="form-control" required>
+                                    <option value="">Select Property</option>
+                                    @foreach ($property as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 				    </div>
@@ -132,7 +86,7 @@
                             </a>
                         </td> <!-- Toggle button column -->
                         @foreach ($datesInCurrentMonth as $date)
-                            <td></td>
+                            <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}"></td>
                         @endforeach
                     </tr>
                     <!-- Hidden row -->
@@ -147,9 +101,9 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($room_avail) )
-                                        {{ $room_avail->availability }}
+                                        <a href="{{ route('admin.room_availability.edit', $room_avail->id) }}">{{ $room_avail->availability }}</a>
                                     @else 
                                         -
                                     @endif
@@ -167,11 +121,11 @@
                                                 ->where('update_data', 'LIKE', '%cta%')
                                                 ->first();                    
                                 @endphp
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($cta) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
@@ -188,11 +142,11 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($ctd) )
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
@@ -209,11 +163,11 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($stop_sell))
                                         <i class="ph-check collapsible-indicator me-2"></i>
                                     @else 
-                                        <i class="ph-x collapsible-indicator me-2"></i>
+                                        <i class="ph-x collapsible-indicator me-2" style="color: red;"></i>
                                     @endif
                                 </td>
                             @endforeach
@@ -229,7 +183,7 @@
                                                 ->first();                    
                                 @endphp
 
-                                <td>
+                                <td class="{{ $date->isToday() ? 'highlight-current-date' : '' }}">
                                     @if (isset($stop_sell_lim) )
                                        {{ $stop_sell_lim->stop_sell_limit }}
                                     @else 

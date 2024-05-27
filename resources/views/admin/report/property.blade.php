@@ -7,14 +7,13 @@
     <div class="card-header">
         <div class="row">
             <div class="col">
-                <h5 class="mb-0 text-primary">Room Availabilities</h5>
-                <h6 class="mb-0">Bali Bird Resort</h6>
+                <h5 class="mb-0 text-primary">Log Property</h5>
             </div>
             <div class="col">
-                <div class="float-end mt-4">
+                {{-- <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
                     <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default">Export</button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -61,7 +60,6 @@
                     <th>User</th>
                     <th>Date & Time</th>
                     <th>Action</th>
-                    <th>Description</th>
                     <th>PC (IP)</th>
                 </tr>
             </thead>
@@ -71,8 +69,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->user->name ?? null }}</td>
                         <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
-                        <td>{{ $item->action }}</td>
-                        <td>{{ $item->connected_room }}</td>
+                        <td>{{ $item->action.' '.($item->property->name ?? null) }}</td>
                         <td>{{ $item->ip_address }}</td>
                     </tr>
                 @endforeach

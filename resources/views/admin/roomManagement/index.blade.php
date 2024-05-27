@@ -15,7 +15,7 @@
             </div>
 
             <div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
-                <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+                {{-- <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
                     <div class="dropdown w-100 w-sm-auto">
                         <a href="#" class="d-flex align-items-center text-body lh-1 dropdown-toggle py-sm-2" data-bs-toggle="dropdown" data-bs-display="static">
                             <img src="../../../assets/images/brands/tesla.svg" class="w-32px h-32px me-2" alt="">
@@ -90,7 +90,7 @@
                             <i class="ph-plus"></i>
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                 </a>
             </div>
 
-            <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
+            {{-- <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
                 <div class="d-lg-flex mb-2 mb-lg-0">
                     <a href="#" class="d-flex align-items-center text-body py-2">
                         <i class="ph-lifebuoy me-2"></i>
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
@@ -151,8 +151,30 @@
 
 <div class="card">
     <div class="card-header">
-        <h6 class="mb-0">Room Management</h6>
-        <h6 class="mb-0">Bali Bird Resort</h6>
+        <div class="d-flex align-items-center">
+            <div class="">
+                <h5 class="mb-0">Room Management</h5>
+                <p class="text-muted mb-0">{{ $property_select->name ?? null }}</p>
+            </div>
+            <div class="ms-auto">
+                {{-- <form id="formFilter" action='{{ route('admin.room-management.index') }}' method='GET' enctype='multipart/form-data'>
+                    <div class="input-group">
+                        <select name="property_id" id="property_id" class="form-select">
+                            <option value="">- Pilih Property-</option>
+                            @foreach ($property as $item)
+                                <option value="{{ $item->id }}" {{ ($item->id == \Request::get('property_id')) ? 'selected' : ''}}>{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form> --}}
+            </div>
+            @if ($property_select != null)
+                <a href="{{ route('admin.property.manageProperty', [$property_select->id]) }}" class="btn btn-primary btn-icon ml-3">
+                    <i class="ph-plus"></i>
+                    Create Room Management
+                </a>
+            @endif
+        </div>
     </div>
 
     <div class="card-body">
@@ -198,8 +220,16 @@
             </table>
         </div>
     </div>
-
- 
 </div>
 
 @endsection
+
+@push('js')
+    <script>
+        $(document).on('change', '#property_id', function() {
+            var propertyId = $(this).val();
+            // SUBMIT FORM
+            $('#formFilter').submit();
+        })
+    </script>
+@endpush

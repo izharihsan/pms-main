@@ -30,51 +30,13 @@
         <div class="sidebar-section sidebar-resize-hide dropdown mx-2">
             <a href="#" class="btn btn-link text-body text-start lh-1 dropdown-toggle p-2 my-1 w-100" data-bs-toggle="dropdown" data-color-theme="dark">
                 <div class="hstack gap-2 flex-grow-1 my-1">
-                    <img src="{{ asset('assets/images/brands/shell.svg')}}" class="w-32px h-32px" alt="">
+                    <img src="{{ Auth::user()->avatar }}" class="w-32px h-32px" alt="">
                     <div class="me-auto">
-                        <div class="fs-sm text-white opacity-75 mb-1">Customer</div>
-                        <div class="fw-semibold">Royal Dutch Shell</div>
+                        <div class="fs-sm text-white opacity-75 mb-1">{{ Auth::user()->company_name }}</div>
+                        <div class="fw-semibold">{{ Auth::user()->name }}</div>
                     </div>
                 </div>
             </a>
-
-            <div class="dropdown-menu w-100">
-                <a href="#" class="dropdown-item hstack gap-2 py-2">
-                    <img src="{{ asset('assets/images/brands/tesla.svg')}}" class="w-32px h-32px" alt="">
-                    <div>
-                        <div class="fw-semibold">Tesla Motors Inc</div>
-                        <div class="fs-sm text-muted">42 users</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item hstack gap-2 py-2">
-                    <img src="{{ asset('assets/images/brands/debijenkorf.svg')}}" class="w-32px h-32px" alt="">
-                    <div>
-                        <div class="fw-semibold">De Bijenkorf</div>
-                        <div class="fs-sm text-muted">49 users</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item hstack gap-2 py-2">
-                    <img src="{{ asset('assets/images/brands/klm.svg')}}" class="w-32px h-32px" alt="">
-                    <div>
-                        <div class="fw-semibold">Royal Dutch Airlines</div>
-                        <div class="fs-sm text-muted">18 users</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item hstack gap-2 active py-2">
-                    <img src="{{ asset('assets/images/brands/shell.svg')}}" class="w-32px h-32px" alt="">
-                    <div>
-                        <div class="fw-semibold">Royal Dutch Shell</div>
-                        <div class="fs-sm text-muted">54 users</div>
-                    </div>
-                </a>
-                <a href="#" class="dropdown-item hstack gap-2 py-2">
-                    <img src="{{ asset('assets/images/brands/bp.svg')}}" class="w-32px h-32px" alt="">
-                    <div>
-                        <div class="fw-semibold">BP plc</div>
-                        <div class="fs-sm text-muted">23 users</div>
-                    </div>
-                </a>
-            </div>
         </div>
         <!-- /customers -->
 
@@ -91,10 +53,13 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                         <i class="ph-house"></i>
-                        <span>
-                            Dashboard
-                            <span class="d-block fw-normal opacity-50">No pending orders</span>
-                        </span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.manage-user.index') }}" class="nav-link" @yield('manage_user')>
+                        <i class="ph-users"></i>
+                        Manage User
                     </a>
                 </li>
                 <li class="nav-item">
@@ -131,13 +96,27 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.report.index') }}" class="nav-link @yield('report')">
                         <i class="ph-calendar-check"></i>
                         <span>
                             Report
                         </span>
                     </a>
+                </li> --}}
+                <li class="nav-item nav-item-submenu">
+                    <a href="#" class="nav-link">
+                        <i class="ph-layout"></i>
+                        <span>Report</span>
+                    </a>
+                    <ul class="nav-group-sub collapse show" style="">
+                        <li class="nav-item"><a href="{{ route('admin.report.activity') }}" class="nav-link @yield('report')">Log Activity</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.property') }}" class="nav-link @yield('report')">Property</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.roomManagement') }}" class="nav-link @yield('report')">Room Management</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.roomRate') }}" class="nav-link @yield('report')">Room Rate</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.ratePlan') }}" class="nav-link @yield('report')">Rate Plan</a></li>
+                        <li class="nav-item"><a href="{{ route('admin.report.roomAvailability') }}" class="nav-link @yield('report')">Room Availability</a></li>
+                    </ul>
                 </li>
 
                 {{-- <li class="nav-item nav-item-submenu">

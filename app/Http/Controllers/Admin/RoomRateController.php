@@ -10,23 +10,27 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\RoomRatesDetails;
 use Carbon\Carbon;
 use App\Models\RatePlan;
+use App\Models\Property;
 
 class RoomRateController extends Controller
 {
     public function index()
     {
+        $property = Property::all();
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
         $rooms = Room::all();
         $this->log('View Room Rate', null);
 
-        return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms'));
+        return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms', 'property'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $property = Property::find($request->property_id);
+        // dd($property);
         $room = Room::all();
         
-        return view('admin.roomRate.create', compact('room'));
+        return view('admin.roomRate.create', compact('room', 'property'));
     }
 
 
@@ -79,10 +83,10 @@ class RoomRateController extends Controller
         return view('admin.roomRate.details', compact('room_rate', 'rooms', 'id'));
     }
 
-    public function store_details(Request $request, $id)
+    public function store_details(Request $request)
     {
         // dd($request);
-        $room_rate = RoomRates::find($id);
+        $room_rate = RoomRates::find($request->room_rates_id);
         $explode = explode(', ', $room_rate->rooms);
 
         $rooms = Room::whereIn('id', $explode)->get();
@@ -92,7 +96,7 @@ class RoomRateController extends Controller
             $insert = RoomRatesDetails::create([
                 'room_rates_id' => $room_rate->id,
                 'rate_plan_id'  => $request->rate_plan[$value->id],
-                'stop_sell'     => true,
+                'stop_sell'     => isset($request->stop_sell[$value->id]) ? true : false,
                 'room_id'       => $value->id,
                 'minimum_rate'  => $request->minimum_rate[$value->id] 
             ]);
@@ -110,12 +114,49 @@ class RoomRateController extends Controller
 
     public function edit(string $id)
     {
-        return view('admin.roomRate.edit');
+        $data = RoomRates::find($id);
+        $property = Property::find($data->property_id);
+        // dd($data);
+        $room = Room::all();
+        $room_explode = explode(', ', $data->rooms);
+        $rooms_details = Room::whereIn('id', $room_explode)->get();
+        // $room_rates_details = RoomRatesDetails::where('')
+        // dd($room_explode);
+
+        return view('admin.roomRate.edit', compact('data', 'room', 'room_explode', 'rooms_details', 'property'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $room_rates = RoomRates::find($id);
+        $rooms = implode(', ', $request->rooms_id);
+        // dd($rooms);
+
+        $requestData = array_merge($request->all(), [
+            'rooms'             => $rooms,
+        ]);
+
+        $room_rates->update($requestData);
+       
+        $explode = explode(', ', $rooms);
+        $rooms = Room::whereIn('id', $explode)->get();
+
+        $roomsWithRatePlans = [];
+
+        foreach ($rooms as $room) {
+            $ratePlans = RatePlan::where('connected_rooms', 'LIKE', '%' . $room->room_name . '%')->get();
+            $roomsWithRatePlans[] = [
+                'room' => $room,
+                'ratePlans' => $ratePlans
+            ];
+        }
+
+
+        return json_encode([
+            'room_rate'     => $room_rates,
+            'rooms'         => $rooms,
+            'rate_plans'    => $roomsWithRatePlans
+        ]);
     }
 
     public function destroy(string $id)

@@ -49,6 +49,22 @@
 	<script src="{{ asset('/assets/demo/pages/datatables_extension_fixed_columns.js') }}"></script>
 	<script src="{{ asset('/assets/js/vendor/forms/selects/bootstrap_multiselect.js') }}"></script>
 	<script src="{{ asset('/assets/demo/pages/form_multiselect.js') }}"></script>
+
+	{{-- IMPORT CDN FONTAWESOME --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+	<!-- Include SweetAlert CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+	<!-- Include SweetAlert JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+	<style>
+        .swal2-icon {
+            font-size: 100% !important; /* Change this value to adjust the icon size */
+        }
+        .swal2-icon.swal2-info {
+            border-color: #3085d6; /* Match the color of your confirm button */
+        }
+    </style>
     @stack('css')
 </head>
 
@@ -72,6 +88,19 @@
 				@yield('breadcrumb')
 
                 <div class="content pt-3">
+					{{-- SESSION --}}
+					@if (session('success'))
+						<div class="alert alert-success alert-styled-left alert-arrow-left alert-dismissible">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							{{ session('success') }}
+						</div>
+					@elseif (session('danger'))
+						<div class="alert alert-danger alert-styled-left alert-arrow-left alert-dismissible">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							{{ session('danger') }}
+						</div>
+					@endif
+
                     @yield('content')
                 </div>
 			</div>
@@ -84,6 +113,6 @@
 	<!-- /page content -->
 	@stack('js')
 
-    @include('include.rightbar_admin')
+    {{-- @include('include.rightbar_admin') --}}
 </body>
 </html>
