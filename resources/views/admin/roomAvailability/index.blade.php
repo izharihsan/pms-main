@@ -16,14 +16,14 @@
         <div class="row">
             <div class="col">
                 <h5 class="mb-0 text-primary">Room Availabilities</h5>
-                {{-- <h6 class="mb-0">Bali Bird Resort</h6> --}}
+                <h6 class="mb-0">{{ $property->name }}</h6>
             </div>
             <div class="col">
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
                     <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
-                    {{-- <a href="{{ route('admin.room_availability.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a> --}}
-                    <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</a>
+                    <a href="{{ route('admin.room_availability.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a>
+                    {{-- <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Bulk Add / Update</a> --}}
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
     
 
      <!-- Basic modal -->
-     <div id="modal_default" class="modal fade" tabindex="-1">
+     {{-- <div id="modal_default" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -63,7 +63,7 @@
                 </form>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 	<!-- /basic modal -->
 
     <div class="card-body">

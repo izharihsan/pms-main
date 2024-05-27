@@ -8,14 +8,15 @@ use App\Models\RoomAvailability;
 use RealRashid\SweetAlert\Facades\Alert; 
 use Carbon\Carbon;
 use App\Models\Property;
+use Illuminate\Support\Facades\Auth;
 
 class RoomAvailabilityController extends Controller
 {
     public function index()
     {
-        $property = Property::all();
-        $this->log('View Rate Plan', null);
-        $room = Room::all();
+        $property = Property::find(Auth::user()->property_id);
+        // $this->log('View Rate Plan', null);
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
 
         return view('admin.roomAvailability.index', compact('room', 'datesInCurrentMonth', 'property'));
@@ -23,8 +24,8 @@ class RoomAvailabilityController extends Controller
 
     public function form(Request $request, $id = null)
     {
-        $room = Room::all();
-        $property = Property::find($request->property_id);
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
+        $property = Property::find(Auth::user()->property_id);
         $data = null;
 
         if ($id) {
