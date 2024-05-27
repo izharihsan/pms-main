@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -110,5 +111,12 @@ class AuthController extends Controller
             ->get($this->ssoUrl . '/user/profile');
 
         return $response->json();
+    }
+
+    public function switch()
+    {
+        $properties = Property::orderBy('id', 'desc')->get();
+        
+        return view('auth.switch', compact('properties'));
     }
 }

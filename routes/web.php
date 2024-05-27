@@ -14,6 +14,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('switch', [AuthController::class, 'switch'])->name('switch');
+
 Route::get('/room/create', function () {
     return view('admin.roomDetail.create');
 });
