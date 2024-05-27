@@ -37,8 +37,6 @@ class RatePlanController extends Controller
 
         $rooms = Room::all();
 
-        $this->log('View Rate Plan', '');
-
         return view('admin.ratePlan.index', compact('data', 'rooms', 'property'));
     }
 
@@ -86,12 +84,16 @@ class RatePlanController extends Controller
         ]);
 
         if ($request->rate_plan_id) {
-            $data = RatePlan::find($request->rate_plan_id);
-            $this->log('Update Rate Plan', null);
+            $data = RatePlan::find($request->rate_plan_id);          
             $data->update($requestData);
+
+            $action = 'Update Rate Plan '.$data->name;
+            $this->log($action, 'rate_plan_id', $data->id, $connected_room);
         } else {
-            $this->log('Create Rate Plan', null);
+            $action = 'Add New Rate Plan '.$request->name;
+
             $data = RatePlan::create($requestData);
+            $this->log($action, 'rate_plan_id', $data->id, $connected_room);
         }
 
         # Add rate plant details
@@ -110,8 +112,10 @@ class RatePlanController extends Controller
     {
         $data = RatePlan::find($id);
         if ($data) {
+            $action = 'Delete Rate Plan '.$data->name;
+            $this->log($action, 'rate_plan_id', $data->id, $data->connected_rooms);
+
             $data->delete();
-            $this->log('Delete Rate Plan', null);
             Alert::success('Success Title', 'Berhasil Menghapus Data');
         } else {
             Alert::error('Error Title', 'Data Tidak Ditemukan');

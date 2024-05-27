@@ -57,6 +57,14 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 	<!-- Include SweetAlert JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+	<style>
+        .swal2-icon {
+            font-size: 100% !important; /* Change this value to adjust the icon size */
+        }
+        .swal2-icon.swal2-info {
+            border-color: #3085d6; /* Match the color of your confirm button */
+        }
+    </style>
     @stack('css')
 </head>
 
