@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col">
                 <h5 class="mb-0 text-primary">Rate Plan</h5>
-                <h6 class="mb-0">Bali Bird Resort</h6>
+                {{-- <h6 class="mb-0">Bali Bird Resort</h6> --}}
                 <span class="mb-0">Rate Plan Management</span>
             </div>
             <div class="col">
@@ -52,11 +52,48 @@
                             </div>
                         </form>
                     </div>
-                    <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a>
+            
+                    {{-- <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a> --}}
+                    <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Add Rate Plan</a>
                 </div>
             </div>
         </div>
     </div>
+
+     <!-- Basic modal -->
+	<div id="modal_default" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Select Property</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+                <form action="{{ route('admin.rate_plan.create') }}" method="GET">
+                   
+				    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="" class="fw-bold">Property Name<strong class="text-danger">*</strong></label>
+                                <select name="property_id" id="" class="form-control" required>
+                                    <option value="">Select Property</option>
+                                    @foreach ($property as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+				    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+	<!-- /basic modal -->
 
     <div class="card-body">
         <div class="table-responsive">
@@ -66,6 +103,7 @@
                         <th>#</th>
                         <th>Rate Plan Name</th>
                         <th>Connected Room</th>
+                        <th>Property</th>
                         <th>Meals Plan</th>
                         <th>Cancelation Policy</th>
                         <th>Action</th>
@@ -79,6 +117,7 @@
                             <td>
                                 {{ $item->description }}
                             </td>
+                            <td>{{ $item->property ? $item->property->name : '-' }}</td>
                             <td>@if($item->meals !== null) Meals @else No Meals @endif</td>
                             <td>{{ $item->cancelation_policy }}</td>
                             <td>

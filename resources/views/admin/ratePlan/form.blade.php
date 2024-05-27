@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col">
                 <h5 class="mb-0 text-primary">Rate Plan</h5>
-                <h6 class="mb-0">Bali Bird Resort</h6>
+                <h6 class="mb-0">{{ $property !== null ? $property->name : '-'}}</h6>
                 <span class="mb-0">Rate Plan Management</span>
             </div>
         </div>
@@ -34,6 +34,8 @@
             @csrf
             <div class="row">
                 <input type="hidden" id="rate_plan_id" name="rate_plan_id" @isset($data) value="{{ $data->id }}" @endisset>
+                <input type="hidden" id="property_id" name="property_id" value="{{ $property !== null ?? $property->id }}">
+
                 <div class="col">
                     <div class="form-group">
                         <label for="" class="fw-bold">Rate Plan Name<strong class="text-danger">*</strong></label>
@@ -104,25 +106,20 @@
             event.preventDefault();
             var rate_plan_id = $('#rate_plan_id').val();
 
-            if (rate_plan_id !== '') {
-                Swal.fire({
-                    title: 'Are You Sure ?',
-                    text: 'Are you sure you want to update this rate plan? This action cannot be undone',
-                    icon: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Update It!'
-                }).then((result) => {
-                    // If user confirms, submit the form
-                    if (result.isConfirmed) {
-                        $('#myForm').submit();
-                    }
-                });
-            }else{
-                $('#myForm').submit();
-            }
-           
+            Swal.fire({
+                title: 'Are You Sure ?',
+                text: 'Are you sure you want to save data',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Save It!'
+            }).then((result) => {
+                // If user confirms, submit the form
+                if (result.isConfirmed) {
+                    $('#myForm').submit();
+                }
+            });
         });
 
         var selectedMeals = "<?php echo $selectedMeals; ?>";

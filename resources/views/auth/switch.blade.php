@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Login form -->
-<form class="login-form" action="" method="POST" enctype="multipart/form-data">
+<form class="login-form" action="{{ route('switchProperty') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="card mb-0">
@@ -25,7 +25,7 @@
                     <div class="mb-3">
                         <label class="form-label">Property</label>
                         <div class="form-control-feedback form-control-feedback-start">
-                            <select class="form-select" name="property">
+                            <select class="form-select" name="property_id">
                                 <option value="" selected disabled></option>
                                 @foreach ($properties as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -36,6 +36,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="ph-arrow-counter-clockwise me-2"></i>
+                        Submit
+                    </button>
                 </div>
             </div>
 

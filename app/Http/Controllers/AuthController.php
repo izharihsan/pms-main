@@ -119,4 +119,18 @@ class AuthController extends Controller
         
         return view('auth.switch', compact('properties'));
     }
+
+    public function switchProperty(Request $request)
+    {
+        $update = User::where('id', Auth::user()->id)->update([
+            'property_id' => $request->property_id,
+        ]);
+
+        if ($update) {
+            $this->log('Switch Property', $request->property_id);
+            return redirect()->route('admin.dashboard.index');
+        }
+
+        return redirect()->route('admin.dashboard.index')->with('danger', 'Property not selected');
+    }
 }
