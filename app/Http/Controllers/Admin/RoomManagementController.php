@@ -143,7 +143,10 @@ class RoomManagementController extends Controller
         // dd($request->all());
         try {
             return $this->atomic(function () use ($request, $id) {
-                $room = Room::find($id)->update([
+                $room = Room::find($id);
+                $original_room = $room->getOriginal();
+                
+                $room->fill([
                     'room_name' => $request->room_name,
                     'room_type_id' => $request->room_type_id,
                     'number_of_room' => $request->number_of_room,
@@ -157,6 +160,17 @@ class RoomManagementController extends Controller
                     'property_id' => $request->property_id,
                 ]);
 
+                $dirty_room = $room->getDirty();
+                $room->save();
+
+                $action = 'Update Room ';
+                $room_index_dirty = 1;
+                foreach ($dirty_room as $attribute => $newValue) {
+                    $oldValue = $original_room[$attribute];
+                    $action .= $room_index_dirty . '. ' . $attribute . ' from ' . $oldValue . ' to ' . $newValue . ', ';
+                    $room_index_dirty += 1;
+                }
+                
                 $delete_room_bedroom = RoomBedroom::where('room_id', $id)->delete();
 
                 if ($request->has('bedroom_name') && $request->bedroom_name[0] != null) {
@@ -206,8 +220,8 @@ class RoomManagementController extends Controller
                     }
                 }
 
-                $this->log('Update Room Management', null);
-                return back()->with('success', 'Data berhasil ditambahkan');
+                $this->log($action, 'room_id', $id);
+                return back()->with('success', 'Data berhasil diupdate');
             });
         } catch (\Throwable $th) {
             dd($th);
