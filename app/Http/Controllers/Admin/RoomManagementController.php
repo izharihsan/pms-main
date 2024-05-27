@@ -10,6 +10,7 @@ use App\Models\RoomBedroom;
 use App\Models\RoomFacility;
 use App\Models\RoomPhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoomManagementController extends Controller
 {
@@ -17,9 +18,9 @@ class RoomManagementController extends Controller
     {
         $data = Room::orderBy('id', 'desc')->paginate(10);
 
-        $property_select = null;
-        if ($request->has('property_id') && $request->property_id != '') {
-            $property_id = $request->property_id;
+        $property_select = Auth::user()->property_id ?? null;
+        if (Auth::user()->property_id) {
+            $property_id = Auth::user()->property_id;
             $data = Room::where('property_id', $property_id)->orderBy('id', 'desc')->paginate(10);
             $property_select = Property::find($property_id);
         }

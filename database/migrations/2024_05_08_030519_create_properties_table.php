@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nib');
             $table->integer('rate');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
         });
     }
