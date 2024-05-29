@@ -9,6 +9,8 @@ use App\Models\Room;
 use App\Models\Property;
 use App\Models\RatePlanDetails;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RatePlanExport;
 
 class RatePlanController extends Controller
 {
@@ -144,5 +146,10 @@ class RatePlanController extends Controller
         $room = Room::where('property_id', Auth::user()->property_id)->get();
 
         return view('admin.ratePlan.detail', compact('data', 'room'));
+    }
+
+    public function download()
+    {
+        return Excel::download(new RatePlanExport, 'rate_plan.xlsx');
     }
 }

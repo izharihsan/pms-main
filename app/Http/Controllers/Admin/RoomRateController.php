@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use App\Models\RatePlan;
 use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RoomRateExport;
 
 class RoomRateController extends Controller
 {
@@ -198,5 +200,12 @@ class RoomRateController extends Controller
         }
     
         return $dates;
+    }
+
+    public function download()
+    {
+        $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
+
+        return Excel::download(new RoomRateExport($datesInCurrentMonth), 'room_rate.xlsx');
     }
 }

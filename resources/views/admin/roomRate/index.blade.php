@@ -59,6 +59,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="float-end mt-4">
+                            <a href="{{ route('admin.room_rates.download') }}" class="btn btn-danger ms-1 btn-sm"><i class="ph-download"></i> Download</a>
                             <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
                             <a href="#" class="btn btn-primary ms-1 btn-sm"><i class="ph-arrow-line-up"></i> Push</a>
                             <a href="{{ route('admin.room-rates.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Bulk Add / Update</a>
