@@ -238,25 +238,22 @@ class PropertyController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            return $this->atomic(function () use ($request, $id) {
-                $property=Property::find($id)->update([
+            $tab = $request->tab;
+            $property=Property::find($id);
+
+            // GENERAL
+            if ($tab == 'general') {
+                $property->update([
                     'name' => $request->name,
                     'legal_name' => $request->legal_name,
                     'phone' => $request->phone,
                     'total_room' => $request->total_room,
                     'nib' => $request->nib,
-                    'category' => \Str::lower($request->category),
                     'description' => $request->description,
                     'rate' => $request->rate,
                 ]);
 
-                $property_category = PropertyCategory::find($request->property_category_id)->update([
-                    'name' => \Str::lower($request->category),
-                    'properties_id' => $property->id,
-                ]);
-
-
-                $property_address = PropertyAddress::find($request->property_address_id)->update([
+                $property_address = PropertyAddress::findOrFail($property->address->id)->update([
                     'city' => $request->city,
                     'district' => $request->district,
                     'village' => $request->village,
@@ -264,52 +261,81 @@ class PropertyController extends Controller
                     'address' => $request->address,
                     'long' => $request->long,
                     'lat' => $request->lat,
-                    'properties_id' => $property->id,
+                    'properties_id' => $id,
                 ]);
 
-                foreach ($request->main_contact_id as $key => $value) {
-                    $property_contact_main = PropertyContact::find($value)->update([
-                        'name' => $request->main_contact_name[$key],
+                $property_type_delete = PropertyType::where('properties_id', $id)->delete();
+
+                foreach ($request->style_id as $key => $value) {
+                    PropertyType::create([
+                        'properties_id' => $id,
+                        'type_id' => $request->type_id,
+                        'style_id' => $value,
+                    ]);
+                }
+
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            // FACILITIES
+            if ($tab == 'facilities') {
+                $delete_facilities = PropertyFacilities::where('properties_id', $id)->delete();
+
+                foreach ($request->facility_id as $key => $value) {
+                    $property_facility = PropertyFacilities::create([
+                        // 'facilities_category_id' => $value['facilities_category_id'][$key] ?? null,
+                        // 'facilities_category_name' => $request['facilities_category_name'][$key],
+                        // 'facilities_name' => $request['facilities_name'][$key],
+                        'facilities_id' => $value,
+                        'properties_id' => $id,
+                    ]);
+                }
+
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            // CONTACT
+            if ($tab == 'contact') {
+                foreach ($request->main_contact_name as $key => $value) {
+                    $delete_property_contact = PropertyContact::where('properties_id', $id)->delete();
+
+                    $property_contact_main = PropertyContact::create([
+                        'name' => $value,
                         'email' => $request->main_contact_email[$key],
                         'phone' => (int)$request->main_contact_phone[$key],
                         'position' => $request->main_contact_position[$key],
                         'type' => 1,
-                        'properties_id' => $property->id,
+                        'properties_id' => $id,
                     ]);
                 }
 
-                foreach ($request->reservation_contact_id as $key => $value) {
-                    $property_contact_res = PropertyContact::find($value)->update([
-                        'name' => $request->reservation_contact_name[$key],
+                foreach ($request->reservation_contact_name as $key => $value) {
+                    $property_contact_res = PropertyContact::create([
+                        'name' => $value,
                         'email' => $request->reservation_contact_email[$key],
                         'phone' => (int)$request->reservation_contact_phone[$key],
                         'position' => $request->reservation_contact_position[$key],
                         'type' => 2,
-                        'properties_id' => $property->id,
+                        'properties_id' => $id,
                     ]);
                 }
 
-                foreach ($request->acounting_contact_id as $key => $value) {
-                    $property_contact_acc = PropertyContact::find($value)->update([
-                        'name' => $request->acounting_contact_name,
+                foreach ($request->acounting_contact_name as $key => $value) {
+                    $property_contact_acc = PropertyContact::create([
+                        'name' => $value,
                         'email' => $request->acounting_contact_email[$key],
                         'phone' => $request->acounting_contact_phone[$key],
                         'position' => $request->acounting_contact_position[$key],
                         'type' => 3,
-                        'properties_id' => $property->id,
+                        'properties_id' => $id,
                     ]);
                 }
-        
-                foreach ($request->property_facility_id as $key => $value) {
-                    $property_facility = PropertyFacilities::find($value)->update([
-                        'facilities_category_id' => $value['facilities_category_id'][$key] ?? null,
-                        'facilities_id' => $request->facility_id[$key],
-                        'properties_id' => $property->id,
-                    ]);
-                }
-                
 
-                $property_terms = PropertyTerms::find($request->property_terms_id)->update([
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            if ($tab == 'terms') {
+                $property_terms = PropertyTerms::find($property->terms->id)->update([
                     'reception_area' => $request->reception_area,
                     'check_in_from' => $request->check_in_from,
                     'check_in_until' => $request->check_in_until,
@@ -320,36 +346,43 @@ class PropertyController extends Controller
                     'cancelation_policy' => $request->cancelation_policy,
                     'release_time_type' => $request->release_time_type,
                     'release_after_booking' => $request->release_after_booking,
-                    'properties_id' => $property->id,
+                    'properties_id' => $id,
                 ]);
-        
-                foreach ($request->property_type_id as $key => $value) {
-                    PropertyType::find($value)->update([
-                        'properties_id' => $property->id,
-                        'type_id' => $request->type_id,
-                        'style_id' => $request->style_id,
-                    ]);
-                }
 
-                PropertyDocument::where('properties_id', $property->id)->delete();
-                PropertyPhotos::where('properties_id', $property->id)->delete();
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            if ($tab == 'documents') {
+                // dd($request->all());
+                // PropertyDocument::where('properties_id', $id)->delete();
 
                 foreach ($request->property_doc as $key => $value) {
                     PropertyDocument::find($value)->update([
-                        'properties_id' => $property->id,
+                        'properties_id' => $id,
                     ]);
                 }
+
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            if ($tab == 'photos') {
+                // PropertyPhotos::where('properties_id', $id)->delete();
 
                 foreach ($request->property_photo as $key => $value) {
                     PropertyPhotos::find($value)->update([
-                        'properties_id' => $property->id,
+                        'properties_id' => $id,
+                        'section' => $request->section[$key],
                     ]);
                 }
 
-                $this->log('Update Property', 'property_id', $id, null);
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
 
-                return back()->with('success', 'Data berhasil diupdate');
-            });
+            // return $this->atomic(function () use ($request, $id) {
+            //     $this->log('Update Property', 'property_id', $id, null);
+
+            //     return back()->with('success', 'Data berhasil diupdate');
+            // });
         } catch (\Throwable $th) {
             dd($th);
             return back()->with('error', $th->getMessage());
@@ -427,5 +460,12 @@ class PropertyController extends Controller
         $room_facilities = $apiResource->roomFacilities()['data']['categories'];
 
         return view('admin.roomManagement.create', compact('property', 'room_type', 'bed_type', 'room_facilities'));
+    }
+
+    public function deleteDoc($id)
+    {
+        $delete = PropertyDocument::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Data berhasil di hapus');
     }
 }
