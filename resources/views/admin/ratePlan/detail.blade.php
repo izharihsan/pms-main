@@ -83,14 +83,10 @@
             <div>
                 <hr>
                 <label for="" class="fw-bold">Connected Room</label><br>
-                <input type="checkbox" id="deluxe_sweet" name="connected_rooms[deluxe_sweet]">
-                <label for="breakfast">Deluxe Sweet</label>
-                <input type="checkbox" id="executive_sweet" name="connected_rooms[executive_sweet]">
-                <label for="breakfast">Executive Sweet</label>
-                <input type="checkbox" id="double_bed" name="connected_rooms[double_bed]">
-                <label for="breakfast">Double Bed</label>
-                <input type="checkbox" id="standard" name="connected_rooms[standard]">
-                <label for="breakfast">Standard</label>
+                @foreach ($room as $item)
+                    <input type="checkbox" id="{{ $item->room_name }}" name="connected_rooms[{{ $item->room_name }}]">
+                    <label for="{{ $item->room_name }}">{{ $item->room_name }}</label>
+                @endforeach
 
             </div>
             <div class="float-end mt-4">

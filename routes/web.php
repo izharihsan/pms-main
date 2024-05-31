@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/edit/{id}', [App\Http\Controllers\RatePlanController::class, 'form'])->name('rate_plan.edit');
         Route::delete('/destroy/{id}', [App\Http\Controllers\RatePlanController::class, 'destroy'])->name('rate_plan.destroy');
         Route::get('/show/{id}', [App\Http\Controllers\RatePlanController::class, 'show'])->name('rate_plan.show');
+        Route::get('/download', [App\Http\Controllers\RatePlanController::class, 'download'])->name('rate_plan.download');
     });
 
     Route::group(['prefix' => 'room-availability'], function () {
@@ -61,6 +62,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('property/upload-doc', [PropertyController::class, 'uploadPropertyDocument'])->name('property.uploadDoc');
     Route::delete('property/delete-doc/{id}', [PropertyController::class, 'deleteDoc'])->name('property.deleteDoc');
     Route::resource('property', PropertyController::class);
+    Route::get('room-rates/download', [RoomRateController::class, 'download'])->name('room_rates.download');
     Route::resource('room-rates', RoomRateController::class);
     Route::get('room-rates/details-room/{id}', [RoomRateController::class, 'details'])->name('room-rates.details');
     Route::post('room-rates/store/details-room', [RoomRateController::class, 'store_details'])->name('room-rates.store_details');

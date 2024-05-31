@@ -13,6 +13,7 @@
             </div>
             <div class="col">
                 <div class="float-end mt-4">
+                    <a href="{{ route('admin.rate_plan.download') }}" class="btn btn-danger ms-1 btn-sm"><i class="ph-download"></i> Download</a>
                     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="dropdown"><i class="ph-funnel"></i> Filter</button>
                     <div class="dropdown-menu dropdown-menu-end">
                         {{-- <a href="#" class="dropdown-item">Action</a>
@@ -53,6 +54,7 @@
                         </form>
                     </div>
             
+                 
                     <a href="{{ route('admin.rate_plan.create') }}" class="btn btn-primary ms-1 btn-sm"><i class="ph-plus"></i> Add Rate Plan</a>
                     {{-- <a href="#" class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default"><i class="ph-plus"></i> Add Rate Plan</a> --}}
                 </div>
