@@ -1,5 +1,35 @@
 pipelines:
   branches:
+    staging:
+      - step:
+          name: Build images Staging
+          image: node:16.18.0
+          services:
+            - docker
+          caches:
+            - node
+          script:
+            - cp env-stg .env
+            - npm install
+            - npm run build
+            - export BUILD_ID=$BITBUCKET_BRANCH_$BITBUCKET_COMMIT_$BITBUCKET_BUILD_NUMBER
+            - export IMAGE_NAME=${KBS_REGISTRY_URL}/kbs-dashboard/pms:latest-stg
+            - export USER=$DOCKER_USERNAME
+            - export PASS=$DOCKER_PASSWORD
+            - docker login ${KBS_REGISTRY_URL} -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+            - docker build -f ./Dockerfile -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          
+
+            
+      - step:
+          name: Deployment Staging
+          image: ragilkbs/kbs-digital:latest
+          script:
+            - export IMAGE_NAME=${KBS_REGISTRY_URL}/kbs-dashboard/pms:latest-stg
+            - export SSHPASS=$SSH_PASSWORD
+            - sshpass -p $SSHPASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST_STG "cd $SCRIPTS; pwd; docker-compose down; docker stop pms-dev_laravel.pms_1; docker rm pms-dev_laravel.pms_1; docker rmi $IMAGE_NAME; docker pull $IMAGE_NAME; docker-compose up -d"
+            - echo "Deployment Staging done"
     develop:
       - step:
           name: Build images development
@@ -22,6 +52,16 @@ pipelines:
           
 
             
+      - step:
+          name: Deployment Development
+          image: ragilkbs/kbs-digital:latest
+          script:
+            - export IMAGE_NAME=${KBS_REGISTRY_URL}/kbs-dashboard/pms:latest-dev
+            - export SSHPASS=$SSH_PASSWORD
+            - sshpass -p $SSHPASS ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST_DEV "cd $SCRIPTS; pwd; docker-compose down; docker stop pms-dev_laravel.pms_1; docker rm pms-dev_laravel.pms_1; docker rmi $IMAGE_NAME; docker pull $IMAGE_NAME; docker-compose up -d"
+            - echo "Deployment Development done"
+
+            
 definitions:
   services:
     docker:
@@ -29,4 +69,3 @@ definitions:
 
 
 options:
-  docker: true
