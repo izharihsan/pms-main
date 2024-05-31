@@ -11,24 +11,25 @@ use App\Models\RoomRatesDetails;
 use Carbon\Carbon;
 use App\Models\RatePlan;
 use App\Models\Property;
+use Illuminate\Support\Facades\Auth;
 
 class RoomRateController extends Controller
 {
     public function index()
     {
-        $property = Property::all();
+        $property = Property::find(Auth::user()->property_id);
         $datesInCurrentMonth = $this->getAllDatesInCurrentMonth();
-        $rooms = Room::all();
-        $this->log('View Room Rate', null);
+        $rooms = Room::where('property_id', Auth::user()->property_id)->get();
+        // $this->log('View Room Rate', null);
 
         return view('admin.roomRate.index', compact('datesInCurrentMonth', 'rooms', 'property'));
     }
 
     public function create(Request $request)
     {
-        $property = Property::find($request->property_id);
+        $property = Property::find(Auth::user()->property_id);
         // dd($property);
-        $room = Room::all();
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
         
         return view('admin.roomRate.create', compact('room', 'property'));
     }
@@ -44,21 +45,31 @@ class RoomRateController extends Controller
             'rooms'             => $rooms,
         ]);
 
-        $data = RoomRates::create($requestData);
-
         # get room details
         $explode = explode(', ', $rooms);
         $rooms = Room::whereIn('id', $explode)->get();
 
         $roomsWithRatePlans = [];
+        $connected_room = [];
 
         foreach ($rooms as $room) {
+            array_push($connected_room, $room->room_name);
+
             $ratePlans = RatePlan::where('connected_rooms', 'LIKE', '%' . $room->room_name . '%')->get();
             $roomsWithRatePlans[] = [
                 'room' => $room,
                 'ratePlans' => $ratePlans
             ];
         }
+
+        $connected_rooms = implode(', ', $connected_room);
+
+        $data = RoomRates::create($requestData);
+        $action = 'Add New Room Rate';
+
+        $this->log($action, 'room_rate_id', $data->id, $connected_rooms);
+
+       
 
         // dd($roomsWithRatePlans);
 
@@ -117,7 +128,7 @@ class RoomRateController extends Controller
         $data = RoomRates::find($id);
         $property = Property::find($data->property_id);
         // dd($data);
-        $room = Room::all();
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
         $room_explode = explode(', ', $data->rooms);
         $rooms_details = Room::whereIn('id', $room_explode)->get();
         // $room_rates_details = RoomRatesDetails::where('')
@@ -136,14 +147,15 @@ class RoomRateController extends Controller
             'rooms'             => $rooms,
         ]);
 
-        $room_rates->update($requestData);
-       
         $explode = explode(', ', $rooms);
         $rooms = Room::whereIn('id', $explode)->get();
 
         $roomsWithRatePlans = [];
+        $connected_room = [];
 
         foreach ($rooms as $room) {
+            array_push($connected_room, $room->room_name);
+
             $ratePlans = RatePlan::where('connected_rooms', 'LIKE', '%' . $room->room_name . '%')->get();
             $roomsWithRatePlans[] = [
                 'room' => $room,
@@ -151,6 +163,13 @@ class RoomRateController extends Controller
             ];
         }
 
+        $action = 'Update Room Rate';
+        $connected_rooms = implode(', ', $connected_room);
+        $this->log($action, 'room_rate_id', $room_rates->id, $connected_rooms);
+
+        $room_rates->update($requestData);
+       
+    
 
         return json_encode([
             'room_rate'     => $room_rates,

@@ -9,14 +9,7 @@ class Log extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'action',
-        'connected_room',
-        'ip_address',
-        'property_id',
-        'room_id',
-    ];
+    protected $guarded = ['id'];
 
     public function user()
     {

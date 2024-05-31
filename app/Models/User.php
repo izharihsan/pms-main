@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Log::class, 'user_id', 'id');
     }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id', 'id');
+    }
 }

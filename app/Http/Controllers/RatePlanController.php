@@ -8,6 +8,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Room;
 use App\Models\Property;
 use App\Models\RatePlanDetails;
+use Illuminate\Support\Facades\Auth;
 
 class RatePlanController extends Controller
 {
@@ -19,7 +20,7 @@ class RatePlanController extends Controller
 
     public function index(Request $request)
     {
-        $property = Property::all();
+        $property = Property::find(Auth::user()->property_id);
         // dd($request->room);
 
         if (isset($request->meals) || isset($request->room)) {
@@ -28,32 +29,33 @@ class RatePlanController extends Controller
                 ->where('connected_rooms', 'LIKE', '%'. $request->room .'%')
                 ->get();
             }else{
-                $data = RatePlan::all();
+                $data = RatePlan::where('property_id', Auth::user()->property_id)->get();
             }
         }else{
-            $data = RatePlan::all();
+            $data = RatePlan::where('property_id', Auth::user()->property_id)->get();
         }
  
 
-        $rooms = Room::all();
+        $rooms = Room::where('property_id', Auth::user()->property_id)->get();
 
         return view('admin.ratePlan.index', compact('data', 'rooms', 'property'));
     }
 
     public function form(Request $request, $id = null)
     {
-        // dd($request->property_id);
-        $room = Room::where('property_id', $request->property_id)->get();
-        $property = Property::find($request->property_id);
+        // dd(Auth::user()->property_id);
+        $room = Room::where('property_id', Auth::user()->property_id)->get();
+        $property = Property::find(Auth::user()->property_id);
 
         $data = null;
         if ($id) {
             $data = RatePlan::find($id);
+
             if ($data->property_id !== null) {
-                $property = Property::find($data->property_id);
+                $property = Property::find(Auth::user()->property_id);
                 $room = Room::where('property_id', $data->property_id)->get();
             }else{
-                $room = Room::all();
+                $room = Room::where('property_id', Auth::user()->property_id)->get();
             }
         }
 
