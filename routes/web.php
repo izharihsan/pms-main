@@ -59,6 +59,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('property/manage/{id}', [PropertyController::class, 'manageProperty'])->name('property.manageProperty');
     Route::post('property/upload-photo', [PropertyController::class, 'uploadPropertyPhoto'])->name('property.uploadPhoto');
     Route::post('property/upload-doc', [PropertyController::class, 'uploadPropertyDocument'])->name('property.uploadDoc');
+    Route::delete('property/delete-doc/{id}', [PropertyController::class, 'deleteDoc'])->name('property.deleteDoc');
     Route::resource('property', PropertyController::class);
     Route::resource('room-rates', RoomRateController::class);
     Route::get('room-rates/details-room/{id}', [RoomRateController::class, 'details'])->name('room-rates.details');
