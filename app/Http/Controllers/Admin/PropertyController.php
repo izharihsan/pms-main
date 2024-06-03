@@ -186,7 +186,7 @@ class PropertyController extends Controller
                 }
                 $this->log('Create Property', 'property_id', $property->id, null);
 
-                return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil ditambahkan');
+                return redirect()->route('switch')->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {
             dd($th);

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.auth')
 
 @section('title', 'Create Property')
 
@@ -96,8 +96,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">One</p>
                                         <input type="radio" name="rate" value="1"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
@@ -110,8 +109,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Two</p>
                                         <input type="radio" name="rate" value="2"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
@@ -125,8 +123,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Three</p>
                                         <input type="radio" name="rate" value="3"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
@@ -141,8 +138,7 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Four</p>
                                         <input type="radio" name="rate" value="4"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +187,7 @@
                     <div class="mb-3">
                         <label class="form-label">City: <span class="text-danger">*</span></label>
                         <select name="city" id="city" class="form-control required">
+                            <option value="" selected disabled>-- Select City --</option>
                         </select>
                     </div>
                 </div>
@@ -949,7 +946,8 @@
         }
 
         function populateProvince() {
-            const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
+            const url = "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+            // const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
 
             fetch(url)
                 .then(response => response.json())
@@ -966,7 +964,8 @@
         }
 
         function populateCity(province_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
+            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`;
+            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
 
             fetch(url)
                 .then(response => response.json())
@@ -984,7 +983,8 @@
         }
 
         function populateDistrict(city_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
+            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_id}.json`;
+            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1002,7 +1002,8 @@
         }
 
         function populateVillage(district_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
+            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`
+            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
 
             fetch(url)
                 .then(response => response.json())

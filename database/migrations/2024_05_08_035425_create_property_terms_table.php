@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('range');
             $table->integer('floors');
             $table->integer('cancelation_policy')->comment('1 = Cancel 14D prior arrival 50% charge. No Show 50% charge');
-            $table->time('release_time_type')->comment('1 = Hours, 2 = Day');
+            $table->integer('release_time_type')->comment('1 = Hours, 2 = Day');
             $table->integer('release_after_booking');
             $table->unsignedBigInteger('properties_id')->index()->nullable();
             $table->timestamps();
