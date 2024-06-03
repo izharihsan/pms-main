@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // $this->call(CategoryFacilityTableSeeder::class);
-        // $this->call(PropertyStyleSeeder::class);
+        $this->call(CategoryFacilityTableSeeder::class);
+        $this->call(PropertyStyleSeeder::class);
 
-        // $this->call(ProvinceSeeder::class);
-        // $this->call(CitySeeder::class);
-        // $this->call(DistrictSeeder::class);
+        $this->call(ProvinceSeeder::class);
+        $this->call(CitySeeder::class);
+        $this->call(DistrictSeeder::class);
         $this->call(VillageSeeder::class);
     }
 }
