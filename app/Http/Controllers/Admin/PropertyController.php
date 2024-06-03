@@ -88,9 +88,10 @@ class PropertyController extends Controller
 
 
                 $property_address = PropertyAddress::create([
-                    'city' => $request->city,
-                    'district' => $request->district,
-                    'village' => $request->village,
+                    'province_id' => $request->province,
+                    'city_id' => $request->city,
+                    'district_id' => $request->district,
+                    'village_id' => $request->village,
                     'postal_code' => $request->postal_code,
                     'address' => $request->address,
                     'long' => $request->long,

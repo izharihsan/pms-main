@@ -87,11 +87,11 @@
                 <input type="hidden" name="property_type" value="{{ \Request::get('property_type') }}">
 
                 <div class="col-lg-12">
-                    <div class="row">
+                    <div class="row text-center">
                         <p>Rate :</p>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">One</p>
@@ -101,9 +101,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -114,9 +114,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -128,9 +128,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -143,9 +143,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -239,11 +239,17 @@
                     <h3>Property Type and Style</h3>
                 </div>
             </div>
+
+            @php
+                $property_type_id = \Request::get('property_type');
+                $property_type = \App\Models\PropertyStyle::find($property_type_id);
+            @endphp
+
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Property Type: <span class="text-danger">*</span></label>
                     <select name="type_id" id="" class="form-control required">
-                        <option value="resort">Resort</option>
+                        <option value="{{ $property_type['id'] }}" selected>{{ $property_type['name'] }}</option>
                     </select>
                 </div>
             </div>
@@ -946,8 +952,8 @@
         }
 
         function populateProvince() {
-            const url = "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
-            // const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
+            // const url = "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+            const url = '/api/province';
 
             fetch(url)
                 .then(response => response.json())
@@ -964,8 +970,8 @@
         }
 
         function populateCity(province_id) {
-            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`;
-            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`;
+            const url = `/api/city?province_id=${province_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -983,8 +989,8 @@
         }
 
         function populateDistrict(city_id) {
-            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_id}.json`;
-            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_id}.json`;
+            const url = `/api/district?city_id=${city_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1002,8 +1008,8 @@
         }
 
         function populateVillage(district_id) {
-            const url = `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`
-            // const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`
+            const url = `/api/village?district_id=${district_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1086,14 +1092,14 @@
         $('.file-doc-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-doc',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'pdf'
                 }]
             },
             resize: {
@@ -1128,14 +1134,14 @@
         $('.file-photo-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-photo',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'jpg'
                 }]
             },
             resize: {

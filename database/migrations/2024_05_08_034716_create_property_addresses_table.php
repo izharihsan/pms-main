@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('property_addresses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('city')->index()->nullable();
-            $table->unsignedBigInteger('district')->index()->nullable();
-            $table->unsignedBigInteger('village')->index()->nullable();
+            $table->unsignedBigInteger('province_id')->index()->nullable();
+            $table->unsignedBigInteger('city_id')->index()->nullable();
+            $table->unsignedBigInteger('district_id')->index()->nullable();
+            $table->unsignedBigInteger('village_id')->index()->nullable();
             $table->text('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('long')->nullable();

@@ -968,7 +968,7 @@
                                                 <h5>Section : {{ $item->section }}</h5>
                                                 {{ $item->image_name }}
                                                 <span class="badge bg-primary">
-                                                    <a class="text-white" href="{{ asset('storage/'.$item->file) }}" download="{{ $item->image_name }}">Download</a>
+                                                    <a class="text-white" href="{{ asset('storage/'.$item->image) }}" download="{{ $item->image_name }}">Download</a>
                                                 </span>
                                             </div>
 

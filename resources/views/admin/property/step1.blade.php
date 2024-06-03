@@ -91,8 +91,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 ml-auto">
-                <button class="btn btn-secondary btn-outline" style="float: left;" type="button"><i
-                        class="ph-x pr-2"></i> Cancel</button>
+                <a class="btn btn-secondary btn-outline" style="float: left;" href="{{ route('switch') }}"><i
+                        class="ph-x pr-2"></i> Cancel</a>
             </div>
             <div class="col-md-6">
                 <input type="hidden" name="step" value="2">
