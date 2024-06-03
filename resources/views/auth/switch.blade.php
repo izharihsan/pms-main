@@ -58,8 +58,17 @@
 
         <!-- Marketing campaigns -->
         <div class="card">
-            <div class="card-header d-flex align-items-center">
-                <h5 class="mb-0">Last Activity</h5>
+            <div class="card-header align-items-center">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="mb-0">Last Activity</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-end">
+                            <a href="{{ route('admin.report.activity') }}" class="btn btn-outline-primary btn-sm"><i class="ph-eye"></i> Detail</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">

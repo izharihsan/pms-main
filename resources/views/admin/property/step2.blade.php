@@ -16,14 +16,13 @@
                 @foreach ($category_facilities as $item)
                     <div class="col-sm-6 col-xl-6">
                         <div class="input-group align-items-center">
-                            <input type="radio" id="{{ $item['id'] }}" name="property_type" value="{{ $item['id'] }}" style="margin-right: 20px;transform: scale(1.5);" required>
+                            <input type="radio" id="{{ $item['id'] }}" name="property_type" class="me-2" value="{{ $item['id'] }}" style="transform: scale(1.5);" required>
                             {{-- card --}}
-                            <div class="card" for="{{ $item['id'] }}" style="border-radius: 10px;width: 95%; background-color: #E6EFFC;">
+                            <div class="card" for="{{ $item['id'] }}" style="border-radius: 10px;width: 90%; background-color: #E6EFFC;">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-2 text-center">
-                                            <img src="{{ asset('img/image-not-found.png') }}" alt="" width="50"
-                                                style="border-radius: 50%; margin-right: 10px;">
+                                        <div class="col-md-2 text-center" style="margin: auto 0px;">
+                                            <img src="{{ asset('img/image-not-found.png') }}" alt="" width="50" style="border-radius: 50%; margin-right: 10px;">
                                         </div>
                                         <div class="col-md-8">
                                             <label>{{ $item['name'] }}</label>
