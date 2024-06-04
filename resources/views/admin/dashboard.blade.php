@@ -189,7 +189,8 @@
             <div class="card">
                 <div class="sidebar-section-body text-center">
                     <div class="card-img-actions d-inline-block mb-3">
-                        <img class="img-fluid rounded-circle" src="{{ 'https://ui-avatars.com/api/?name='.(Auth::user()->property->name ?? null) }}"
+                        <img class="img-fluid rounded-circle"
+                            src="{{ 'https://ui-avatars.com/api/?name='.(Auth::user()->property->name ?? null) }}"
                             width="150" height="150" alt="">
                         <div class="card-img-actions-overlay card-img rounded-circle">
                             <a href="#" class="btn btn-outline-white btn-icon rounded-pill">
@@ -200,18 +201,31 @@
 
                     <h6 class="mb-0">{{ Auth::user()->property->name }}</h6>
                     <span class="text-muted">{{ Auth::user()->property->legal_name }}</span>
+                    {{-- ICON RATING --}}
+                    <div class="align-items-center text-center mb-3">
+                        <i
+                            class="fa-solid fa-star {{ ($data->rate < 1) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i
+                            class="fa-solid fa-star {{ ($data->rate < 2) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i
+                            class="fa-solid fa-star {{ ($data->rate < 3) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i
+                            class="fa-solid fa-star {{ ($data->rate < 4) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                        <i
+                            class="fa-solid fa-star {{ ($data->rate < 5) ? 'text-secondary' : 'text-warning' }} me-1"></i>
+                    </div>
                 </div>
 
                 <ul class="nav nav-sidebar">
                     <li class="nav-item">
                         <a href="#general" class="nav-link active" data-bs-toggle="tab">
-                            <i class="ph-user me-2"></i>
+                            <i class="ph-squares-four me-2"></i>
                             General
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#facilities" class="nav-link" data-bs-toggle="tab">
-                            <i class="ph-calendar me-2"></i>
+                            <i class="ph-wrench me-2"></i>
                             Facitilies
                         </a>
                     </li>
@@ -223,13 +237,13 @@
                     </li>
                     <li class="nav-item">
                         <a href="#documents" class="nav-link" data-bs-toggle="tab">
-                            <i class="ph-shopping-cart me-2"></i>
+                            <i class="ph-file me-2"></i>
                             Documents
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#term" class="nav-link" data-bs-toggle="tab">
-                            <i class="ph-shopping-cart me-2"></i>
+                            <i class="ph-clock me-2"></i>
                             Terms
                         </a>
                     </li>
@@ -237,6 +251,12 @@
                         <a href="#photos" class="nav-link" data-bs-toggle="tab">
                             <i class="ph-image me-2"></i>
                             Photos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#nearby" class="nav-link" data-bs-toggle="tab">
+                            <i class="ph-map-pin me-2"></i>
+                            What's Nearby
                         </a>
                     </li>
                     <li class="nav-item-divider"></li>
@@ -266,7 +286,8 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
@@ -283,7 +304,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Legal Name: <span class="text-danger">*</span></label>
                                     <input type="text" name="legal_name" value="{{ $data->legal_name }}" id="legal_name"
-                                        class="form-control required" placeholder="Enter Legal Name">
+                                        class="form-control" placeholder="Enter Legal Name" disabled>
                                 </div>
                             </div>
 
@@ -303,8 +324,8 @@
                                     <label class="form-label">Total Room Number: <span
                                             class="text-danger">*</span></label>
                                     <input type="number" name="total_room" value="{{ $data->total_room }}"
-                                        id="property_room" class="form-control required "
-                                        placeholder="Enter Total Room">
+                                        id="property_room" class="form-control " placeholder="Enter Total Room"
+                                        disabled>
                                 </div>
                             </div>
 
@@ -320,47 +341,47 @@
                                 <div class="mb-3">
                                     <label class="form-label">Business Identification Number (NIB): <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="nib" value="{{ $data->nib }}"
-                                        class="form-control required " placeholder="Enter NIB">
+                                    <input type="text" name="nib" value="{{ $data->nib }}" class="form-control "
+                                        placeholder="Enter NIB" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="row">
                                     <p>Rate :</p>
-                                    <div class="col">
+                                    <div class="col-md-2">
                                         <div class="mb-3">
-                                            <div class="border p-3 rounded">
-                                                <div class="form-check form-check-inline text-center">
+                                            <div class="border p-3 rounded" style="height: 125px;">
+                                                <div class="text-center">
                                                     <i class="ph-star"></i>
                                                     <p class="form-check-p" for="cc_li_c">One</p>
                                                     <input type="radio" name="rate" value="1" {{ ($data['rate']==1)
                                                         ? 'checked' : '' }}
                                                         class="appearance-none border-none focus:outline-none"
-                                                        id="cc_li_c" checked="">
+                                                        id="cc_li_c">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-2">
                                         <div class="mb-3">
-                                            <div class="border p-3 rounded">
-                                                <div class="form-check form-check-inline text-center">
+                                            <div class="border p-3 rounded" style="height: 125px;">
+                                                <div class="text-center">
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
                                                     <p class="form-check-p" for="cc_li_c">Two</p>
                                                     <input type="radio" name="rate" value="2" {{ ($data['rate']==2)
                                                         ? 'checked' : '' }}
                                                         class="appearance-none border-none focus:outline-none"
-                                                        id="cc_li_c" checked="">
+                                                        id="cc_li_c">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-2">
                                         <div class="mb-3">
-                                            <div class="border p-3 rounded">
-                                                <div class="form-check form-check-inline text-center">
+                                            <div class="border p-3 rounded" style="height: 125px;">
+                                                <div class="text-center">
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
@@ -368,15 +389,15 @@
                                                     <input type="radio" name="rate" value="3" {{ ($data['rate']==3)
                                                         ? 'checked' : '' }}
                                                         class="appearance-none border-none focus:outline-none"
-                                                        id="cc_li_c" checked="">
+                                                        id="cc_li_c">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <div class="border p-3 rounded">
-                                                <div class="form-check form-check-inline text-center">
+                                            <div class="border p-3 rounded" style="height: 125px;">
+                                                <div class="text-center">
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
@@ -385,15 +406,15 @@
                                                     <input type="radio" name="rate" value="4" {{ ($data['rate']==4)
                                                         ? 'checked' : '' }}
                                                         class="appearance-none border-none focus:outline-none"
-                                                        id="cc_li_c" checked="">
+                                                        id="cc_li_c">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <div class="border p-3 rounded">
-                                                <div class="form-check form-check-inline text-center">
+                                            <div class="border p-3 rounded" style="height: 125px;">
+                                                <div class="text-center">
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
                                                     <i class="ph-star"></i>
@@ -403,7 +424,7 @@
                                                     <input type="radio" name="rate" value="5" {{ ($data['rate']==5)
                                                         ? 'checked' : '' }}
                                                         class="appearance-none border-none focus:outline-none"
-                                                        id="cc_li_c" checked="">
+                                                        id="cc_li_c">
                                                 </div>
                                             </div>
                                         </div>
@@ -426,52 +447,69 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Province: <span class="text-danger">only for change</span></label>
+                                    <label class="form-label">Province: </label>
                                     <select name="province" id="province" class="form-control">
+                                        @if (isset($data->address->province) && $data->address->province != null)
+                                        <option value="{{ $data->address->province_id }}" selected>{{
+                                            $data->address->province->name }} </option>
+                                        @else
                                         <option value="" selected disabled>-- Select Province --</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label class="form-label">City: <span class="text-danger">only for
-                                            change</span></label>
+                                    <label class="form-label">City: </label>
                                     <select name="city" id="city" class="form-control">
+                                        @if (isset($data->address->city) && $data->address->city != null)
+                                        <option value="{{ $data->address->city_id }}" selected>{{
+                                            $data->address->city->name }} </option>
+                                        @else
+                                        <option value="" selected disabled>-- Select City --</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label class="form-label">District: <span class="text-danger">only for
-                                            change</span></label>
+                                    <label class="form-label">District: </label>
                                     <select name="district" id="district" class="form-control">
+                                        @if (isset($data->address->district) && $data->address->district != null)
+                                        <option value="{{ $data->address->district_id }}" selected>{{
+                                            $data->address->district->name }} </option>
+                                        @else
                                         <option value="" selected disabled>-- Select District --</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Village: <span class="text-danger">only for
-                                            change</span></label>
+                                    <label class="form-label">Village: </label>
                                     <select name="village" id="village" class="form-control">
+                                        @if (isset($data->address->village) && $data->address->village != null)
+                                        <option value="{{ $data->address->village_id }}" selected>{{
+                                            $data->address->village->name }} </option>
+                                        @else
                                         <option value="" selected disabled>-- Select Village --</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Postal Code: <span class="text-danger">only for
-                                            change</span></label>
+                                    <label class="form-label">Postal Code: </label>
                                     <input type="number" name="postal_code" class="form-control "
+                                        value="{{ $data->address->postal_code ?? null }}"
                                         placeholder="Enter postal code">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Street Address: <span class="text-danger">only for
-                                            change</span></label>
+                                    <label class="form-label">Street Address: </label>
                                     <textarea name="address" id="property_address" cols="30" rows="5"
-                                        class="form-control required"></textarea>
+                                        class="form-control required">{{ $data->address->address ?? null }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -511,7 +549,8 @@
                                         <div class="border p-3 rounded">
                                             <div class="form-check form-check-inline">
                                                 <input type="checkbox" class="form-check-input" name="style_id[]"
-                                                    value="{{ $item['id'] }}" id="cc_li_c" {{ in_array($item['id'], $data->type()->pluck('style_id')->toArray()) ? 'checked' : '' }}>
+                                                    value="{{ $item['id'] }}" id="cc_li_c" {{ in_array($item['id'],
+                                                    $data->type()->pluck('style_id')->toArray()) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="cc_li_c">{{ $item['name']
                                                     }}</label>
                                             </div>
@@ -539,7 +578,8 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
@@ -567,8 +607,10 @@
                                                                 <div class="d-flex align-items-center mb-2">
                                                                     <input type="checkbox" id="dc_ls_u"
                                                                         name="facility_id[]"
-                                                                        value="{{ $detail['facility_id'] }}"
-                                                                        {{ in_array($detail['facility_id'], $data->facilities()->pluck('facilities_id')->toArray()) ? 'checked' : ''}}>
+                                                                        value="{{ $detail['facility_id'] }}" {{
+                                                                        in_array($detail['facility_id'],
+                                                                        $data->facilities()->pluck('facilities_id')->toArray())
+                                                                    ? 'checked' : ''}}>
                                                                     <label class="ms-2" for="dc_ls_u">{{
                                                                         $detail['facility_name'] }}</label>
                                                                 </div>
@@ -603,7 +645,8 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
@@ -616,49 +659,57 @@
                             </div>
                         </div>
                         @foreach ($main_contact as $item)
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="main_contact_name[]" value="{{ $item->name }}" class="form-control " placeholder="">
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                                    <input type="text" name="main_contact_name[]" value="{{ $item->name }}"
+                                        class="form-control " placeholder="">
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="main_contact_email[]" value="{{ $item->email }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="main_contact_phone[]" value="{{ $item->phone }}" class="form-control " placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="main_contact_position[]" value="{{ $item->position }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <hr>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                                    <input type="email" name="main_contact_email[]" value="{{ $item->email }}"
+                                        class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+62</span>
+                                        <input type="text" name="main_contact_phone[]" value="{{ $item->phone }}"
+                                            class="form-control " placeholder="999-999-9999">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                                    <input type="text" name="main_contact_position[]" value="{{ $item->position }}"
+                                        class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <hr>
+                        </div>
                         @endforeach
-                    
+
                         <div id="content-main-contact"></div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" onclick="addMainContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Main Contact</button>
-                                <button type="button" onclick="removeMainContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Main Contact</button>
+                                <button type="button" onclick="addMainContact()"
+                                    class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Main
+                                    Contact</button>
+                                <button type="button" onclick="removeMainContact()"
+                                    class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Main
+                                    Contact</button>
                             </div>
                         </div>
-                    
+
                         {{-- RESERVATION CONTACT --}}
                         <div class="row">
                             <div class="col-lg-12">
@@ -667,52 +718,59 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         @foreach ($reservation_contact as $item)
-                            <div class="row" >
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="reservation_contact_name[]" value="{{ $item->name }}" class="form-control " placeholder="">
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                                    <input type="text" name="reservation_contact_name[]" value="{{ $item->name }}"
+                                        class="form-control " placeholder="">
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="reservation_contact_email[]" value="{{ $item->email }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="reservation_contact_phone[]" value="{{ $item->phone }}" class="form-control "
-                                                placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="reservation_contact_position[]" value="{{ $item->position }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <hr>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                                    <input type="email" name="reservation_contact_email[]" value="{{ $item->email }}"
+                                        class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+62</span>
+                                        <input type="text" name="reservation_contact_phone[]" value="{{ $item->phone }}"
+                                            class="form-control " placeholder="999-999-9999">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                                    <input type="text" name="reservation_contact_position[]"
+                                        value="{{ $item->position }}" class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <hr>
+                        </div>
                         @endforeach
-                    
+
                         <div id="content-reservation-contact"></div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" onclick="addReservationContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Reservation Contact</button>
-                                <button type="button" onclick="removeReservationContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Reservation Contact</button>
+                                <button type="button" onclick="addReservationContact()"
+                                    class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Reservation
+                                    Contact</button>
+                                <button type="button" onclick="removeReservationContact()"
+                                    class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Reservation
+                                    Contact</button>
                             </div>
                         </div>
-                        
+
                         {{-- ACCOUNTING CONTACT --}}
                         <div class="row">
                             <div class="col-lg-12">
@@ -721,49 +779,56 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         @foreach ($accounting_contact as $item)
-                            <div class="row" >
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="acounting_contact_name[]" value="{{ $item->name }}" class="form-control " placeholder="">
-                                    </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name: <span class="text-danger">*</span></label>
+                                    <input type="text" name="acounting_contact_name[]" value="{{ $item->name }}"
+                                        class="form-control " placeholder="">
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="acounting_contact_email[]" value="{{ $item->email }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="acounting_contact_phone[]" value="{{ $item->phone }}" class="form-control "
-                                                placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="acounting_contact_position[]" value="{{ $item->position }}" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                    
-                                <hr>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email: <span class="text-danger">*</span></label>
+                                    <input type="email" name="acounting_contact_email[]" value="{{ $item->email }}"
+                                        class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+62</span>
+                                        <input type="text" name="acounting_contact_phone[]" value="{{ $item->phone }}"
+                                            class="form-control " placeholder="999-999-9999">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Position: <span class="text-danger">*</span></label>
+                                    <input type="text" name="acounting_contact_position[]" value="{{ $item->position }}"
+                                        class="form-control " placeholder="">
+                                </div>
+                            </div>
+
+                            <hr>
+                        </div>
                         @endforeach
-                    
+
                         <div id="content-accounting-contact"></div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <button type="button" onclick="addAccountingContact()" class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Accounting Contact</button>
-                                <button type="button" onclick="removeAccountingContact()" class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Accounting Contact</button>
+                                <button type="button" onclick="addAccountingContact()"
+                                    class="btn btn-primary btn-sm float-end"><i class="ph-plus"></i> Add Accounting
+                                    Contact</button>
+                                <button type="button" onclick="removeAccountingContact()"
+                                    class="btn btn-danger btn-sm float-end"><i class="ph-trash"></i> Remove Accounting
+                                    Contact</button>
                             </div>
                         </div>
 
@@ -785,41 +850,46 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
                         @foreach ($document as $item)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="text-start">
-                                                {{ $item->file_name }}
-                                                <span class="badge bg-primary">
-                                                    <a class="text-white" href="{{ asset('storage/'.$item->file) }}" download="{{ $item->file_name }}">Download</a>
-                                                </span>
-                                            </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-start">
+                                            {{ $item->file_name }}
+                                            <span class="badge bg-primary">
+                                                <a class="text-white" href="{{ asset('storage/'.$item->file) }}"
+                                                    download="{{ $item->file_name }}">Download</a>
+                                            </span>
+                                        </div>
 
-                                            {{-- <div class="text-end">
-                                                <button type='submit' class='btn btn-danger'><i class="ph-trash"></i></button>
+                                        {{-- <div class="text-end">
+                                            <button type='submit' class='btn btn-danger'><i
+                                                    class="ph-trash"></i></button>
 
-                                                <form id="" action='{{ route('admin.property.deleteDoc', [$item->id]) }}' method='POST' enctype='multipart/form-data'>
+                                            <form id="" action='{{ route(' admin.property.deleteDoc', [$item->id]) }}'
+                                                method='POST' enctype='multipart/form-data'>
                                                 @csrf
                                                 @method("DELETE")
-                                                </form>
-                                            </div> --}}
-                                        </div>
+                                            </form>
+                                        </div> --}}
                                     </div>
-                                    {{-- <input type="hidden" name="property_doc[]" value="{{ $item->id }}"> --}}
                                 </div>
+                                {{-- <input type="hidden" name="property_doc[]" value="{{ $item->id }}"> --}}
                             </div>
+                        </div>
                         @endforeach
 
                         <input type="hidden" name="tab" value="documents">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="file-doc-property"><span>Your browser doesn't have Flash installed.</span></div>
+                                <div class="file-doc-property"><span>Your browser doesn't have Flash installed.</span>
+                                </div>
                                 <div id="inputDoc"></div>
                             </div>
                         </div>
@@ -840,110 +910,140 @@
                     <h5 class='mb-0'>Terms</h5>
                 </div>
                 <div class='card-body'>
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
-                    <input type="hidden" name="tab" value="terms">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <h3>Terms & Conditions</h3>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <label class="form-label">Reception Area : <span class="text-danger">*</span></label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input required" type="radio" name="reception_area" value="{{ $terms->reception_area ?? null }}" id="inlineRadio1" value="1"
-                                        checked>
-                                    <label class="form-check-label" for="inlineRadio1">Available 24 Hours</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input required" type="radio" name="reception_area" value="{{ $terms->reception_area ?? null }}" id="inlineRadio2" value="1">
-                                    <label class="form-check-label" for="inlineRadio2">Not Available <span class="text-muted">24
-                                            Hours</span></label>
+                        <input type="hidden" name="tab" value="terms">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <h3>Terms & Conditions</h3>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Check-in Time (from) : <span class="text-danger">*</span></label>
-                                <input type="time" name="check_in_from" value="{{ $terms->check_in_from ?? null }}" id="check_in_from" class="form-control required " placeholder="">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Reception Area : <span
+                                            class="text-danger">*</span></label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input required" type="radio" name="reception_area"
+                                            value="{{ $terms->reception_area ?? null }}" id="inlineRadio1" value="1"
+                                            checked>
+                                        <label class="form-check-label" for="inlineRadio1">Available 24 Hours</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input required" type="radio" name="reception_area"
+                                            value="{{ $terms->reception_area ?? null }}" id="inlineRadio2" value="1">
+                                        <label class="form-check-label" for="inlineRadio2">Not Available <span
+                                                class="text-muted">24
+                                                Hours</span></label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Check-in Time (until) : <span class="text-danger">*</span></label>
-                                <input type="time" name="check_in_until" value="{{ $terms->check_in_until ?? null }}" id="check_in_until" class="form-control required " placeholder="">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Check-in Time (from) : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="time" name="check_in_from" value="{{ $terms->check_in_from ?? null }}"
+                                        id="check_in_from" class="form-control required " placeholder="">
+                                </div>
                             </div>
-                        </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Check-out Time (from): <span class="text-danger">*</span></label>
-                                <input type="time" name="check_out_from" value="{{ $terms->check_out_from ?? null }}" id="check_out_from" class="form-control required " placeholder="Enter Check-out Time">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Check-in Time (until) : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="time" name="check_in_until"
+                                        value="{{ $terms->check_in_until ?? null }}" id="check_in_until"
+                                        class="form-control required " placeholder="">
+                                </div>
                             </div>
-                        </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Check-out Time (until): <span class="text-danger">*</span></label>
-                                <input type="time" name="check_out_until" value="{{ $terms->check_out_until ?? null }}" id="check_out_until" class="form-control required " placeholder="Enter Check-out Time">
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Check-out Time (from): <span
+                                            class="text-danger">*</span></label>
+                                    <input type="time" name="check_out_from"
+                                        value="{{ $terms->check_out_from ?? null }}" id="check_out_from"
+                                        class="form-control required " placeholder="Enter Check-out Time">
+                                </div>
                             </div>
-                        </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Distance to City Center: <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number" name="range" value="{{ $terms->range ?? null }}" class="form-control required " placeholder="Enter Distance to City Center">
-                                    <span class="input-group-text">KM</span>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Check-out Time (until): <span
+                                            class="text-danger">*</span></label>
+                                    <input type="time" name="check_out_until"
+                                        value="{{ $terms->check_out_until ?? null }}" id="check_out_until"
+                                        class="form-control required " placeholder="Enter Check-out Time">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Distance to City Center: <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="number" name="range" value="{{ $terms->range ?? null }}"
+                                            class="form-control required " placeholder="Enter Distance to City Center">
+                                        <span class="input-group-text">KM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Number of Floors: <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="number" name="floors" value="{{ $terms->floors ?? null }}"
+                                            class="form-control required " placeholder="Enter Number of Floors">
+                                        <span class="input-group-text">Floors</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Cancelation Policy: <span
+                                            class="text-danger">*</span></label>
+                                    <select name="cancelation_policy" value="{{ $terms->cancelation_policy ?? null }}"
+                                        id="" class="form-control required">
+                                        <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50%
+                                            charge</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Room Release Time Type: <span
+                                            class="text-danger">*</span></label>
+                                    <select name="release_time_type" id="" class="form-select required">
+                                        <option value="1" {{ ($terms->release_time_type == 1) ? 'selected' : '' }}>Hours
+                                        </option>
+                                        <option value="2" {{ ($terms->release_time_type == 2) ? 'selected' : ''
+                                            }}>Minutes</option>
+                                        <option value="3" {{ ($terms->release_time_type == 3) ? 'selected' : ''
+                                            }}>Seconds</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Room Release After Booking: <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" name="release_after_booking"
+                                        value="{{ $terms->release_after_booking }}" class="form-control required "
+                                        placeholder="Enter Number">
                                 </div>
                             </div>
                         </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Number of Floors: <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number" name="floors" value="{{ $terms->floors ?? null }}" class="form-control required " placeholder="Enter Number of Floors">
-                                    <span class="input-group-text">Floors</span>
-                                </div>
-                            </div>
+
+                        <div class="text-end">
+                            <button type='submit' class='btn btn-primary'>Save</button>
                         </div>
-                
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <label class="form-label">Cancelation Policy: <span class="text-danger">*</span></label>
-                                <select name="cancelation_policy" value="{{ $terms->cancelation_policy ?? null }}" id="" class="form-control required">
-                                    <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50% charge</option>
-                                </select>
-                            </div>
-                        </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Room Release Time Type: <span class="text-danger">*</span></label>
-                                <select name="release_time_type" id="" class="form-select required">
-                                    <option value="1" {{ ($terms->release_time_type == 1) ? 'selected' : '' }}>Hours</option>
-                                    <option value="2" {{ ($terms->release_time_type == 2) ? 'selected' : '' }}>Minutes</option>
-                                    <option value="3" {{ ($terms->release_time_type == 3) ? 'selected' : '' }}>Seconds</option>
-                                </select>
-                            </div>
-                        </div>
-                
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Room Release After Booking: <span class="text-danger">*</span></label>
-                                <input type="number" name="release_after_booking" value="{{ $terms->release_after_booking }}" class="form-control required " placeholder="Enter Number">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-end">
-                        <button type='submit' class='btn btn-primary'>Save</button>
-                    </div>
                     </form>
                 </div>
             </div>
@@ -955,36 +1055,40 @@
                     <h5 class='mb-0'>Photos</h5>
                 </div>
                 <div class='card-body'>
-                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
                         @foreach ($photos as $item)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="text-start">
-                                                <h5>Section : {{ $item->section }}</h5>
-                                                {{ $item->image_name }}
-                                                <span class="badge bg-primary">
-                                                    <a class="text-white" href="{{ asset('storage/'.$item->image) }}" download="{{ $item->image_name }}">Download</a>
-                                                </span>
-                                            </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-start">
+                                            <h5>Section : {{ $item->section }}</h5>
+                                            {{ $item->image_name }}
+                                            <span class="badge bg-primary">
+                                                <a class="text-white" href="{{ asset('storage/'.$item->image) }}"
+                                                    download="{{ $item->image_name }}">Download</a>
+                                            </span>
+                                        </div>
 
-                                            {{-- <div class="text-end">
-                                                <button type='submit' class='btn btn-danger'><i class="ph-trash"></i></button>
+                                        {{-- <div class="text-end">
+                                            <button type='submit' class='btn btn-danger'><i
+                                                    class="ph-trash"></i></button>
 
-                                                <form id="" action='{{ route('admin.property.deleteDoc', [$item->id]) }}' method='POST' enctype='multipart/form-data'>
+                                            <form id="" action='{{ route(' admin.property.deleteDoc', [$item->id]) }}'
+                                                method='POST' enctype='multipart/form-data'>
                                                 @csrf
                                                 @method("DELETE")
-                                                </form>
-                                            </div> --}}
-                                        </div>
+                                            </form>
+                                        </div> --}}
                                     </div>
-                                    {{-- <input type="hidden" name="property_doc[]" value="{{ $item->id }}"> --}}
                                 </div>
+                                {{-- <input type="hidden" name="property_doc[]" value="{{ $item->id }}"> --}}
                             </div>
+                        </div>
                         @endforeach
 
                         <input type="hidden" name="tab" value="photos">
@@ -998,28 +1102,104 @@
                                     </select>
                                 </div>
                             </div>
-                    
+
                             <div class="row" id="other-section-photo" hidden>
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label class="form-label">Other Section</label>
-                                        <input type="text" class="form-control" name="section" id="section" value="lobby" id="input-section-photo"
-                                            placeholder="Other Section">
+                                        <input type="text" class="form-control" name="section" id="section"
+                                            value="lobby" id="input-section-photo" placeholder="Other Section">
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="col-lg-12" id="sectionPhoto">
-                                <div class="file-photo-property"><span>Your browser doesn't have Flash installed.</span></div>
+                                <div class="file-photo-property"><span>Your browser doesn't have Flash installed.</span>
+                                </div>
                             </div>
                             <div id="inputPhoto"></div>
-                    
+
                             <hr>
                         </div>
                         <button type='submit' class='btn btn-primary'>Submit</button>
                     </form>
                 </div>
             </div>
+        </div>
+
+        <div class="tab-pane fade" id="nearby">
+
+            <form action="{{ route('admin.property.update', [$data->id]) }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+                @method("PUT")
+
+                <input type="hidden" name="tab" value="nearby">
+                @foreach ($category_nearby as $item)
+                    @php
+                        $property_nearby = $data->nearby()->where('category_nearby_id', $item->id)->get();
+                    @endphp
+
+                    <div class="card">
+                        <div class="card-header d-flex">
+                            <h5 class="mb-0">{{ $item->name }}</h5>
+                        </div>
+
+                        <input type="hidden" name="category_nearby_id[]" value="{{ $item->id }}">
+
+                        <div class="card-body">
+                            <div class="row mb-5">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Place Name</th>
+                                                <th>Distance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($property_nearby as $nearby)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $nearby->place_name }}</td>
+                                                    <td>{{ $nearby->distance }} KM</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Place Name: <span class="text-danger">*</span></label>
+                                        <input type="text" name="place_name[]"
+                                            class="form-control " placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Distance: <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" name="distance[]"
+                                            class="form-control " placeholder="999-999-9999">
+                                            <span class="input-group-text">KM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                <div class="text-end mb-5">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+            <!-- /my inbox -->
+
         </div>
     </div>
     <!-- /right content -->
@@ -1029,8 +1209,7 @@
 @endsection
 
 @push('js')
-<script defer
-    async
+<script defer async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4EtvMrbk-iJtGCuaiZ0DIEcOrf7UoTT0&loading=async&callback=initMap&libraries=map,marker&libraries=places&v=weekly&solution_channel=GMP_CCS_textdirections_v1">
 </script>
 
@@ -1089,116 +1268,17 @@
     
 
     function addMainContact() {
-        var elem = `
-        <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="main_contact_name[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="main_contact_email[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="main_contact_phone[]" class="form-control " placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="main_contact_position[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <hr>
-                            </div>`
+        var elem = $('#main-contact').html();
         $('#content-main-contact').append(elem);
     }
 
     function addReservationContact(){
-        var elem = `<div class="row" >
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="reservation_contact_name[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="reservation_contact_email[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="reservation_contact_phone[]" class="form-control "
-                                                placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="reservation_contact_position[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <hr>
-                            </div>`;
+        var elem = $('#reservation-contact').html();
         $('#content-reservation-contact').append(elem);
     }
 
     function addAccountingContact(){
-        var elem = `<div class="row" >
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                                        <input type="text" name="acounting_contact_name[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email: <span class="text-danger">*</span></label>
-                                        <input type="email" name="acounting_contact_email[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">+62</span>
-                                            <input type="text" name="acounting_contact_phone[]" class="form-control "
-                                                placeholder="999-999-9999">
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position: <span class="text-danger">*</span></label>
-                                        <input type="text" name="acounting_contact_position[]" class="form-control " placeholder="">
-                                    </div>
-                                </div>
-                    
-                                <hr>
-                            </div>`;
+        var elem = $('#accounting-contact').html();
         $('#content-accounting-contact').append(elem);
     }
 
@@ -1296,7 +1376,9 @@
         var marker;
         let service;
         let geocoder;
-        var latlng = { lat: -6.200000, lng: 106.816666 };
+        var lat = "{{ ($data->address != null) ? $data->address->lat : -6.200000 }}";
+        var lng = "{{ ($data->address != null) ? $data->address->long : 106.816666 }}";
+        var latlng = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
        function initMap() {
             // Set the initial map center and zoom level
@@ -1322,8 +1404,11 @@
                 var longitude = event.latLng.lng();
 
                 // Display the coordinates
-                document.getElementById('lat').textContent = latitude;
-                document.getElementById('long').textContent = longitude;
+                // document.getElementById('lat').textContent = latitude;
+                // document.getElementById('long').textContent = longitude;
+                // UPDATE VALUE
+                $('#lat').val(latitude);
+                $('#long').val(longitude);
                 addMarker(event.latLng);
             });
 
@@ -1370,7 +1455,9 @@
                 } else {
                     bounds.extend(place.geometry.location);
                 }
-
+                // UPDATE VALUE
+                $('#lat').val(place.geometry.location.lat());
+                $('#long').val(place.geometry.location.lng());
                 // Update coordinates display (this could be in another element or console)
                 console.log('Coordinates:', place.geometry.location.lat(), place.geometry.location.lng());
                 });
@@ -1379,7 +1466,8 @@
         }
 
         function populateProvince() {
-            const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
+            // const url = "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+            const url = '/api/province';
 
             fetch(url)
                 .then(response => response.json())
@@ -1396,7 +1484,8 @@
         }
 
         function populateCity(province_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`;
+            const url = `/api/city?province_id=${province_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1414,7 +1503,8 @@
         }
 
         function populateDistrict(city_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_id}.json`;
+            const url = `/api/district?city_id=${city_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1432,7 +1522,8 @@
         }
 
         function populateVillage(district_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`
+            const url = `/api/village?district_id=${district_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1515,14 +1606,14 @@
         $('.file-doc-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-doc',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'pdf'
                 }]
             },
             resize: {
@@ -1557,14 +1648,14 @@
         $('.file-photo-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-photo',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'jpg'
                 }]
             },
             resize: {

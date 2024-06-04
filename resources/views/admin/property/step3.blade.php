@@ -242,7 +242,7 @@
 
             @php
                 $property_type_id = \Request::get('property_type');
-                $property_type = \App\Models\PropertyStyle::find($property_type_id);
+                $property_type = \App\Models\CategoryFacility::find($property_type_id);
             @endphp
 
             <div class="col-lg-6">
@@ -278,7 +278,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="mb-3">
-                        <p class="fw-semibold">Left stacked</p>
                         <div class="accordion" id="accordion_collapsed">
                             @foreach ($facilities as $i => $item)
                             <div class="accordion-item">
@@ -289,7 +288,7 @@
                                         {{ $item['category_name'] }}
                                     </button>
                                 </h2>
-                                <div id="collapsed_item{{ $i }}" class="accordion-collapse collapse"
+                                <div id="collapsed_item{{ $i }}" class="accordion-collapse collapse {{($i == 0) ? 'show' : ''}}"
                                     data-bs-parent="#accordion_collapsed" style="">
                                     <div class="accordion-body">
                                         <div class="border p-3 rounded">
@@ -297,7 +296,7 @@
                                                 @foreach ($item['detail'] as $detail)
                                                 <div class="col-lg-3">
                                                     <div class="d-flex align-items-center mb-2">
-                                                        <input type="checkbox" id="dc_ls_u" name="facility_id[]"
+                                                        <input type="checkbox" id="dc_ls_u" name="facility_id[]" class="required"
                                                             value="{{ $detail['facility_id'] }}">
                                                         <label class="ms-2" for="dc_ls_u">{{ $detail['facility_name'] }}</label>
                                                     </div>
@@ -633,14 +632,11 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card-img-actions">
-                            <img class="card-img-top img-fluid" src="../../../assets/images/demo/flat/4.png" alt="">
+                            <img class="card-img-top img-fluid" id="image_property" src="../../../assets/images/demo/flat/4.png" alt="">
                             <div class="card-img-actions-overlay card-img-top">
-                                <a href="../../../assets/images/demo/flat/4.png"
-                                    class="btn btn-outline-white border-width-2" data-popup="lightbox">
+                                <a id="image_property_preview" href="../../../assets/images/demo/flat/4.png"
+                                    class="btn btn-outline-white border-width-2" target="_blank" data-popup="lightbox">
                                     Preview
-                                </a>
-                                <a href="#" class="btn btn-outline-white border-width-2 ms-2">
-                                    Details
                                 </a>
                             </div>
                         </div>
@@ -895,8 +891,11 @@
                 var longitude = event.latLng.lng();
 
                 // Display the coordinates
-                document.getElementById('lat').textContent = latitude;
-                document.getElementById('long').textContent = longitude;
+                // document.getElementById('lat').textContent = latitude;
+                // document.getElementById('long').textContent = longitude;
+                // UPDATE VALUE
+                $("#lat").val(latitude);
+                $("#long").val(longitude);
                 addMarker(event.latLng);
             });
 
@@ -1158,14 +1157,17 @@
                     try {
                         var response = JSON.parse(info.response); // Parse the response
                         console.log('File uploaded successfully:', response);
-                        // Assuming the response contains an ID
+                        // Assuming the response contains an ID image_property
                         if (response.id) {
+                            $("#image_property").attr('src', '/storage/'+response.image);
+                            $("#image_property_preview").attr('href', '/storage/'+response.image);
+                            
                             var section = $('#section').val();
                             var inputValue = `<input type="hidden" name="property_photo[]" value="`+response.id+`">
                                                 <input type="hidden" name="section[]" value="`+section+`">`
                             $('#inputPhoto').append(inputValue);
                             $('#section').val('lobby');
-
+                            // SET IMAGE ON ID
                             _componentPlupload();
 
                         }
