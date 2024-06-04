@@ -5,13 +5,13 @@
 @section('content')
 <div class="row">
     {{-- BUTTON RIGHT --}}
-    <div class="col-xl-12 text-end">
+    {{-- <div class="col-xl-12 text-end">
         <a href="{{ route('admin.property.create') }}" class="btn btn-light">Create New Property <i class="ph-plus ms-2"></i></a>
-    </div>
+    </div> --}}
 
     @foreach ($properties as $item)
         <div class="col-lg-4">
-            <div class="card bg-primary text-white">
+            <div class="card bg-primary text-white" style="height: 210px;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <h3 class="mb-0">{{ $item->name }}</h3>
@@ -53,13 +53,31 @@
             </div>
         </div>
     @endforeach
+    <div class="col-lg-4">
+        <a href="{{ route('admin.property.create') }}">
+            <div class="card text-white" style="height: 210px;">
+                <div class="card-body text-center" style="border: 1px solid #013FA1;border-radius: 5px;color: #013FA1;">
+                    <h3 class="mb-0" style="margin: 70px auto;"><i class="ph-plus ms-2"></i> Add New Property</h3>
+                </div>
+            </div>
+        </a>
+    </div>
 
     <div class="col-xl-12">
 
         <!-- Marketing campaigns -->
         <div class="card">
-            <div class="card-header d-flex align-items-center">
-                <h5 class="mb-0">Last Activity</h5>
+            <div class="card-header align-items-center">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="mb-0">Last Activity</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-end">
+                            <a href="{{ route('admin.report.activity') }}" class="btn btn-outline-primary btn-sm"><i class="ph-eye"></i> Detail</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">

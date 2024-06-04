@@ -117,7 +117,7 @@ class AuthController extends Controller
     public function switch()
     {
         $properties = Property::orderBy('id', 'desc')->get();
-        $log = Log::orderBy('id', 'desc')->where('user_id', Auth()->user()->id)->paginate(10);
+        $log = Log::orderBy('id', 'desc')->where('user_id', Auth()->user()->id)->paginate(5);
         
         return view('auth.switch', compact('properties', 'log'));
     }

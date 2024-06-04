@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_types', function (Blueprint $table) {
+        Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->string('type_id')->nullable();
-            // $table->unsignedBigInteger('type_id')->index()->nullable();
-            $table->unsignedBigInteger('style_id')->index()->nullable();
-            $table->unsignedBigInteger('properties_id')->index();
+            $table->string('name');
+            $table->unsignedBigInteger('regency_id')->index();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_types');
+        Schema::dropIfExists('districts');
     }
 };

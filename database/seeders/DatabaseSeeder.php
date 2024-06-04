@@ -17,5 +17,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategoryFacilityTableSeeder::class);
         $this->call(PropertyStyleSeeder::class);
+
+        $this->call(ProvinceSeeder::class);
+        $this->call(CitySeeder::class);
+        $this->call(DistrictSeeder::class);
+        $this->call(VillageSeeder::class);
+        $this->call(CategoryNearbySeeder::class);
     }
 }

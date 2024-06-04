@@ -21,6 +21,27 @@
     <script src="{{asset('assets/js/app.js') }}"></script>
     <!-- /theme JS files -->
 
+    <script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
+	<script src="{{ asset('assets/js/vendor/forms/wizards/steps.min.js') }}"></script>
+	<script src="{{ asset('assets/js/vendor/forms/validation/validate.min.js') }}"></script>
+
+	<script src="{{ asset('assets/demo/pages/form_wizard.js') }}"></script>
+
+	<script src="{{ asset('/assets/js/vendor/tables/datatables/datatables.min.js') }}"></script>
+	<script src="{{ asset('/assets/js/vendor/tables/datatables/extensions/fixed_columns.min.js') }}"></script>
+	<script src="{{ asset('/assets/demo/pages/datatables_api.js') }}"></script>
+	<script src="{{ asset('/assets/demo/pages/datatables_extension_fixed_columns.js') }}"></script>
+	<script src="{{ asset('/assets/js/vendor/forms/selects/bootstrap_multiselect.js') }}"></script>
+	<script src="{{ asset('/assets/demo/pages/form_multiselect.js') }}"></script>
+
+	{{-- IMPORT CDN FONTAWESOME --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+	<!-- Include SweetAlert CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+	<!-- Include SweetAlert JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    @stack('css')
 </head>
 
 <body class="">
@@ -262,8 +283,7 @@
     </div>
     <!-- /demo config -->
 
-
-
+    @stack('js')
 </body>
 
 </html>

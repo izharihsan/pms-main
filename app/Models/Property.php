@@ -56,4 +56,9 @@ class Property extends Model
         return $this->hasMany(Room::class, 'property_id', 'id');
     }
 
+    public function nearby()
+    {
+        return $this->hasMany(PropertyNearby::class, 'property_id', 'id');
+    }
+
 }

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.auth')
 
 @section('title', 'Create Property')
 
@@ -87,53 +87,50 @@
                 <input type="hidden" name="property_type" value="{{ \Request::get('property_type') }}">
 
                 <div class="col-lg-12">
-                    <div class="row">
+                    <div class="row text-center">
                         <p>Rate :</p>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">One</p>
                                         <input type="radio" name="rate" value="1"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Two</p>
                                         <input type="radio" name="rate" value="2"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Three</p>
                                         <input type="radio" name="rate" value="3"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -141,15 +138,14 @@
                                         <i class="ph-star"></i>
                                         <p class="form-check-p" for="cc_li_c">Four</p>
                                         <input type="radio" name="rate" value="4"
-                                            class="appearance-none border-none focus:outline-none" id="cc_li_c"
-                                            checked="">
+                                            class="appearance-none border-none focus:outline-none" id="cc_li_c">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col">
                             <div class="mb-3">
-                                <div class="border p-3 rounded">
+                                <div class="border p-3 rounded" style="height: 125px;">
                                     <div class="form-check form-check-inline text-center">
                                         <i class="ph-star"></i>
                                         <i class="ph-star"></i>
@@ -191,6 +187,7 @@
                     <div class="mb-3">
                         <label class="form-label">City: <span class="text-danger">*</span></label>
                         <select name="city" id="city" class="form-control required">
+                            <option value="" selected disabled>-- Select City --</option>
                         </select>
                     </div>
                 </div>
@@ -242,11 +239,17 @@
                     <h3>Property Type and Style</h3>
                 </div>
             </div>
+
+            @php
+                $property_type_id = \Request::get('property_type');
+                $property_type = \App\Models\CategoryFacility::find($property_type_id);
+            @endphp
+
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Property Type: <span class="text-danger">*</span></label>
                     <select name="type_id" id="" class="form-control required">
-                        <option value="resort">Resort</option>
+                        <option value="{{ $property_type['id'] }}" selected>{{ $property_type['name'] }}</option>
                     </select>
                 </div>
             </div>
@@ -275,7 +278,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="mb-3">
-                        <p class="fw-semibold">Left stacked</p>
                         <div class="accordion" id="accordion_collapsed">
                             @foreach ($facilities as $i => $item)
                             <div class="accordion-item">
@@ -286,7 +288,7 @@
                                         {{ $item['category_name'] }}
                                     </button>
                                 </h2>
-                                <div id="collapsed_item{{ $i }}" class="accordion-collapse collapse"
+                                <div id="collapsed_item{{ $i }}" class="accordion-collapse collapse {{($i == 0) ? 'show' : ''}}"
                                     data-bs-parent="#accordion_collapsed" style="">
                                     <div class="accordion-body">
                                         <div class="border p-3 rounded">
@@ -294,7 +296,7 @@
                                                 @foreach ($item['detail'] as $detail)
                                                 <div class="col-lg-3">
                                                     <div class="d-flex align-items-center mb-2">
-                                                        <input type="checkbox" id="dc_ls_u" name="facility_id[]"
+                                                        <input type="checkbox" id="dc_ls_u" name="facility_id[]" class="required"
                                                             value="{{ $detail['facility_id'] }}">
                                                         <label class="ms-2" for="dc_ls_u">{{ $detail['facility_name'] }}</label>
                                                     </div>
@@ -630,14 +632,11 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card-img-actions">
-                            <img class="card-img-top img-fluid" src="../../../assets/images/demo/flat/4.png" alt="">
+                            <img class="card-img-top img-fluid" id="image_property" src="../../../assets/images/demo/flat/4.png" alt="">
                             <div class="card-img-actions-overlay card-img-top">
-                                <a href="../../../assets/images/demo/flat/4.png"
-                                    class="btn btn-outline-white border-width-2" data-popup="lightbox">
+                                <a id="image_property_preview" href="../../../assets/images/demo/flat/4.png"
+                                    class="btn btn-outline-white border-width-2" target="_blank" data-popup="lightbox">
                                     Preview
-                                </a>
-                                <a href="#" class="btn btn-outline-white border-width-2 ms-2">
-                                    Details
                                 </a>
                             </div>
                         </div>
@@ -892,8 +891,11 @@
                 var longitude = event.latLng.lng();
 
                 // Display the coordinates
-                document.getElementById('lat').textContent = latitude;
-                document.getElementById('long').textContent = longitude;
+                // document.getElementById('lat').textContent = latitude;
+                // document.getElementById('long').textContent = longitude;
+                // UPDATE VALUE
+                $("#lat").val(latitude);
+                $("#long").val(longitude);
                 addMarker(event.latLng);
             });
 
@@ -949,7 +951,8 @@
         }
 
         function populateProvince() {
-            const url = 'https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json';
+            // const url = "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+            const url = '/api/province';
 
             fetch(url)
                 .then(response => response.json())
@@ -966,7 +969,8 @@
         }
 
         function populateCity(province_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/regencies/${province_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province_id}.json`;
+            const url = `/api/city?province_id=${province_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -984,7 +988,8 @@
         }
 
         function populateDistrict(city_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/districts/${city_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${city_id}.json`;
+            const url = `/api/district?city_id=${city_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1002,7 +1007,8 @@
         }
 
         function populateVillage(district_id) {
-            const url = `https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/villages/${district_id}.json`;
+            // const url = `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${district_id}.json`
+            const url = `/api/village?district_id=${district_id}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -1085,14 +1091,14 @@
         $('.file-doc-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-doc',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'pdf'
                 }]
             },
             resize: {
@@ -1127,14 +1133,14 @@
         $('.file-photo-property').pluploadQueue({
             runtimes: 'html5, html4, Flash, Silverlight',
             url: '/admin/property/upload-photo',
-            chunk_size: '10Mb',
+            chunk_size: '1Mb',
             unique_names: true,
             header: true,
             filters: {
-                max_file_size: '10Mb',
+                max_file_size: '1Mb',
                 mime_types: [{
                     title: 'Image files',
-                    extensions: 'jpg,gif,png,doc,pdf'
+                    extensions: 'jpg'
                 }]
             },
             resize: {
@@ -1151,14 +1157,17 @@
                     try {
                         var response = JSON.parse(info.response); // Parse the response
                         console.log('File uploaded successfully:', response);
-                        // Assuming the response contains an ID
+                        // Assuming the response contains an ID image_property
                         if (response.id) {
+                            $("#image_property").attr('src', '/storage/'+response.image);
+                            $("#image_property_preview").attr('href', '/storage/'+response.image);
+                            
                             var section = $('#section').val();
                             var inputValue = `<input type="hidden" name="property_photo[]" value="`+response.id+`">
                                                 <input type="hidden" name="section[]" value="`+section+`">`
                             $('#inputPhoto').append(inputValue);
                             $('#section').val('lobby');
-
+                            // SET IMAGE ON ID
                             _componentPlupload();
 
                         }

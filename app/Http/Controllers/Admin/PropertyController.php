@@ -12,6 +12,7 @@ use App\Models\PropertyAddress;
 use App\Models\PropertyContact;
 use App\Models\PropertyDocument;
 use App\Models\PropertyFacilities;
+use App\Models\PropertyNearby;
 use App\Models\PropertyPhotos;
 use App\Models\PropertyStyle;
 use App\Models\PropertyTerms;
@@ -88,9 +89,10 @@ class PropertyController extends Controller
 
 
                 $property_address = PropertyAddress::create([
-                    'city' => $request->city,
-                    'district' => $request->district,
-                    'village' => $request->village,
+                    'province_id' => $request->province,
+                    'city_id' => $request->city,
+                    'district_id' => $request->district,
+                    'village_id' => $request->village,
                     'postal_code' => $request->postal_code,
                     'address' => $request->address,
                     'long' => $request->long,
@@ -186,7 +188,7 @@ class PropertyController extends Controller
                 }
                 $this->log('Create Property', 'property_id', $property->id, null);
 
-                return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil ditambahkan');
+                return redirect()->route('switch')->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {
             dd($th);
@@ -245,18 +247,16 @@ class PropertyController extends Controller
             if ($tab == 'general') {
                 $property->update([
                     'name' => $request->name,
-                    'legal_name' => $request->legal_name,
                     'phone' => $request->phone,
-                    'total_room' => $request->total_room,
-                    'nib' => $request->nib,
                     'description' => $request->description,
                     'rate' => $request->rate,
                 ]);
 
                 $property_address = PropertyAddress::findOrFail($property->address->id)->update([
-                    'city' => $request->city,
-                    'district' => $request->district,
-                    'village' => $request->village,
+                    'province_id' => $request->province,
+                    'city_id' => $request->city,
+                    'district_id' => $request->district,
+                    'village_id' => $request->village,
                     'postal_code' => $request->postal_code,
                     'address' => $request->address,
                     'long' => $request->long,
@@ -366,13 +366,26 @@ class PropertyController extends Controller
             }
 
             if ($tab == 'photos') {
-                // PropertyPhotos::where('properties_id', $id)->delete();
-
                 foreach ($request->property_photo as $key => $value) {
                     PropertyPhotos::find($value)->update([
                         'properties_id' => $id,
                         'section' => $request->section[$key],
                     ]);
+                }
+
+                return redirect()->back()->with('success', 'Data berhasil diupdate');
+            }
+
+            if ($tab == 'nearby') {
+                foreach ($request->place_name as $key => $value) {
+                    if ($value != null) {
+                        PropertyNearby::create([
+                            'category_nearby_id' => $request->category_nearby_id[$key],
+                            'place_name' => $value,
+                            'distance' => $request->distance[$key],
+                            'property_id' => $id,
+                        ]);
+                    }
                 }
 
                 return redirect()->back()->with('success', 'Data berhasil diupdate');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\ApiResourcesController;
 use App\Http\Controllers\Controller;
+use App\Models\CategoryNearby;
 use App\Models\Log;
 use App\Models\Property;
 use App\Models\PropertyStyle;
@@ -21,10 +22,11 @@ class DashboardController extends Controller
         $main_contact = $data->contact()->where('type', 1)->get();
         $reservation_contact = $data->contact()->where('type', 2)->get();
         $accounting_contact = $data->contact()->where('type', 3)->get();
+        $category_nearby = CategoryNearby::orderBy('name', 'asc')->get();
         $terms = $data->terms;
         $document = $data->document;
         $photos = $data->photos;
 
-        return view('admin.dashboard', compact('data', 'property_style', 'facilities', 'main_contact', 'reservation_contact', 'accounting_contact', 'terms', 'document', 'photos'));
+        return view('admin.dashboard', compact('data', 'property_style', 'facilities', 'main_contact', 'reservation_contact', 'accounting_contact', 'terms', 'document', 'photos', 'category_nearby'));
     }
 }
