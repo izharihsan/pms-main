@@ -90,7 +90,7 @@
 
             </div>
             <div class="float-end mt-4">
-                <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">kembali</a>
+                <a href="{{ route('admin.rate_plan.index') }}" class="btn btn-sm btn-outline-primary">Back</a>
             </div>
         </form>
     </div> 
