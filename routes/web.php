@@ -14,6 +14,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('main-dashboard', [AuthController::class, 'mainDashboard'])->name('mainDashboard');
 Route::get('switch', [AuthController::class, 'switch'])->name('switch');
 Route::post('switch-property', [AuthController::class, 'switchProperty'])->name('switchProperty');
 
@@ -84,7 +85,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 Route::post('login-sso', [AuthController::class, 'loginSSo'])->name('loginSSo');
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('healthCheck', [ApiResourcesController::class, 'healthCheck'])->name('apiResources.healthCheck');
 Route::get('categoryFacilities', [ApiResourcesController::class, 'categoryFacilities'])->name('apiResources.categoryFacilities');
