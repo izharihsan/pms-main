@@ -87,7 +87,6 @@ class PropertyController extends Controller
                     'properties_id' => $property->id,
                 ]);
 
-
                 $property_address = PropertyAddress::create([
                     'province_id' => $request->province,
                     'city_id' => $request->city,
