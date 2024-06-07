@@ -66,6 +66,10 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+        if (count($request->facility_id) <= 3) {
+            return redirect()->back()->with('danger', 'Please select at least 3 facilities!');
+        }
+
         try {
             return $this->atomic(function () use ($request) {
                 $property=Property::create([
@@ -175,6 +179,8 @@ class PropertyController extends Controller
                             'properties_id' => $property->id,
                         ]);
                     }
+                }else{
+                    return redirect()->back()->with('danger', 'Tambahkan Dokumen');
                 }
 
                 if ($request->has('property_photo')) {

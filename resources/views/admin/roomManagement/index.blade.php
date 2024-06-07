@@ -168,7 +168,12 @@
                     </div>
                 </form> --}}
             </div>
-            @if ($property_select != null)
+            @php
+                $property = \App\Models\Property::find(Auth::user()->property_id);
+                $available = ($property->total_room > $property->rooms->count()) ? true : false;
+            @endphp
+
+            @if ($property_select != null && $available)
                 <a href="{{ route('admin.property.manageProperty', [$property_select->id]) }}" class="btn btn-primary btn-icon ml-3">
                     <i class="ph-plus"></i>
                     Create Room Management

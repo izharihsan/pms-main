@@ -4,6 +4,11 @@
 
 @section('content')
 <div class="container">
+    <div class="alert alert-info">
+        Main Dashboard
+        <br>
+        <b>All your Property List</b>
+    </div>
     <div class="row">
         @foreach ($properties as $item)
             <div class="col-lg-4">

@@ -35,6 +35,10 @@ class RoomManagementController extends Controller
     public function create(Request $request, $id)
     {
         $property = Property::find($id);
+        if ($property->total_room > $property->rooms()->count()) {
+            return redirect('/admin/room-management/' . $request->property_id)->with('danger', 'Room is full');
+        }
+
         $this->log('View Create Room Management', null);
 
         return view('admin.roomManagement.create', compact('property'));
@@ -42,6 +46,11 @@ class RoomManagementController extends Controller
 
     public function store(Request $request)
     {
+        $property = Property::find(Auth::user()->property_id);
+        if ($property->total_room > $property->rooms()->count()) {
+            return redirect('/admin/room-management/create/' . $request->property_id)->with('danger', 'Room is full');
+        }
+
         try {
             return $this->atomic(function () use ($request) {
                 $room = Room::create([
