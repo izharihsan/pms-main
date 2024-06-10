@@ -563,7 +563,9 @@
             <div class="mb-3">
                 <label class="form-label">Cancelation Policy: <span class="text-danger">*</span></label>
                 <select name="cancelation_policy" id="" class="form-control required">
-                    <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50% charge</option>
+                    @foreach ($canceliation_policies as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

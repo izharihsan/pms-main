@@ -14,7 +14,8 @@
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
                     {{-- <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default">Export</button> --}}
-                    <button class="btn btn-primary ms-1 btn-sm" onclick="exportTableToCSV('tableData.csv')">Export</button>
+                    <button class="btn btn-primary ms-1 btn-sm" onclick="exportTableToPDF('tableData.pdf')">Export PDF</button>
+                    <button class="btn btn-primary ms-1 btn-sm" onclick="exportTableToCSV('tableData.csv')">Export Excel</button>
                 </div>
             </div>
         </div>
@@ -91,6 +92,8 @@
 @endsection
 
 @push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <script>
     function exportTableToCSV(filename) {
         var csv = [];
@@ -115,5 +118,27 @@
         document.body.appendChild(downloadLink);
         downloadLink.click();
     }
+
+    function exportTableToPDF(filename) {
+            var doc = new jspdf.jsPDF();
+            var table = document.getElementById('dataTable');
+            var rows = table.querySelectorAll('tr');
+
+            var rowData = [];
+            rows.forEach(function(row) {
+                var rowText = [];
+                row.querySelectorAll('th, td').forEach(function(cell) {
+                    rowText.push(cell.innerText);
+                });
+                rowData.push(rowText);
+            });
+
+            doc.autoTable({
+                head: [rowData[0]],
+                body: rowData.slice(1),
+            });
+
+            doc.save(filename);
+        }
 </script>
 @endpush

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\ApiResourcesController;
 use App\Http\Controllers\Controller;
+use App\Models\CancelationPolicy;
 use App\Models\CategoryFacility;
 use Illuminate\Http\Request;
 use App\Models\Property;
@@ -42,6 +43,7 @@ class PropertyController extends Controller
         // $bed_type = $apiResource->bedType();
         $facilities = $apiResource->propertyFacilities()['data']['categories'] ?? [];
 
+        $canceliation_policies = CancelationPolicy::orderBy('name', 'asc')->get();
         $category_facilities = CategoryFacility::orderBy('name', 'asc')->get();
         $property_style = null;
 
@@ -55,7 +57,7 @@ class PropertyController extends Controller
         }
 
         if ($request->has('step')) {
-            return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'property_style'));
+            return view('admin.property.step' . $request->step, compact('category_facilities', 'facilities', 'property_style', 'canceliation_policies'));
         }else{
             return view('admin.property.step1');
         }
@@ -193,7 +195,7 @@ class PropertyController extends Controller
                 }
                 $this->log('Create Property', 'property_id', $property->id, null);
 
-                return redirect()->route('switch')->with('success', 'Data berhasil ditambahkan');
+                return redirect('/property/create?step=3&category=' . $request->category . '&property_type=' . $request->property_type . '')->with('success', 'Data berhasil ditambahkan');
             });
         } catch (\Throwable $th) {
             dd($th);

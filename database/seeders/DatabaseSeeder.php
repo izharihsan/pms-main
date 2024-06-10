@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DistrictSeeder::class);
         $this->call(VillageSeeder::class);
         $this->call(CategoryNearbySeeder::class);
+
+        $this->call(CancelationPolicySeeder::class);
     }
 }

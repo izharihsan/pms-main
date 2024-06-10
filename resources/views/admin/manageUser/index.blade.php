@@ -14,28 +14,15 @@
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="dropdown"><i class="ph-funnel"></i> Filter</button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        {{-- <a href="#" class="dropdown-item">Action</a>
-                        <a href="#" class="dropdown-item">Another action</a>
-                        <a href="#" class="dropdown-item">Something else here</a>
-                        <a href="#" class="dropdown-item">One more line</a> --}}
                         <form action="{{ route('admin.manage-user.index') }}" method="GET">
                             <div class="row">
                                 <div class="col">
-                                    <label for="" class="dropdown-item">Filter Options</label>
-                                    <label for="" class="fw-bold dropdown-item">Meals Plan</label>
-                                    <label for="" class="fw-bold dropdown-item">Name</label>
+                                    <label for="" class="fw-bold dropdown-item">Keyword</label>
                                     <div class="form-group" style="width: 80%; margin: 0 auto;">
-                                        <select name="room" id="" class="form-control" required>
-                                            <option value="">-- Select --</option>
-                                            <option value="all">All</option>
-                                            @foreach ($data as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control" name="keyword" placeholder="Search" value="{{ request('keyword') }}">
                                     </div>
                                     <div class="float-end mt-4" style="margin-right: 5%;">
-                                        <a href="{{ route('admin.manage-user.index') }}" class="btn btn-sm btn-outline-primary">Reset</a>
-                                        <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                                        <button type="submit" class="btn btn-sm btn-primary">Search</button>
                                     </div>
                                 </div>
                             </div>

@@ -16,7 +16,25 @@ class RoomManagementController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Room::orderBy('id', 'desc')->paginate(10);
+        $columns = [
+            'id',
+            'room_name',
+            'max_occupancy',
+            'room_width',
+            'number_of_room',
+            'status',
+        ];
+
+        $keyword = request('keyword');
+        $data = Room::orderBy('id', 'desc')
+                ->where(function($result) use ($keyword,$columns){
+                    foreach($columns as $column)
+                    {
+                        if($keyword != ''){
+                            $result->orWhere($column,'LIKE','%'.$keyword.'%');
+                        }
+                    }
+                })->paginate(10);
 
         $property_select = Auth::user()->property_id ?? null;
         if (Auth::user()->property_id) {
