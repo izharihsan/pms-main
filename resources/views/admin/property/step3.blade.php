@@ -329,13 +329,13 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                    <input type="text" name="main_contact_name[]" class="form-control " placeholder="">
+                    <input type="text" name="main_contact_name[]" class="form-control required" placeholder="">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Email: <span class="text-danger">*</span></label>
-                    <input type="email" name="main_contact_email[]" class="form-control " placeholder="">
+                    <input type="email" name="main_contact_email[]" class="form-control required" placeholder="">
                 </div>
             </div>
     
@@ -344,7 +344,7 @@
                     <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">+62</span>
-                        <input type="text" name="main_contact_phone[]" class="form-control " placeholder="999-999-9999">
+                        <input type="text" name="main_contact_phone[]" class="form-control required" placeholder="999-999-9999">
                     </div>
                 </div>
             </div>
@@ -352,7 +352,7 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Position: <span class="text-danger">*</span></label>
-                    <input type="text" name="main_contact_position[]" class="form-control " placeholder="">
+                    <input type="text" name="main_contact_position[]" class="form-control required" placeholder="">
                 </div>
             </div>
     
@@ -382,13 +382,13 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                    <input type="text" name="reservation_contact_name[]" class="form-control " placeholder="">
+                    <input type="text" name="reservation_contact_name[]" class="form-control required " placeholder="">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Email: <span class="text-danger">*</span></label>
-                    <input type="email" name="reservation_contact_email[]" class="form-control " placeholder="">
+                    <input type="email" name="reservation_contact_email[]" class="form-control required " placeholder="">
                 </div>
             </div>
     
@@ -397,7 +397,7 @@
                     <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">+62</span>
-                        <input type="text" name="reservation_contact_phone[]" class="form-control "
+                        <input type="text" name="reservation_contact_phone[]" class="form-control required "
                             placeholder="999-999-9999">
                     </div>
                 </div>
@@ -406,7 +406,7 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Position: <span class="text-danger">*</span></label>
-                    <input type="text" name="reservation_contact_position[]" class="form-control " placeholder="">
+                    <input type="text" name="reservation_contact_position[]" class="form-control required " placeholder="">
                 </div>
             </div>
     
@@ -436,13 +436,13 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Full Name: <span class="text-danger">*</span></label>
-                    <input type="text" name="acounting_contact_name[]" class="form-control " placeholder="">
+                    <input type="text" name="acounting_contact_name[]" class="form-control required " placeholder="">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Email: <span class="text-danger">*</span></label>
-                    <input type="email" name="acounting_contact_email[]" class="form-control " placeholder="">
+                    <input type="email" name="acounting_contact_email[]" class="form-control required " placeholder="">
                 </div>
             </div>
     
@@ -451,7 +451,7 @@
                     <label class="form-label">Phone Number: <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">+62</span>
-                        <input type="text" name="acounting_contact_phone[]" class="form-control "
+                        <input type="text" name="acounting_contact_phone[]" class="form-control required "
                             placeholder="999-999-9999">
                     </div>
                 </div>
@@ -460,7 +460,7 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">Position: <span class="text-danger">*</span></label>
-                    <input type="text" name="acounting_contact_position[]" class="form-control " placeholder="">
+                    <input type="text" name="acounting_contact_position[]" class="form-control required " placeholder="">
                 </div>
             </div>
 
@@ -563,7 +563,9 @@
             <div class="mb-3">
                 <label class="form-label">Cancelation Policy: <span class="text-danger">*</span></label>
                 <select name="cancelation_policy" id="" class="form-control required">
-                    <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50% charge</option>
+                    @foreach ($canceliation_policies as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

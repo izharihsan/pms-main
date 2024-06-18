@@ -84,7 +84,7 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $this->log('Login', null);
     
-                return redirect()->route('switch');
+                return redirect()->route('mainDashboard');
             } else {
                 return response()->json(['message' => $response['message']], 401);
             }
@@ -112,6 +112,13 @@ class AuthController extends Controller
             ->get($this->ssoUrl . '/user/profile');
 
         return $response->json();
+    }
+
+    public function mainDashboard()
+    {
+        $properties = Property::orderBy('id', 'desc')->get();
+        
+        return view('auth.main_dashboard', compact('properties'));
     }
 
     public function switch()

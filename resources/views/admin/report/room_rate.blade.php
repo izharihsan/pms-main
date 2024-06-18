@@ -13,7 +13,9 @@
             <div class="col">
                 <div class="float-end mt-4">
                     <button class="btn btn-outline-primary btn-sm"><i class="ph-funnel"></i> Filter</button>
-                    <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default">Export</button>
+                    {{-- <button class="btn btn-primary ms-1 btn-sm" data-bs-toggle="modal" data-bs-target="#modal_default">Export</button> --}}
+                    <button class="btn btn-primary ms-1 btn-sm" onclick="exportTableToPDF('tableData.pdf')">Export PDF</button>
+                    <button class="btn btn-primary ms-1 btn-sm" onclick="exportTableToCSV('tableData.csv')">Export Excel</button>
                 </div>
             </div>
         </div>
@@ -90,7 +92,53 @@
 @endsection
 
 @push('js')
-    <script>
-    
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script>
+    function exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) {
+                row.push(cols[j].innerText);
+            }
+            
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        var csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
+
+    function exportTableToPDF(filename) {
+            var doc = new jspdf.jsPDF();
+            var table = document.getElementById('dataTable');
+            var rows = table.querySelectorAll('tr');
+
+            var rowData = [];
+            rows.forEach(function(row) {
+                var rowText = [];
+                row.querySelectorAll('th, td').forEach(function(cell) {
+                    rowText.push(cell.innerText);
+                });
+                rowData.push(rowText);
+            });
+
+            doc.autoTable({
+                head: [rowData[0]],
+                body: rowData.slice(1),
+            });
+
+            doc.save(filename);
+        }
+</script>
 @endpush

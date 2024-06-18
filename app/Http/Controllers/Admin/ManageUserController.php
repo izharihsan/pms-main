@@ -13,7 +13,26 @@ class ManageUserController extends Controller
      */
     public function index()
     {
-        $data = User::orderBy('id', 'desc')->paginate(10);
+        $columns = [
+            'id',
+            'name',
+            'email',
+            'company_name',
+            'status',
+            'avatar',
+        ];
+
+        $keyword = request('keyword');
+        
+        $data = User::orderBy('id', 'desc')
+                ->where(function($result) use ($keyword,$columns){
+                    foreach($columns as $column)
+                    {
+                        if($keyword != ''){
+                            $result->orWhere($column,'LIKE','%'.$keyword.'%');
+                        }
+                    }
+                })->paginate(10);
 
         return view('admin.manageUser.index', compact('data'));
     }

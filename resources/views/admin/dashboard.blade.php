@@ -1007,10 +1007,10 @@
                                 <div class="mb-3">
                                     <label class="form-label">Cancelation Policy: <span
                                             class="text-danger">*</span></label>
-                                    <select name="cancelation_policy" value="{{ $terms->cancelation_policy ?? null }}"
-                                        id="" class="form-control required">
-                                        <option value="1" selected>Cancel 14D prior arrival 50% charge. No Show 50%
-                                            charge</option>
+                                    <select name="cancelation_policy" id="" class="form-control required">
+                                        @foreach ($cancelation_policies as $item)
+                                            <option value="{{ $item->id }}" {{ ($terms->cancelation_policy == $item->id) ? 'selected' : ''}}>{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

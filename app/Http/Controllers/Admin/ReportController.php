@@ -25,14 +25,14 @@ class ReportController extends Controller
 
     public function property()
     {
-        $data = Log::where('property_id', '!=', '')->orderBy('id', 'desc')->paginate(10);
+        $data = Log::whereNotNull('property_id')->orderBy('id', 'desc')->paginate(10);
         
         return view('admin.report.property', compact('data'));
     }
 
     public function roomManagement()
     {
-        $data = Log::where('room_id', '!=', '')->orderBy('id', 'desc')->paginate(10);
+        $data = Log::whereNotNull('room_id')->orderBy('id', 'desc')->paginate(10);
         
         return view('admin.report.room_management', compact('data'));
     }

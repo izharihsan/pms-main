@@ -16,7 +16,25 @@ class RoomManagementController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Room::orderBy('id', 'desc')->paginate(10);
+        $columns = [
+            'id',
+            'room_name',
+            'max_occupancy',
+            'room_width',
+            'number_of_room',
+            'status',
+        ];
+
+        $keyword = request('keyword');
+        $data = Room::orderBy('id', 'desc')
+                ->where(function($result) use ($keyword,$columns){
+                    foreach($columns as $column)
+                    {
+                        if($keyword != ''){
+                            $result->orWhere($column,'LIKE','%'.$keyword.'%');
+                        }
+                    }
+                })->paginate(10);
 
         $property_select = Auth::user()->property_id ?? null;
         if (Auth::user()->property_id) {
@@ -35,6 +53,10 @@ class RoomManagementController extends Controller
     public function create(Request $request, $id)
     {
         $property = Property::find($id);
+        if ($property->total_room > $property->rooms()->count()) {
+            return redirect('/admin/room-management/' . $request->property_id)->with('danger', 'Room is full');
+        }
+
         $this->log('View Create Room Management', null);
 
         return view('admin.roomManagement.create', compact('property'));
@@ -42,6 +64,11 @@ class RoomManagementController extends Controller
 
     public function store(Request $request)
     {
+        $property = Property::find(Auth::user()->property_id);
+        if ($property->total_room > $property->rooms()->count()) {
+            return redirect('/admin/room-management/create/' . $request->property_id)->with('danger', 'Room is full');
+        }
+
         try {
             return $this->atomic(function () use ($request) {
                 $room = Room::create([
